@@ -6,21 +6,16 @@ node_js: 6.9.4
 branches:
   only:
   - source
-# 缓存，可以节省集成的时间，这里我用了yarn，如果不用可以删除
-cache:
-  apt: true
-  directories:
-    - node_modules
+
 # tarvis生命周期执行顺序详见官网文档
 before_install:
 - git config --global user.name "winar-jin"
 - git config --global user.email "winar1994@outlook.com"
-- npm install -g hexo-cli
-- sed -i'' "/^ *repo/s~github\.com~${REPO_TOKEN}@github.com~" _config.yml
 
 script:
 - npm install
 - hexo clean
+
 after_success:
-- hexo generate
+- sed -i'' "/^ *repo/s~github\.com~${REPO_TOKEN}@github.com~" _config.yml
 - hexo deploy
