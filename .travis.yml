@@ -16,13 +16,11 @@ before_install:
 - git config --global user.name "winar-jin"
 - git config --global user.email "winar1994@outlook.com"
 - npm install -g hexo-cli
-install:
-# 不用yarn的话这里改成 npm i 即可
+- sed -i'' "/^ *repo/s~github\.com~${REPO_TOKEN}@github.com~" _config.yml
 
 script:
 - npm install
-- hexo c
+- hexo clean
 after_success:
-- hexo g
-- sed -i'' "/^ *repo/s~github\.com~${REPO_TOKEN}@github.com~" _config.yml
-- hexo deploy -g
+- hexo generate
+- hexo deploy
