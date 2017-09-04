@@ -15,7 +15,7 @@ cache:
 before_install:
 - git config --global user.name "winar-jin"
 - git config --global user.email "winar1994@outlook.com"
-- sudo npm install -g hexo-cli
+- npm install -g hexo-cli
 install:
 # 不用yarn的话这里改成 npm i 即可
 
