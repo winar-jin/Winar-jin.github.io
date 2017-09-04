@@ -15,18 +15,14 @@ cache:
 before_install:
 - git config --global user.name "winar-jin"
 - git config --global user.email "winar1994@outlook.com"
-- npm install -g hexo-cli
+- sudo npm install -g hexo-cli
 install:
 # 不用yarn的话这里改成 npm i 即可
-- npm install
+
 script:
-- hexo clean
-- hexo generate
+- npm install
+- hexo c
 after_success:
-- cd ./public
-- git init
-- git add --all .
-- git commit -m "Travis CI Auto Builder"
-# 这里的 REPO_TOKEN 即之前在 travis 项目的环境变量里添加的
-- git push --quiet --force https://$REPO_TOKEN@github.com/winar-jin/winar-jin.github.io.git
-  master
+- hexo g
+- sed -i'' "/^ *repo/s~github\.com~${REPO_TOKEN}@github.com~" _config.yml
+- hexo deploy -g
