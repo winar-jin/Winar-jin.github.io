@@ -4,7 +4,7 @@ layout: post
 cdn: header-on
 date: 2017-07-05 23:50:10
 tags:
-    - Javascript
+    - JavaScript
     - 翻译
 ---
 

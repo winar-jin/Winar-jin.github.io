@@ -4,7 +4,7 @@ layout: post
 cdn: header-on
 date: 2017-09-26 18:23:56
 tags:
-    - Javascript
+    - JavaScript
 ---
 
 有这么一个问题：

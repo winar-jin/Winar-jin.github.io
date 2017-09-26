@@ -4,7 +4,7 @@ layout: post
 cdn: header-on
 date: 2017-07-24 21:59:53
 tags:
-    - Javascript
+    - JavaScript
 ---
 
 

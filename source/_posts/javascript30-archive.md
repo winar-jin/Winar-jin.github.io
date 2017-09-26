@@ -4,7 +4,7 @@ layout: post
 cdn: header-on
 date: 2017-08-29 15:03:56
 tags:
-    - Javascript
+    - JavaScript
 ---
 
 ![js30 archives](images/0829-js30archives.png)

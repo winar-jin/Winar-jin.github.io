@@ -4,7 +4,7 @@ layout: post
 cdn: header-on
 date: 2017-08-14 09:45:40
 tags:
-    - Javascript
+    - JavaScript
     - 个人随笔
 ---
 

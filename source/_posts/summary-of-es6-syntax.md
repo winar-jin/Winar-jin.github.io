@@ -4,7 +4,7 @@ layout: post
 cdn: header-on
 date: 2017-08-28 10:59:30
 tags:
-    - Javascript
+    - JavaScript
 ---
 
 ES6现在在项目中使用的频率越来越高了，总结下在ES6中常用的语法。

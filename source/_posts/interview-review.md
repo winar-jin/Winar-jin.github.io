@@ -4,7 +4,7 @@ layout: post
 cdn: header-on
 date: 2017-03-16 18:48:11
 tags:
-    - Javascript
+    - JavaScript
     - Interview
 ---
 
