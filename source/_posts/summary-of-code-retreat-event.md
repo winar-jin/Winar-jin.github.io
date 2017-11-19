@@ -4,7 +4,8 @@ layout: post
 cdn: header-on
 date: 2017-11-19 20:59:30
 tags:
-    - 个人随笔 活动总结
+    - 个人随笔
+    - 活动总结
 ---
 
 ![Coderetreat](images/171119-coderetreat.png)
