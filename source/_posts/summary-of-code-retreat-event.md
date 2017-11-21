@@ -52,9 +52,10 @@ Coderetreat的官方指定题目是[Game of life](https://en.wikipedia.org/wiki/
 
 ![simple design](images/171119-simpledesign.png)
 上面这张图是这次活动中编程最佳实践的指导原则，也就是由Kent Beck提出的simple design，简单设计原则。包含以下四个方面：
-* 测试变绿：这也是最基础的原则，至少代码要先可以用，用测试证明代码满足基本的需求，也是TDD开发的基础；
+* 测试变绿：这也是最基础的原则，至少代码要先可以用，用测试证明代码满足基本的需求，也是TDD开发的基础；想到Addy的一句话："First do it, then do it right, then do it better."
+![justdoit](images/171119-addy.png)
 * 揭示意图：简单理解就是要语义化的命名，通过阅读代码能够理解到想要表达的意思，使代码简单易懂；
-* 没有重复：考虑要进行封装，抽象，或使用设计模式，从而降低重复代码；
+* 没有重复：考虑要进行封装，抽象，或使用设计模式，从而降低重复代码，因为**less code = less parse/compile + less transfer + less to decompress**；
 * 最少元素：这一条是对第三条更高的要求，在第三条没有重复的基础上，还有不要过渡设计，不要提前设计暂不需要的需求，这样会减慢当前开发，不确定需求还会带来不确定的麻烦。
 
 活动中在这四条原则的指导下，加上每一个session的限制条件，使这次活动变得更加有意思，这些限制条件是下面几条：
