@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        【译】机器学习与JavaScript（二）｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-07-06-machine-learning-with-javascript-part-2.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>【译】机器学习与JavaScript（二）</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-07-06
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#翻译"
+                           title="翻译">翻译</a>
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            【译】机器学习与JavaScript（二）
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>本文首发于<strong>前端之巅</strong>公众号：【<a href="https://mp.weixin.qq.com/s?__biz=MzIwNjQwMzUwMQ==&amp;mid=2247485292&amp;idx=1&amp;sn=779276cef1ab540f807fab521b94f730&amp;chksm=972365aea054ecb825a88afcc49e249227cd119a077d86ed1c2a292a137f7adabe2404e394f8&amp;scene=38#wechat_redirect" target="_blank" rel="noopener">点此查看</a>】</p>
+</blockquote>
+<p><img src="/images/0706-iras.png" alt="Petal Length vs Sepal Length by plot.ly"></p>
+<blockquote>
+<p>这是机器学习与JavaScript系列文章的第二篇。第一篇请<a href="http://xujin.pro/2017-07-05-machine-learning-with-javascript-part-1.html">点击这里</a>查看。</p>
+</blockquote>
+<p>这篇文章我们主要学习KNN算法。</p>
+<p>KNN代表K-Nearest-Neighbours，是一种监督学习的算法。它可以用来处理分类问题和回归问题。接下来我们会先讲解下KNN算法的工作原理，当然你也可以直接看代码，Github仓库在这里：<a href="https://github.com/abhisheksoni27/machine-learning-with-js" target="_blank" rel="noopener">基于JavaScript的机器学习</a>。</p>
+<h2 id="KNN算法的工作原理"><a href="#KNN算法的工作原理" class="headerlink" title="KNN算法的工作原理"></a>KNN算法的工作原理</h2><p>KNN算法根据同一类别数据点的最大邻居数，决定新数据点的类别。</p>
+<p>如果一个新数据点的邻居数如下所示：NY：7，NJ：0，IN：4，那么这个新的数据点将属于NY这一类。</p>
+<p>假设你在邮局工作，工作的内容就是为不同的邮递员规划和分发信件，当然要尽量减少邮递员在不同社区之间往返的次数。既然现在是在假设，那么我们就说这里共有7个不同的社区。这其实就是一种分类问题，需要将不同的信件进行分类，哪些要送到上东区，哪些到曼哈顿区，等等。</p>
+<p>如果你喜欢浪费时间和资源，你可以让每个邮递员一次只向每个社区送一封信，然后邮递员们就会在相同的社区中碰面，然后发现你的规划有多么糟糕。当然这是你可以实现的最糟糕的分配方式。</p>
+<p>此外，你也可以依据社区所在的位置进行规划，将位置相近的信件归为一类。</p>
+<p>你可以这样想：如果这些信件彼此的距离小于三个街区，就把他们分配给同一个邮递员。在这个例子中，离的最近的街区的数量，就是KNN算法中k的来源。你可以继续增大距离相近的街区的数量，直到达到最高效的分配方式。这个值就是分类问题中的最佳k值。</p>
+<p>因此，根据一个或多个参数，比如收件人的位置，你可以将所有的信件进行分类，哪些送到上东区，哪些到曼哈顿区，等等。</p>
+<h2 id="KNN算法的代码实践"><a href="#KNN算法的代码实践" class="headerlink" title="KNN算法的代码实践"></a>KNN算法的代码实践</h2><p>和上一篇教程中一样，我们将使用<code>ml.js</code>的<code>KNN</code>模块来训练k最近邻算法的分类器。每个机器学习领域中的问题都需要数据的支持，因此接下来此教程将会使用到IRIS的数据集。</p>
+<p><strong>Iris</strong>也称鸢尾花卉数据集，该数据集包含三种类型的鸢尾花（Setosa, Versicolour和 Virginica），它们都拥有不同的花瓣和花萼长度，还有一个字段用于表示它们的类型。</p>
+<h3 id="第一步：安装依赖库"><a href="#第一步：安装依赖库" class="headerlink" title="第一步：安装依赖库"></a>第一步：安装依赖库</h3><p><code>$ yarn add ml-knn csvtojson prompt</code></p>
+<p>或者你更喜欢<code>npm</code>：</p>
+<p><code>$ npm install ml-knn csvtojson prompt</code></p>
+<p><strong><a href="https://github.com/mljs/knn" target="_blank" rel="noopener">ml-knn</a></strong>：ml.js中的KNN模块<br><strong><a href="https://github.com/Keyang/node-csvtojson" target="_blank" rel="noopener">csvtojson</a></strong>：数据解析<br><strong><a href="https://github.com/flatiron/prompt" target="_blank" rel="noopener">prompt</a></strong>：可以根据用户的输入值进行预测</p>
+<h3 id="第二步：初始化库并加载数据"><a href="#第二步：初始化库并加载数据" class="headerlink" title="第二步：初始化库并加载数据"></a>第二步：初始化库并加载数据</h3><p>Iris数据集由加利福尼亚大学尔湾分校提供。但是，由于它的组织方式，我们必须在浏览器中复制它的内容（全选并复制），然后将其粘贴到名为<code>iris.csv</code>的文件中。你可以随便命名该文件，只要后缀名是<code>.csv</code>都行。</p>
+<p>接下来，初始化该库，并加载数据。假设你已经提前建好了一个空的npm工程。但是你如果对<code>npm</code>还不是很熟悉，可以看看关于<code>npm</code>的<a href="https://docs.npmjs.com/cli/init" target="_blank" rel="noopener">简要介绍</a>。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> KNN = <span class="built_in">require</span>(<span class="string">'ml-knn'</span>);</span><br><span class="line"><span class="keyword">const</span> csv = <span class="built_in">require</span>(<span class="string">'csvtojson'</span>);</span><br><span class="line"><span class="keyword">const</span> prompt = <span class="built_in">require</span>(<span class="string">'prompt'</span>);</span><br><span class="line"><span class="keyword">const</span> knn = <span class="keyword">new</span> KNN();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> csvFilePath = <span class="string">'iris.csv'</span>; <span class="comment">// 数据</span></span><br><span class="line"><span class="keyword">const</span> names = [<span class="string">'sepalLength'</span>, <span class="string">'sepalWidth'</span>, <span class="string">'petalLength'</span>, <span class="string">'petalWidth'</span>, <span class="string">'type'</span>]; <span class="comment">// 表头</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> seperationSize; <span class="comment">// 分离训练数据和测试数据</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> data = [],</span><br><span class="line">    X = [],</span><br><span class="line">    y = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> trainingSetX = [],</span><br><span class="line">    trainingSetY = [],</span><br><span class="line">    testSetX = [],</span><br><span class="line">    testSetY = [];</span><br></pre></td></tr></table></figure>
+<p>表头<code>names</code>变量仅仅是为了可视化和方便理解，最后会删除它的。</p>
+<p><code>seperationSize</code>变量可以将数据分离为训练数据和测试数据。</p>
+<p>看起来是不是很酷？</p>
+<p>我们已经导入了<code>csvtojson</code>库，接下来使用它的<code>fromFile</code>方法加载数据。（因为拷贝的数据并没有表头，因此我们为它添加了表头。）</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">csv(&#123;<span class="attr">noheader</span>: <span class="literal">true</span>, <span class="attr">headers</span>: names&#125;)</span><br><span class="line">    .fromFile(csvFilePath)</span><br><span class="line">    .on(<span class="string">'json'</span>, (jsonObj) =&gt; &#123;</span><br><span class="line">        data.push(jsonObj); <span class="comment">// 将每一个对象都加载到数据数组中</span></span><br><span class="line">    &#125;)</span><br><span class="line">    .on(<span class="string">'done'</span>, (error) =&gt; &#123;</span><br><span class="line">        seperationSize = <span class="number">0.7</span> * data.length;</span><br><span class="line">        data = shuffleArray(data);</span><br><span class="line">        dressData();</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p>将文件中每一行的数据都添加到<code>data</code>变量中，当数据加载完成后，我们将<code>seperationSize</code>设置为数据集中样本容量的0.7倍。谨记：如果训练集的样本容量太小，分类器可能不会像训练大数据集那样有那么好的表现。</p>
+<p>由于我们的数据集是根据类型进行排序的（可以通过查看<code>console.log</code>进行确认），为了能更好的分割数据，使用<code>shuffleArray</code>函数将数据集中的数据打乱。（如果不将数据打乱，模型很有可能在前两类中工作的很好，但是第三类就失败了。）</p>
+<p>以下就是<code>shuffleArray</code>函数的定义，我是从<a href="https://stackoverflow.com/a/12646864" target="_blank" rel="noopener">StackOverFlow</a>上得到的答案。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * https://stackoverflow.com/a/12646864</span></span><br><span class="line"><span class="comment"> * 将数组元素的顺序打乱</span></span><br><span class="line"><span class="comment"> * 使用了Durstenfeld洗牌算法</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleArray</span>(<span class="params">array</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = array.length - <span class="number">1</span>; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="keyword">var</span> j = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * (i + <span class="number">1</span>));</span><br><span class="line">        <span class="keyword">var</span> temp = array[i];</span><br><span class="line">        array[i] = array[j];</span><br><span class="line">        array[j] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> array;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第三步：装饰数据"><a href="#第三步：装饰数据" class="headerlink" title="第三步：装饰数据"></a>第三步：装饰数据</h3><p>我们的数据应该是下面这样的结构：<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line"> sepalLength: ‘5.1’,</span><br><span class="line"> sepalWidth: ‘3.5’,</span><br><span class="line"> petalLength: ‘1.4’,</span><br><span class="line"> petalWidth: ‘0.2’,</span><br><span class="line"> type: ‘Iris-setosa’</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在将数据提供给KNN分类器之前，我们需要对其做两件事情：</p>
+<ol>
+<li>将<code>String</code>类型的值转为<code>float</code>类型（<code>parseFloat</code>）</li>
+<li>将鸢尾花的实际类型转换为数字类型。（毕竟电脑更喜欢数字，你知道么？）</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dressData</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 有三种不同的鸢尾花类型，</span></span><br><span class="line"><span class="comment">     * 也就是数据集的分类器</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 1. Iris Setosa (Iris-setosa)</span></span><br><span class="line"><span class="comment">     * 2. Iris Versicolor (Iris-versicolor)</span></span><br><span class="line"><span class="comment">     * 3. Iris Virginica (Iris-virginica)</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 将这些类型从字符串转为数组</span></span><br><span class="line"><span class="comment">     * 比如说，</span></span><br><span class="line"><span class="comment">     * 0 代表 setosa,</span></span><br><span class="line"><span class="comment">     * 1 代表 versicolor,</span></span><br><span class="line"><span class="comment">     * 3 代表 virginica</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> types = <span class="keyword">new</span> <span class="built_in">Set</span>(); <span class="comment">// 获取不同的类型</span></span><br><span class="line"></span><br><span class="line">    data.forEach(<span class="function">(<span class="params">row</span>) =&gt;</span> &#123;</span><br><span class="line">        types.add(row.type);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    typesArray = [...types]; <span class="comment">// 保存不同的类型</span></span><br><span class="line"></span><br><span class="line">    data.forEach(<span class="function">(<span class="params">row</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> rowArray, typeNumber;</span><br><span class="line"></span><br><span class="line">        rowArray = <span class="built_in">Object</span>.keys(row).map(<span class="function"><span class="params">key</span> =&gt;</span> <span class="built_in">parseFloat</span>(row[key])).slice(<span class="number">0</span>, <span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">        typeNumber = typesArray.indexOf(row.type); <span class="comment">// 将字符串转为数字</span></span><br><span class="line"></span><br><span class="line">        X.push(rowArray);</span><br><span class="line">        y.push(typeNumber);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    trainingSetX = X.slice(<span class="number">0</span>, seperationSize);</span><br><span class="line">    trainingSetY = y.slice(<span class="number">0</span>, seperationSize);</span><br><span class="line">    testSetX = X.slice(seperationSize);</span><br><span class="line">    testSetY = y.slice(seperationSize);</span><br><span class="line"></span><br><span class="line">    train();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简单介绍下<code>Set</code>，它和数学中的概念类似，在JS中可以存储原始类型和对象引用类型的数据，只是Set中不会有重复的元素，并且它的元素没有索引。（这一点和数组相反。）</p>
+<p>使用扩展运算符或Set构造函数可以轻松的将它转换为数组。</p>
+<h3 id="第四步：训练模型并对它进行测试"><a href="#第四步：训练模型并对它进行测试" class="headerlink" title="第四步：训练模型并对它进行测试"></a>第四步：训练模型并对它进行测试</h3><p>数据已经装饰好了，接下来就准备训练模型吧：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">train</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    knn.train(trainingSetX, trainingSetY, &#123;<span class="attr">k</span>: <span class="number">7</span>&#125;);</span><br><span class="line">    test();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>train</code>方法至少需要传入两个参数，一个是输入的数据，比如：花瓣长度和花萼宽度；另一个是它所属的种类，比如：<code>Iris-setosa</code>等。该方法也可以接收一个可选的选项参数，该参数仅仅是一个对象，用来调整算法的内部参数。在上述代码中，我们传递k值作为选项参数，k的默认值是7。</p>
+<p>现在模型已经训练好了，接下来看看它在测试集上的表现如何。我们主要关注预测分类时出现错误的次数。（也就是说，它预测输入的是<strong>一个值</strong>，但实际输入的却是<strong>另一个值</strong>的次数。）</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> result = knn.predict(testSetX);</span><br><span class="line">    <span class="keyword">const</span> testSetLength = testSetX.length;</span><br><span class="line">    <span class="keyword">const</span> predictionError = error(result, testSetY);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`Test Set Size = <span class="subst">$&#123;testSetLength&#125;</span> and number of Misclassifications = <span class="subst">$&#123;predictionError&#125;</span>`</span>);</span><br><span class="line">    predict();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>错误计算的方法如下。使用<code>for</code>循环来遍历全部数据集，观察模型的预测输出的值是否和实际输出的值相等，若不同就是一个错误的分类。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">error</span>(<span class="params">predicted, expected</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> misclassifications = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> index = <span class="number">0</span>; index &lt; predicted.length; index++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (predicted[index] !== expected[index]) &#123;</span><br><span class="line">            misclassifications++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> misclassifications;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第五步：开始预测（可选的）"><a href="#第五步：开始预测（可选的）" class="headerlink" title="第五步：开始预测（可选的）"></a>第五步：开始预测（可选的）</h3><p>是时候展示预测值了。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">predict</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> temp = [];</span><br><span class="line">    prompt.start();</span><br><span class="line"></span><br><span class="line">    prompt.get([<span class="string">'Sepal Length'</span>, <span class="string">'Sepal Width'</span>, <span class="string">'Petal Length'</span>, <span class="string">'Petal Width'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">err, result</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!err) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> result) &#123;</span><br><span class="line">                temp.push(<span class="built_in">parseFloat</span>(result[key]));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">`With <span class="subst">$&#123;temp&#125;</span> -- type =  <span class="subst">$&#123;knn.getSinglePrediction(temp)&#125;</span>`</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你不想在新的输入值上测试模型，可以随时跳过此步骤。</p>
+<h3 id="第六步：大功告成！"><a href="#第六步：大功告成！" class="headerlink" title="第六步：大功告成！"></a>第六步：大功告成！</h3><p>如果你跟着我一步一步的做，现在你的<code>index.js</code>文件应该是这样子的：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> KNN = <span class="built_in">require</span>(<span class="string">'ml-knn'</span>);</span><br><span class="line"><span class="keyword">const</span> csv = <span class="built_in">require</span>(<span class="string">'csvtojson'</span>);</span><br><span class="line"><span class="keyword">const</span> prompt = <span class="built_in">require</span>(<span class="string">'prompt'</span>);</span><br><span class="line"><span class="keyword">const</span> knn = <span class="keyword">new</span> KNN();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> csvFilePath = <span class="string">'iris.csv'</span>; <span class="comment">// 数据</span></span><br><span class="line"><span class="keyword">const</span> names = [<span class="string">'sepalLength'</span>, <span class="string">'sepalWidth'</span>, <span class="string">'petalLength'</span>, <span class="string">'petalWidth'</span>, <span class="string">'type'</span>]; <span class="comment">// 表头</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> seperationSize; <span class="comment">// 分离训练数据和测试数据</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> data = [], X = [], y = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> trainingSetX = [], trainingSetY = [], testSetX = [], testSetY = [];</span><br><span class="line"></span><br><span class="line">csv(&#123;<span class="attr">noheader</span>: <span class="literal">true</span>, <span class="attr">headers</span>: names&#125;)</span><br><span class="line">    .fromFile(csvFilePath)</span><br><span class="line">    .on(<span class="string">'json'</span>, (jsonObj) =&gt; &#123;</span><br><span class="line">        data.push(jsonObj); <span class="comment">// 将每一个对象都加载到数据数组中</span></span><br><span class="line">    &#125;)</span><br><span class="line">    .on(<span class="string">'done'</span>, (error) =&gt; &#123;</span><br><span class="line">        seperationSize = <span class="number">0.7</span> * data.length;</span><br><span class="line">        data = shuffleArray(data);</span><br><span class="line">        dressData();</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dressData</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> types = <span class="keyword">new</span> <span class="built_in">Set</span>(); <span class="comment">// 获取不同的类型</span></span><br><span class="line">    data.forEach(<span class="function">(<span class="params">row</span>) =&gt;</span> &#123;</span><br><span class="line">        types.add(row.type);</span><br><span class="line">    &#125;);</span><br><span class="line">    typesArray = [...types]; <span class="comment">// 保存不同的类型</span></span><br><span class="line"></span><br><span class="line">    data.forEach(<span class="function">(<span class="params">row</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> rowArray, typeNumber;</span><br><span class="line">        rowArray = <span class="built_in">Object</span>.keys(row).map(<span class="function"><span class="params">key</span> =&gt;</span> <span class="built_in">parseFloat</span>(row[key])).slice(<span class="number">0</span>, <span class="number">4</span>);</span><br><span class="line">        typeNumber = typesArray.indexOf(row.type); <span class="comment">// 将字符串转为数字</span></span><br><span class="line"></span><br><span class="line">        X.push(rowArray);</span><br><span class="line">        y.push(typeNumber);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    trainingSetX = X.slice(<span class="number">0</span>, seperationSize);</span><br><span class="line">    trainingSetY = y.slice(<span class="number">0</span>, seperationSize);</span><br><span class="line">    testSetX = X.slice(seperationSize);</span><br><span class="line">    testSetY = y.slice(seperationSize);</span><br><span class="line"></span><br><span class="line">    train();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">train</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    knn.train(trainingSetX, trainingSetY);</span><br><span class="line">    test();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> result = knn.predict(testSetX);</span><br><span class="line">    <span class="keyword">const</span> testSetLength = testSetX.length</span><br><span class="line">    <span class="keyword">const</span> predictionError = error(result, testSetY);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`Test Set Size = <span class="subst">$&#123;testSetLength&#125;</span> and number of Misclassifications = <span class="subst">$&#123;predictionError&#125;</span>`</span>);</span><br><span class="line">    predict();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">error</span>(<span class="params">predicted, expected</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> misclassifications = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> index = <span class="number">0</span>; index &lt; predicted.length; index++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (predicted[index] !== expected[index]) &#123;</span><br><span class="line">            misclassifications++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> misclassifications;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">predict</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> temp = [];</span><br><span class="line">    prompt.start();</span><br><span class="line">    prompt.get([<span class="string">'Sepal Length'</span>, <span class="string">'Sepal Width'</span>, <span class="string">'Petal Length'</span>, <span class="string">'Petal Width'</span>], <span class="function"><span class="keyword">function</span> (<span class="params">err, result</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!err) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> result) &#123;</span><br><span class="line">                temp.push(<span class="built_in">parseFloat</span>(result[key]));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">`With <span class="subst">$&#123;temp&#125;</span> -- type =  <span class="subst">$&#123;knn.getSinglePrediction(temp)&#125;</span>`</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * https://stackoverflow.com/a/12646864</span></span><br><span class="line"><span class="comment"> * 将数组元素的顺序打乱</span></span><br><span class="line"><span class="comment"> * 使用了Durstenfeld洗牌算法</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffleArray</span>(<span class="params">array</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = array.length - <span class="number">1</span>; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="keyword">var</span> j = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * (i + <span class="number">1</span>));</span><br><span class="line">        <span class="keyword">var</span> temp = array[i];</span><br><span class="line">        array[i] = array[j];</span><br><span class="line">        array[j] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> array;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>打开终端，输入并运行<code>node index.js</code>，它将会输出如下所示内容：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$ node index.js</span><br><span class="line">Test <span class="built_in">Set</span> Size = <span class="number">45</span> and number <span class="keyword">of</span> Misclassifications = <span class="number">2</span></span><br><span class="line">prompt: Sepal Length:  <span class="number">1.7</span></span><br><span class="line">prompt: Sepal Width:  <span class="number">2.5</span></span><br><span class="line">prompt: Petal Length:  <span class="number">0.5</span></span><br><span class="line">prompt: Petal Width:  <span class="number">3.4</span></span><br><span class="line">With <span class="number">1.7</span>,<span class="number">2.5</span>,<span class="number">0.5</span>,<span class="number">3.4</span> -- type =  <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>很好，以上就是一个可运行的KNN算法，一种优雅的分类。</p>
+<p>所有的代码都在Github上：<a href="https://github.com/abhisheksoni27/machine-learning-with-js" target="_blank" rel="noopener">machine-learning-with-js</a>。</p>
+<p>KNN算法的好坏很大程度上取决于k的值，它被称为超参数。那么超参数是什么呢，我从<a href="https://www.quora.com/What-are-hyperparameters-in-machine-learning" target="_blank" rel="noopener">Quora</a>上得到了这样的答案：“它是一种在常规训练中不能直接获得的参数，这些参数代表模型更高级的属性，比如：模型的复杂性或者模型学习的速度。它们都被称为超参数。”</p>
+<blockquote>
+<p>在上述的邮递信件的例子中，k定义了街区的数量。也就是在社区中，多少个街区距离内的信件应该被分为一类。</p>
+</blockquote>
+<p><img src="/images/0706-beautiful.jpeg" alt=""></p>
+<p>我正在研究<code>ml-knn</code>模块，希望很快能实现k选择过程的自动化。</p>
+<p>如果你对它也比较感兴趣，并且想看看它还能做什么。可以到<a href="http://archive.ics.uci.edu/ml/index.php" target="_blank" rel="noopener">加州大学尔湾分校机器学习资料库</a>中查看相关资料 ，也可以在不同的数据集上使用你的分类器。（这个资料库有数百个数据集。）</p>
+<p>查看英文原文：<a href="https://hackernoon.com/machine-learning-with-javascript-part-2-da994c17d483" target="_blank" rel="noopener">Machine Learning with JavaScript : Part 2</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-07-07-javascript-challenge-21.html" data-toggle="tooltip" data-placement="top"
+                           title="javascript30-day21 - Geolocation">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-07-05-machine-learning-with-javascript-part-1.html" data-toggle="tooltip" data-placement="top"
+                           title="【译】机器学习与JavaScript（一）">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#KNN算法的工作原理"><span class="toc-text">KNN算法的工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#KNN算法的代码实践"><span class="toc-text">KNN算法的代码实践</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一步：安装依赖库"><span class="toc-text">第一步：安装依赖库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二步：初始化库并加载数据"><span class="toc-text">第二步：初始化库并加载数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三步：装饰数据"><span class="toc-text">第三步：装饰数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第四步：训练模型并对它进行测试"><span class="toc-text">第四步：训练模型并对它进行测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第五步：开始预测（可选的）"><span class="toc-text">第五步：开始预测（可选的）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第六步：大功告成！"><span class="toc-text">第六步：大功告成！</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#翻译"
+                           title="翻译">翻译</a>
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-07-06-machine-learning-with-javascript-part-2.html";
+    var disqus_url = "http://xujin.pro/2017-07-06-machine-learning-with-javascript-part-2.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

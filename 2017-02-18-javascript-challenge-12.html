@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Javascript30-day12 - Key Sequence Detection｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-02-18-javascript-challenge-12.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Javascript30-day12 - Key Sequence Detection</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-02-18
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Javascript30-day12 - Key Sequence Detection
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>在Github上看到了<a href="https://twitter.com/wesbos" target="_blank" rel="noopener">wesbos</a>的一个Javascript30天挑战的<a href="https://github.com/wesbos/JavaScript30" target="_blank" rel="noopener">repo</a>，旨在使用纯Js来进行练习，不允许使用任何其他的库和框架，该挑战共30天，我会在这里记录下自己练习的过程和遇到的问题。</p>
+</blockquote>
+<h2 id="Day12-Key-Sequence-Detection"><a href="#Day12-Key-Sequence-Detection" class="headerlink" title="Day12 - Key Sequence Detection"></a>Day12 - Key Sequence Detection</h2><p>第十二天的目标是要完成按键按下的序列侦查，比如我们预设一个字符串“haha”，只要用户在浏览器中按顺序按下这四个字母，就可以触发所绑定的事件，这个功能也经常被公司在浏览器中为用户埋下小的把戏和惊喜。</p>
+<p><a href="http://htmlpreview.github.io/?https://github.com/winar-jin/JavaScript30-Challenge/blob/master/11%20-%20Custom%20Video%20Player/index.html" target="_blank" rel="noopener">效果如下</a></p>
+<h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><ol>
+<li>首先为整个文档绑定<code>keyup</code>事件，监听用户的键盘操作，当用户按下键盘松开时，触发此事件，根据<code>e.key</code>可以获得这次按下的是什么按键。</li>
+<li>实现绑定的事件，将用户输入的字符序列存入数组中，并截取最后几个输入的和预设字符串相同长度的字符串，将两者进行比较，相同则触发trick。</li>
+</ol>
+<h2 id="整体代码"><a href="#整体代码" class="headerlink" title="整体代码"></a>整体代码</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> candidateCode = [];</span><br><span class="line"><span class="keyword">const</span> secretCode = <span class="string">'iamboss'</span>;</span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'keyup'</span>, (e) =&gt; &#123;</span><br><span class="line"><span class="comment">//document.addEventListener('keyup',(e) =&gt; &#123;</span></span><br><span class="line">candidateCode.push(e.key);</span><br><span class="line">candidateCode.splice(-secretCode.length<span class="number">-1</span>,candidateCode.length - secretCode.length);</span><br><span class="line"><span class="comment">// candidateCode.splice(0,candidateCode.length - secretCode.length);</span></span><br><span class="line"><span class="keyword">if</span>(candidateCode.join(<span class="string">''</span>).includes(secretCode))&#123;</span><br><span class="line">  alert(<span class="string">'awesome！'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(candidateCode);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="window-document"><a href="#window-document" class="headerlink" title="window/document"></a><code>window</code>/<code>document</code></h3><p>Window：是主Javascript的根对象，也是浏览器中的全局对象，也可以被视为文档对象模型的根。 在大多数浏览器中，我们可以直接通过<code>window</code>获取。<br>window.document：或者可以称为document，是可视化的文档对象模型（DOM）的主对象。</p>
+<p><img src="https://i.stack.imgur.com/hrvHr.jpg" alt="windows/document"></p>
+<blockquote>
+<p>The window object represents the current browsing context. It holds things like window.location, window.history, window.screen, window.status, or the window.document. Also, it has information about the framing setup (the frames, parent, top, self properties), and holds important interfaces such as applicationCache, XMLHttpRequest, setTimeout, escape, console or localStorage. Last but not least it acts as the global scope for JavaScript, i.e. all global variables are properties of it.<br>In contrast, the (window.)document object represents the DOM that is currently loaded in the window - it’s just a part of it. A document holds information like the documentElement (usually <html>), the forms collection, the cookie string, its location, or its readyState. It also implements a different interface (there might be multiple Documents, for example an XML document obtained via ajax), with methods like getElementById or addEventListener.</html></p>
+<p>——Answered By Bergi in <a href="http://stackoverflow.com/questions/17227008/trying-to-understand-the-difference-between-window-and-document-objects-in-js" target="_blank" rel="noopener">StackoverFlow</a> </p>
+</blockquote>
+<p>在这里我们通过为全局对象window绑定<code>keyup</code>事件，获取按下的每一个按键值。</p>
+<h3 id="截取字符串"><a href="#截取字符串" class="headerlink" title="截取字符串"></a>截取字符串</h3><p>在将用户按下的按键获取到后，存储到一个数组中，通过<code>candidateCode.splice()</code>截取字符串，需要删去前面的所有字符，只保留最后的几个字符，长度为<code>secretCode</code>字符串的长度，因此此时第一个参数可以设为<code>0</code>代表从第一个字符开始删除，也可以设置为<code>-secretCode.length-1</code>，第一个参数为负数，代表从后往前数，数到的位置作为删除的起始点，<code>-secretCode.length</code>的长度会数到第二个值，因为字符串数组的下标是从0开始索引的，所以要想从第1个开始删除，需要再-1。<br>第二个参数是欲删除字符的个数，因为我们要留下和<code>secretCode</code>长度相同的字符串，因为应该删除前面所有的字符，也就是输入字符串的长度-<code>secretCode</code>的长度，即<code>candidateCode.length - secretCode.length</code>。</p>
+<h3 id="判断是否相同"><a href="#判断是否相同" class="headerlink" title="判断是否相同"></a>判断是否相同</h3><p>当截取了和<code>secretCode</code>相同长度的字符串后，就要判断两者是否相同，通过调用<code>String.prototype.includes()</code>方法，若一个字符串中包含另一个字符串，返回<code>true</code>，否则返回<code>false</code>。当返回<code>true</code>的时候触发trick。</p>
+<p>还记得上一篇提到的使用&amp;&amp;运算符优化代码的方法么？<br>当&amp;&amp;的左边为true是才会继续执行&amp;右边的表达式。<br>因此这一例也可以这样写：<code>candidateCode.join(&#39;&#39;).includes(secretCode) &amp;&amp; alert(&#39;awesome！&#39;)</code></p>
+<p>到这里，键盘序列侦查的功能已经完成。👍</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-02-24-javascript-challenge-13.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day13 - Slide in on Scroll">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-02-17-javascript-challenge-11.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day11 - Custom Video Player">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Day12-Key-Sequence-Detection"><span class="toc-text">Day12 - Key Sequence Detection</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现思路"><span class="toc-text">实现思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#整体代码"><span class="toc-text">整体代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#window-document"><span class="toc-text">window/document</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#截取字符串"><span class="toc-text">截取字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#判断是否相同"><span class="toc-text">判断是否相同</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-02-18-javascript-challenge-12.html";
+    var disqus_url = "http://xujin.pro/2017-02-18-javascript-challenge-12.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

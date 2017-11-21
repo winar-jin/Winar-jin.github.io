@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Javascript30-day11 - Custom Video Player｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-02-17-javascript-challenge-11.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Javascript30-day11 - Custom Video Player</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-02-17
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Javascript30-day11 - Custom Video Player
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>在Github上看到了<a href="https://twitter.com/wesbos" target="_blank" rel="noopener">wesbos</a>的一个Javascript30天挑战的<a href="https://github.com/wesbos/JavaScript30" target="_blank" rel="noopener">repo</a>，旨在使用纯Js来进行练习，不允许使用任何其他的库和框架，该挑战共30天，我会在这里记录下自己练习的过程和遇到的问题。</p>
+</blockquote>
+<h2 id="Day11-Custom-Video-Player"><a href="#Day11-Custom-Video-Player" class="headerlink" title="Day11 - Custom Video Player"></a>Day11 - Custom Video Player</h2><p>第十一天是要做一个自定义的视频播放器，在具有基本样式的前提下，实现视频的播放，暂停，进度条拖拽，音量加减，播放速度加减，快进快退的功能。</p>
+<p><a href="http://htmlpreview.github.io/?https://github.com/winar-jin/JavaScript30-Challenge/blob/master/11%20-%20Custom%20Video%20Player/index.html" target="_blank" rel="noopener">效果如下</a></p>
+<h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><ol>
+<li>首先需要分别将变量绑定至页面上的元素</li>
+<li>分别实现播放，暂停，声音加减，播放速度加减，拖拽快进，点击快进等函数</li>
+<li>事件绑定，将页面元素绑定相应触发事件</li>
+</ol>
+<h2 id="变量绑定"><a href="#变量绑定" class="headerlink" title="变量绑定"></a>变量绑定</h2><p>分别将变量和页面上的元素绑定，采用<code>document.querySelector()</code>或<code>document.querySelectorAll()</code>即可。如下：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 获取所有的页面元素</span></span><br><span class="line"><span class="keyword">let</span> video = <span class="built_in">document</span>.querySelector(<span class="string">'.viewer'</span>);</span><br><span class="line"><span class="keyword">let</span> progress = <span class="built_in">document</span>.querySelector(<span class="string">'.progress'</span>);</span><br><span class="line"><span class="keyword">let</span> toggle = <span class="built_in">document</span>.querySelector(<span class="string">'.toggle'</span>);</span><br><span class="line"><span class="keyword">let</span> player__slider = <span class="built_in">document</span>.querySelectorAll(<span class="string">'.player__slider'</span>);</span><br><span class="line"><span class="keyword">let</span> skip = <span class="built_in">document</span>.querySelectorAll(<span class="string">'[data-skip]'</span>);</span><br><span class="line"><span class="keyword">let</span> filled = <span class="built_in">document</span>.querySelector(<span class="string">'.progress__filled'</span>);</span><br><span class="line"><span class="keyword">let</span> progressBar = <span class="built_in">document</span>.querySelector(<span class="string">'.progress'</span>);</span><br></pre></td></tr></table></figure></p>
+<h2 id="函数实现"><a href="#函数实现" class="headerlink" title="函数实现"></a>函数实现</h2><ul>
+<li>视频播放与暂停转换函数<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">videoplay</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// if(video.paused)&#123;</span></span><br><span class="line">    <span class="comment">//     video.play();</span></span><br><span class="line">    <span class="comment">// &#125;else&#123;</span></span><br><span class="line">    <span class="comment">//     video.pause();</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">    <span class="keyword">const</span> method = video.paused ? <span class="string">'play'</span> : <span class="string">'pause'</span>;</span><br><span class="line">    video[method]();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>判断当前视频的播放状态，播放时则变为暂停状态、暂停则变为播放状态；分别调用<code>video.play()</code>和<code>video.pause()</code>方法，在此使用<code>video[play]()</code>和<code>video[pause]()</code>是因为，使用中括号能够动态的传递变量进去，而使用点运算符不能传参。</p>
+<ul>
+<li>播放按钮状态显示函数<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleToggle</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> icon = video.paused ? <span class="string">'►'</span> : <span class="string">'❚ ❚'</span>;</span><br><span class="line">    toggle.textContent = icon;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>如果视频是暂停状态就显示播放键’►’，否则显示暂定键’❚❚’</p>
+<ul>
+<li>音量大小和播放速度控制函数<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handlePlayerSlider</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    video[e.target.name] = e.target.value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在页面HTML中是这样设置的：<br><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"range"</span> <span class="attr">name</span>=<span class="string">"volume"</span> <span class="attr">class</span>=<span class="string">"player__slider"</span> <span class="attr">min</span>=<span class="string">"0"</span> <span class="attr">max</span>=<span class="string">"1"</span> <span class="attr">step</span>=<span class="string">"0.05"</span> <span class="attr">value</span>=<span class="string">"1"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"range"</span> <span class="attr">name</span>=<span class="string">"playbackRate"</span> <span class="attr">class</span>=<span class="string">"player__slider"</span> <span class="attr">min</span>=<span class="string">"0.5"</span> <span class="attr">max</span>=<span class="string">"2"</span> <span class="attr">step</span>=<span class="string">"0.1"</span> <span class="attr">value</span>=<span class="string">"1"</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>分别给每一个范围设置了一个<code>name</code>属性，代表该范围所表示的内容，同时也是需控制的方法名，因此我们通过设置<code>video[e.target.name] = e.target.value;</code>就可以分别改变视频的音量和播放速度，此处<code>e.target</code>就是这两个<code>input</code>元素，也等同于<code>this</code>。</p>
+<ul>
+<li>快进快退函数<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleSkip</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> skiptime = <span class="built_in">parseFloat</span>(<span class="keyword">this</span>.dataset.skip);</span><br><span class="line">    video.currentTime += skiptime;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>页面中快进快退的HTML代码如下:<br><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">data-skip</span>=<span class="string">"-10"</span> <span class="attr">class</span>=<span class="string">"player__button"</span>&gt;</span>« 10s<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">data-skip</span>=<span class="string">"25"</span> <span class="attr">class</span>=<span class="string">"player__button"</span>&gt;</span>25s »<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>分别设置了<code>data-skip</code>属性，这样就可以通过<code>.dataset.skip</code>获取到该属性的值，也即<code>this.dataset.skip</code>，但该值是字符串类型，需要用<code>parseFloat()</code>讲其转换为float数值型，分别将时间加减当前视频的播放事件就可以做到快进快退。</p>
+<ul>
+<li>进度条随播放时间而显示的函数<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">filledUpdate</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> portion = <span class="built_in">parseFloat</span>(video.currentTime / video.duration) * <span class="number">100</span>;</span><br><span class="line">    filled.style.flexBasis = <span class="string">`<span class="subst">$&#123;portion&#125;</span>%`</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>通过视频当前的播放时间除以视频的总时长*100，就是当前视频播放的百分比，将该值使用模版字符串的方式传给<code>flexBasis</code>样式中即可，在CSS中该样式名为<code>flex-basis</code>,但是谨记在js中需要多单词的CSS属性需要变为驼峰式的命名，第二个单词大写，切不可用连字符连接。</p>
+<ul>
+<li>拖拽进度条定点观看的函数<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handlefilled</span>(<span class="params">e</span>)</span>&#123;    </span><br><span class="line">    <span class="keyword">let</span> pice = (e.offsetX / progressBar.offsetWidth) * video.duration;</span><br><span class="line">    <span class="comment">// let pice = (e.offsetX / progressBar.clientWidth) * video.duration;</span></span><br><span class="line">    video.currentTime = pice;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>通过当前点击的位置与进度条的总长度相比，就可以知道当前位置占总进度条的比例，乘以视频的总长度，就可以将当前的进度条比例映射为视频播放的长度，赋值给<code>video.currentTime</code>即可。</p>
+<blockquote>
+<p>此处应注意offsetX、clientX和pageX等的区别:<a href="http://stackoverflow.com/questions/6073505/what-is-the-difference-between-screenx-y-clientx-y-and-pagex-y" target="_blank" rel="noopener">参考</a></p>
+</blockquote>
+<h2 id="事件监听"><a href="#事件监听" class="headerlink" title="事件监听"></a>事件监听</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">video.addEventListener(<span class="string">'click'</span>,videoplay);</span><br><span class="line"><span class="comment">// video.addEventListener('click',handleToggle);</span></span><br><span class="line">video.addEventListener(<span class="string">'play'</span>,handleToggle);</span><br><span class="line">video.addEventListener(<span class="string">'pause'</span>,handleToggle);</span><br><span class="line">video.addEventListener(<span class="string">'timeupdate'</span>,filledUpdate);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">toggle.addEventListener(<span class="string">'click'</span>,videoplay);</span><br><span class="line">toggle.addEventListener(<span class="string">'click'</span>,handleToggle);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> mouseflag = <span class="literal">false</span>;</span><br><span class="line">player__slider.forEach(<span class="function"><span class="params">item</span> =&gt;</span> item.addEventListener(<span class="string">'click'</span>,handlePlayerSlider));</span><br><span class="line">player__slider.forEach(<span class="function"><span class="params">item</span> =&gt;</span> item.addEventListener(<span class="string">'mousedown'</span>,() =&gt; mouseflag = <span class="literal">true</span>));</span><br><span class="line">player__slider.forEach(<span class="function"><span class="params">item</span> =&gt;</span> item.addEventListener(<span class="string">'mouseup'</span>,() =&gt; mouseflag = <span class="literal">false</span>));</span><br><span class="line">player__slider.forEach(<span class="function"><span class="params">item</span> =&gt;</span> item.addEventListener(<span class="string">'mousemove'</span>,(e) =&gt; mouseflag &amp;&amp; handlePlayerSlider(e)));</span><br><span class="line"></span><br><span class="line">skip.forEach(<span class="function"><span class="params">item</span> =&gt;</span> item.addEventListener(<span class="string">'click'</span>,handleSkip));</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> filledflag = <span class="literal">false</span>;</span><br><span class="line">progressBar.addEventListener(<span class="string">'click'</span>,handlefilled);</span><br><span class="line">progressBar.addEventListener(<span class="string">'mousemove'</span>,(e) =&gt; filledflag &amp;&amp; handlefilled(e));</span><br><span class="line">progressBar.addEventListener(<span class="string">'mousedown'</span>,() =&gt; filledflag = <span class="literal">true</span>);</span><br><span class="line">progressBar.addEventListener(<span class="string">'mouseup'</span>,() =&gt; filledflag = <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<p>分别给页面元素建立事件监听，并绑定其实现函数即可。此处有两处需注意:</p>
+<ol>
+<li>有实现进度条的点击拖拽，不能仅绑定<code>mousemove</code>事件，因为这样鼠标在上面滑过就会出发事件，还需判断鼠标是否点下，此处可设立一个布尔类型的<code>flag</code>标志鼠标是否按下，并分别绑定<code>mouseup</code>事件和<code>mousedown</code>事件，设置此<code>flag</code>的值，这样在<code>mousemove</code>事件的回调函数中先判断此<code>flag</code>的值，若为真是才继续触发事件。</li>
+<li><code>mousemove</code>的回调函数本应如下:<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">｛</span><br><span class="line">    <span class="keyword">if</span>(filledflag)&#123;</span><br><span class="line">        handlefilled(e);</span><br><span class="line">    &#125;</span><br><span class="line">｝</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>但这样不够简洁，我们改进此代码如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">filledflag &amp;&amp; handlefilled(e)</span><br></pre></td></tr></table></figure></p>
+<p>使用<code>&amp;&amp;</code>判断左右两变量，只有两个都为真的时候整体表达式才为真，且在判断时从左向右依次判断，若左变量就为假，就不会再去执行右边的表达式。</p>
+<p>ok，第十一天的任务完成了！</p>
+<blockquote>
+<p>最后推荐一个讲解HTML5的Video标签的<a href="https://www.w3.org/2010/05/video/mediaevents.html" target="_blank" rel="noopener">参考文档</a>。</p>
+</blockquote>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-02-18-javascript-challenge-12.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day12 - Key Sequence Detection">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-02-15-javascript-challenge-10.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day10 - Hold Shift and Check Checkboxes">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Day11-Custom-Video-Player"><span class="toc-text">Day11 - Custom Video Player</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现思路"><span class="toc-text">实现思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变量绑定"><span class="toc-text">变量绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数实现"><span class="toc-text">函数实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件监听"><span class="toc-text">事件监听</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-02-17-javascript-challenge-11.html";
+    var disqus_url = "http://xujin.pro/2017-02-17-javascript-challenge-11.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        ES6常用语法总结｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-08-28-summary-of-es6-syntax.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>ES6常用语法总结</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-08-28
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            ES6常用语法总结
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>ES6现在在项目中使用的频率越来越高了，总结下在ES6中常用的语法。</p>
+<p><img src="images/0806-ES6.png" alt="ES6"></p>
+<h2 id="TL-DR版本"><a href="#TL-DR版本" class="headerlink" title="TL;DR版本"></a>TL;DR版本</h2><ol>
+<li>模块：ES6引入了模块系统，可以使用<code>export</code>和<code>import</code>对各个模块中的对象进行导入导出。</li>
+<li>类 &amp; 继承：</li>
+<li>解构赋值</li>
+<li>箭头函数</li>
+<li>新增库函数</li>
+<li>Let &amp; Const</li>
+<li>模板字符串</li>
+<li>函数默认值</li>
+</ol>
+<h2 id="ES6模块系统"><a href="#ES6模块系统" class="headerlink" title="ES6模块系统"></a>ES6模块系统</h2><h3 id="为什么要有模块系统"><a href="#为什么要有模块系统" class="headerlink" title="为什么要有模块系统"></a>为什么要有模块系统</h3><ol>
+<li>如果没有模块系统，程序中所有代码冗杂在一起，不能将程序拆分成互相依赖的小文件，再用简单的方法拼装起来，这对开发大型的项目十分不利。</li>
+<li>全局命名冲突，没有模块，那么全局就在一个命名空间里，可能会造成命名冲突的问题。</li>
+<li>若没有模块，程序中所有代码可能会纠缠在一起，可能会有很高的耦合性，通过模块化的方式，可以有效的解耦合，形成高内聚的模块。</li>
+</ol>
+<h3 id="关于export-import与module-exports，require的区别："><a href="#关于export-import与module-exports，require的区别：" class="headerlink" title="关于export,import与module.exports，require的区别："></a>关于<code>export</code>,<code>import</code>与<code>module.exports</code>，<code>require</code>的区别：</h3><ol>
+<li><code>module.exports</code>，<code>require</code>是CommonJS模块规范下的模块导入导出方法，而<code>export</code>,<code>import</code>是ES6模块规范下的模块导入导出方法，两者是不同的概念。</li>
+<li>CommonJS模块规范：<ol>
+<li>在CommonJS模块规范下，模块（<code>module</code>）是一个对象，<code>exports</code>是<code>module</code>对象的一个属性，<code>module.exports</code>对外提供一个接口。同时还存在一个<code>exports</code>变量，被设置为<code>module.exports</code>，相当与在每个模块中都有一行<code>var exports = module.exports;</code>。我们也可以方便的通过设置<code>exports.newKey = newValue</code>增加一个对外接口，但是切记不要为<code>exports</code>赋值，这样会切断<code>exports</code>和<code>module.exports</code>的关系。</li>
+<li>在一个模块文件的末尾，会返回<code>module.exports</code>的结果给<code>require</code>函数，因此我们可以在另一个文件中通过<code>require(a.js)</code>获取到<code>a.js</code>的对外接口。</li>
+<li>一个模块大概就是这样子。<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var module = &#123; exports: &#123;&#125; &#125;;</span><br><span class="line">var exports = module.exports;</span><br><span class="line"></span><br><span class="line">// your code</span><br><span class="line"></span><br><span class="line">return module.exports;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+<ol>
+<li><p>ES6模块规范：</p>
+<ol>
+<li>ES6 模块不是对象，通过export命令显式指定输出对外的接口，再通过import命令输入其他模块中的功能。</li>
+<li><p>CommonJS是运行时加载，只有在该文件运行时才能得到得到这个对象。比如： <code>let { stat, exists, readFile } = require(&#39;fs&#39;);</code>，虽然看起来是引入了<code>fs</code>模块中的三个方法，但其实内部会先将<code>require(&#39;fs&#39;)</code>赋值给一个<code>_fs</code>变量，在程序运行时在分别获取它的<code>stat, exists, readFile</code>三个方法，如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let &#123; stat, exists, readFile &#125; = require(&apos;fs&apos;);</span><br><span class="line">// 也就是如下方式获取</span><br><span class="line">let _fs = require(&apos;fs&apos;);</span><br><span class="line">let stat = _fs.stat;</span><br><span class="line">let exists = _fs.exists;</span><br><span class="line">let readfile = _fs.readfile;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ES6是编译时加载，比如<code>import { stat, exists, readFile } from &#39;fs&#39;;</code> ，这样就会直接在引入这三个变量，不需要向CommonJS那样先将<code>fs</code>赋值给一个变量，在分别获取各个变量，更何况ES6中的模块也不是对象。ES6可以直接在编译阶段就完成模块的加载。</p>
+</li>
+<li><p><code>export</code>命令规定的是对外的接口，必须与模块内部的变量建立一一对应关系。也就是说在使用<code>export</code>命令的时候，必须要向外暴露一个别名，且这个名字和内部的某一个变量是有对应关系的，不能直接将一个值暴露出去，同样不能将一个被赋了值的变量（就相当于是一个值）暴露出去。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// 报错 → 不能直接export一个值</span><br><span class="line">export 2;</span><br><span class="line"></span><br><span class="line">// 报错 → 它本身是一个被赋了值的变量，此时m就是1，不能直接export</span><br><span class="line">var m = 1;</span><br><span class="line">export m;</span><br></pre></td></tr></table></figure>
+<p>应该这样写才对：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// 写法一</span><br><span class="line">// 这里是暴露了接口m，和1之间建立了联系，即相当于通过m把1暴露出去；</span><br><span class="line">export var m = 1;</span><br><span class="line"></span><br><span class="line">// 写法二</span><br><span class="line">// 这里是对象的形式，m相当于别名（接口），相当于这样： &#123;m : m&#125;（对象解构），即将对外接口m和内部变量m建立联系；</span><br><span class="line">var m = 1;</span><br><span class="line">export &#123;m&#125;;</span><br><span class="line"></span><br><span class="line">// 写法三</span><br><span class="line">var n = 1;</span><br><span class="line">// 这里是显式的为变量n指定别名，虽然这里n是1（被赋了值变量），但是显式的设置它的别名（as）为m，即对外暴露接口m；</span><br><span class="line">export &#123;n as m&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>export default 命令：假如在写一个库文件，用户肯定是希望上手就能用，肯定未必会先去看一大堆文档，那么怎么让将来库的使用者快速的了解到该库又哪些属性和方法呢？这时就可以使用<code>export default</code>暴露出默认的方法和属性，且其他模块加载该模块时，import命令可以为默认的方法指定任意名字。比如：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// export.js</span><br><span class="line">export default function () &#123;</span><br><span class="line">  console.log(&apos;hello world&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// import.js</span><br><span class="line">import saySomething from &apos;./export&apos;;</span><br></pre></td></tr></table></figure>
+<p>在这个export default的例子中，我们可以随便给其命名，（文件名后面的.js后缀也可省略）并且要注意，<code>import</code>后不需要加<code>{}</code>。<br>比较以下两组函数：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// 第一组： default.js</span><br><span class="line">export default function a()&#123;  // 导出</span><br><span class="line">	console.log(&apos;hello&apos;);</span><br><span class="line">&#125;</span><br><span class="line">import a from &apos;./default&apos;; // 导入</span><br><span class="line">// 虽然导出时有函数名，但是在导出时会忽略函数的变量名，仍然导出匿名函数。</span><br><span class="line">// 一个模块只能有一个默认输出，因此export default命令只能使用一次。所以，import命令后面才不用加大括号，因为只可能对应一个方法。</span><br><span class="line"></span><br><span class="line">// 第二组：normal.js</span><br><span class="line">export function a()&#123; // 导出</span><br><span class="line">	console.log(&apos;hello&apos;);</span><br><span class="line">&#125;</span><br><span class="line">import &#123;a&#125; from &apos;./normal&apos;; // 导入</span><br><span class="line">// 导出接口a，指向一个函数，在导入时&#123;a&#125;相当于&#123;a:a&#125;，a变量执行导出的a函数。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>export default其实就是输出一个叫做default的变量或方法，但我们可以任意命名。 </p>
+</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// export.js</span><br><span class="line">function a() &#123;</span><br><span class="line">	console.log(&apos;hello&apos;);</span><br><span class="line">&#125;</span><br><span class="line">export &#123;a as default&#125;;</span><br><span class="line">// 等同于</span><br><span class="line">// export default a;</span><br><span class="line"></span><br><span class="line">// import.js</span><br><span class="line">import &#123; default as ** &#125; from &apos;export&apos;;</span><br><span class="line">// 等同于</span><br><span class="line">// import ** from &apos;export&apos;;</span><br></pre></td></tr></table></figure>
+<h2 id="类-amp-继承"><a href="#类-amp-继承" class="headerlink" title="类 &amp; 继承"></a>类 &amp; 继承</h2><p>类也是 ES6 一个不可忽视的新特性，虽然很多人都说ES6的类只是一个语法糖，但是相对于 ES5，学习 ES6 的类之后对原型链会有更加清晰的认识。</p>
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><ul>
+<li>本质为对原型链的二次包装</li>
+<li>类没有提升</li>
+<li>不能使用字面量定义属性</li>
+<li>动态继承类的构造方法中 super 优先 this</li>
+</ul>
+<h3 id="类的定义"><a href="#类的定义" class="headerlink" title="类的定义"></a>类的定义</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* 类不会被提升 */</span></span><br><span class="line"><span class="keyword">let</span> puppy = <span class="keyword">new</span> Animal(<span class="string">'puppy'</span>); <span class="comment">// =&gt; ReferenceError</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    sleep() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`The <span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span> is sleeping...`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> type() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'This is an Animal class.'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> puppy = <span class="keyword">new</span> Animal(<span class="string">'puppy'</span>);</span><br><span class="line">puppy.sleep();    <span class="comment">// =&gt; The puppy is sleeping...</span></span><br><span class="line"><span class="comment">/* 实例化后无法访问静态方法 */</span></span><br><span class="line">puppy.type();     <span class="comment">// =&gt; TypeError</span></span><br><span class="line">Animal.type();    <span class="comment">// =&gt; This is an Animal class.</span></span><br><span class="line"><span class="comment">/* 实例化前无法访问动态方法 */</span></span><br><span class="line">Animal.sleep();   <span class="comment">// =&gt; TypeError</span></span><br><span class="line"><span class="comment">/* 类不能重复定义 */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span>() </span>&#123;&#125; <span class="comment">// =&gt; SyntaxError</span></span><br></pre></td></tr></table></figure>
+<p>以上我们使用 class 关键字声明了一个名为 Animal 的类。</p>
+<p>虽然类的定义中并未要求类名的大小写，但鉴于代码规范，推荐类名的首字母大写。</p>
+<blockquote>
+<p>两点注意事项：</p>
+</blockquote>
+<ul>
+<li>在类的定义中有一个特殊方法 <code>constructor()</code>，该方法名固定，表示该类的构造函数（方法），在类的实例化过程中会被调用（<code>new Animal(&#39;puppy&#39;)</code>）；</li>
+<li>类中无法像对象一样使用 <code>prop: value</code> 或者 <code>prop = value</code> 的形式定义一个类的属性，我们只能在类的构造方法或其他方法中使用 <code>this.prop = value</code> 的形式为类添加属性。</li>
+</ul>
+<p>最后对比一下我们之前是怎样写类的：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Animal</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line">Animal.prototype = &#123;</span><br><span class="line">    sleep: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'The '</span> + <span class="keyword">this</span>.name + <span class="string">'is sleeping...'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">Animal.type = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'This is an Animal class.'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p><code>class</code>关键字真真让这一切变得清晰易懂了~</p>
+</blockquote>
+<h3 id="类的继承"><a href="#类的继承" class="headerlink" title="类的继承"></a>类的继承</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Programmer</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        <span class="comment">/* 在 super 方法之前 this 不可用 */</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">// =&gt; ReferenceError</span></span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">// Right!</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    program() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">"I'm coding..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    sleep() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'Save all files.'</span>);</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'Get into bed.'</span>);</span><br><span class="line">        <span class="keyword">super</span>.sleep();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> coder = <span class="keyword">new</span> Programmer(<span class="string">'coder'</span>);</span><br><span class="line">coder.program(); <span class="comment">// =&gt; I'm coding...</span></span><br><span class="line">coder.sleep();   <span class="comment">// =&gt; Save all files. =&gt; Get into bed. =&gt; The coder is sleeping.</span></span><br></pre></td></tr></table></figure>
+<p>这里我们使用 <code>class</code> 定义了一个类 <code>Programmer</code>，使用 <code>extends</code> 关键字让该类继承于另一个类 <code>Animal</code>。</p>
+<p>如果子类有构造方法，那么在子类构造方法中使用 <code>this</code> 对象之前必须使用 <code>super()</code> 方法运行父类的构造方法以对父类进行初始化。</p>
+<p>在子类方法中我们也可以使用 <code>super</code> 对象来调用父类上的方法。如示例代码中子类的 <code>sleep()</code> 方法：在这里我们重写了父类中的 <code>sleep()</code> 方法，添加了两条语句，并在方法末尾使用 <code>super</code> 对象调用了父类上的 <code>sleep()</code> 方法。</p>
+<p>最后我们最后来看一下以前我们是怎么来写继承的：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Programmer</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    Animal.call(<span class="keyword">this</span>, name);</span><br><span class="line">&#125;</span><br><span class="line">Programmer.prototype = <span class="built_in">Object</span>.create(Animal.prototype, &#123;</span><br><span class="line">    program: &#123;</span><br><span class="line">        value: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"I'm coding..."</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    sleep: &#123;</span><br><span class="line">        value: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'Save all files.'</span>);</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'Get into bed.'</span>);</span><br><span class="line">            Animal.prototype.sleep.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">Programmer.prototype.constructor = Programmer;</span><br></pre></td></tr></table></figure></p>
+<p> (<em>゜ー゜</em>), 相信看到这段代码，应该是一脸懵逼.jpg吧。</p>
+<h2 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h2><h3 id="数组解构"><a href="#数组解构" class="headerlink" title="数组解构"></a>数组解构</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> [a, ,b] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// =&gt; 1</span></span><br><span class="line"><span class="built_in">console</span>.log(b); <span class="comment">// =&gt; 3</span></span><br></pre></td></tr></table></figure>
+<p>数组解构，使用变量声明关键字声明一个形参数组（<code>[a, , b]</code>），等号后跟一个待解构目标数组（<code>[1, 2, 3]</code>），解构时可以通过留空的方式跳过数组中间的个别元素，但是在形参数组中必须留有相应空位才可以继续解构之后的元素，如果要跳过的元素处于数组末端，则在形参数组中可以不予留空。</p>
+<h3 id="对象解构"><a href="#对象解构" class="headerlink" title="对象解构"></a>对象解构</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> &#123;b, c&#125; = &#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span>, <span class="attr">c</span>: <span class="number">3</span>&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(b); <span class="comment">// =&gt; 2</span></span><br><span class="line"><span class="built_in">console</span>.log(c); <span class="comment">// =&gt; 3</span></span><br></pre></td></tr></table></figure>
+<p>对象解构与数组解构大体相同，不过需要注意一点</p>
+<ul>
+<li>形参对象（{b, c}）的属性或方法名必须与待解构的目标对象中的属性或方法名完全相同才能解构到对应的属性或方法</li>
+</ul>
+<h3 id="对象匹配解构"><a href="#对象匹配解构" class="headerlink" title="对象匹配解构"></a>对象匹配解构</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> example = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span>, <span class="attr">c</span>: <span class="number">3</span>&#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> &#123;<span class="attr">a</span>: d, <span class="attr">b</span>: e, <span class="attr">c</span>: f&#125; = example();</span><br><span class="line"><span class="built_in">console</span>.log(d, e, f); <span class="comment">// =&gt; 1, 2, 3</span></span><br></pre></td></tr></table></figure>
+<p>对象匹配解构是对象解构的一种延伸用法，我们可以在形参对象中使用:来更改解构后的变量名。</p>
+<h3 id="函数入参解构"><a href="#函数入参解构" class="headerlink" title="函数入参解构"></a>函数入参解构</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params">&#123;param: value&#125;</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> value;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(example(&#123;<span class="attr">param</span>: <span class="number">5</span>&#125;)); <span class="comment">// =&gt; 5</span></span><br></pre></td></tr></table></figure>
+<p>函数的入参解构也是对象解构的一种延伸用法，我们可以通过改写入参对象目标值为变量名的方式，在函数内部直接获取到入参对象中某个属性或方法的值。</p>
+<h3 id="函数入参默认值解构"><a href="#函数入参默认值解构" class="headerlink" title="函数入参默认值解构"></a>函数入参默认值解构</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">example</span>(<span class="params">&#123;x, y, z = <span class="number">0</span>&#125;</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x + y + z;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(example(&#123;<span class="attr">x</span>: <span class="number">1</span>, <span class="attr">y</span>: <span class="number">2</span>&#125;));       <span class="comment">// =&gt; 3</span></span><br><span class="line"><span class="built_in">console</span>.log(example(&#123;<span class="attr">x</span>: <span class="number">1</span>, <span class="attr">y</span>: <span class="number">2</span>, <span class="attr">z</span>: <span class="number">3</span>&#125;)); <span class="comment">// =&gt; 6</span></span><br></pre></td></tr></table></figure>
+<p>这是入参解构的另一种用法，我们可以在入参对象的形参属性或方法中使用等号的方式给入参对象的某些属性或方法设定默认值。</p>
+<h2 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h2><p>箭头函数无疑是 ES6 中一个相当重要的新特性。</p>
+<h3 id="特性-1"><a href="#特性-1" class="headerlink" title="特性"></a>特性</h3><ul>
+<li>共享父级 this 对象</li>
+<li>共享父级 arguments</li>
+<li>不能当做构造函数</li>
+</ul>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><h4 id="最简表达式"><a href="#最简表达式" class="headerlink" title="最简表达式"></a>最简表达式</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>];</span><br><span class="line"><span class="comment">// Before</span></span><br><span class="line">arr.filter(<span class="function"><span class="keyword">function</span>(<span class="params">v</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> v &gt; <span class="number">3</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// After</span></span><br><span class="line">arr.filter(<span class="function"><span class="params">v</span> =&gt;</span> v &gt; <span class="number">3</span>); <span class="comment">// =&gt; [4, 5, 6]</span></span><br></pre></td></tr></table></figure>
+<p>前后对比很容易理解，可以明显看出箭头函数极大地减少了代码量。</p>
+<h4 id="完整语法"><a href="#完整语法" class="headerlink" title="完整语法"></a>完整语法</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>];</span><br><span class="line">arr.map(<span class="function">(<span class="params">v, k, thisArr</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> thisArr.reverse()[k] * v;</span><br><span class="line">&#125;)  <span class="comment">// =&gt; [6, 10, 12, 12, 10, 6]</span></span><br></pre></td></tr></table></figure>
+<p>一个简单的首尾相乘的算法，对比最简表达式我们可以发现，函数的前边都省略了 <code>function</code> 关键字，但是多个入参时需用括号包裹入参，单个入参是时可省略括号，入参写法保持一致。后面使用胖箭头 <code>=&gt;</code> 连接函数名与函数体，函数体的写法保持不变。</p>
+<h4 id="函数上下文-this"><a href="#函数上下文-this" class="headerlink" title="函数上下文 this"></a>函数上下文 this</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Before</span></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    arr: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>],</span><br><span class="line">    getMaxPow2: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> that = <span class="keyword">this</span>,</span><br><span class="line">            getMax = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="built_in">Math</span>.max.apply(&#123;&#125;, that.arr);</span><br><span class="line">            &#125;;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Math</span>.pow(getMax(), <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// After</span></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    arr: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>],</span><br><span class="line">    getMaxPow2: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> getMax = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">Math</span>.max.apply(&#123;&#125;, <span class="keyword">this</span>.arr);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Math</span>.pow(getMax(), <span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意看中第 5 行 <code>var that = this</code> 这里声明的一个临时变量 <code>that</code>。在对象或者原型链中，我们以前经常会写这样一个临时变量，或 <code>that</code> 或 <code>_this</code>，诸如此类，以达到在一个函数内部访问到父级或者祖先级 <code>this</code> 对象的目的。</p>
+<p>如今在箭头函数中，函数体内部没有自己的 <code>this</code>，默认在其内部调用 <code>this</code> 的时候，会自动查找其父级上下文的 <code>this</code> 对象（如果父级同样是箭头函数，则会按照作用域链继续向上查找），这无疑方便了许多，我们无需在多余地声明一个临时变量来做这件事了。</p>
+<p><em>注意：</em></p>
+<ul>
+<li>某些情况下我们可能需要函数有自己的 <code>this</code>，例如 <code>DOM</code> 事件绑定时事件回调函数中，我们往往需要使用 <code>this</code> 来操作当前的 <code>DOM</code>，这时候就需要使用传统匿名函数而非箭头函数。</li>
+<li>在严格模式下，如果箭头函数的上层函数均为箭头函数，那么 <code>this</code> 对象将不可用。</li>
+</ul>
+<blockquote>
+<p>由于箭头函数没有自己的 this 对象，所以箭头函数不能当做构造函数。</p>
+</blockquote>
+<h4 id="父级函数-arguments"><a href="#父级函数-arguments" class="headerlink" title="父级函数 arguments"></a>父级函数 <code>arguments</code></h4><p>我们知道在函数体中有 <code>arguments</code> 这样一个伪数组对象，该对象中包含该函数所有的入参（显示入参 + 隐式入参），当函数体中有另外一个函数，并且该函数为箭头函数时，该箭头函数的函数体中可以直接访问父级函数的 <code>arguments</code> 对象。<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getSum</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> example = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Array</span></span><br><span class="line">            .prototype</span><br><span class="line">            .reduce</span><br><span class="line">            .call(<span class="built_in">arguments</span>, (pre, cur) =&gt; pre + cur);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> example();</span><br><span class="line">&#125;</span><br><span class="line">getSum(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>); <span class="comment">// =&gt; 6</span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>由于箭头函数本身没有 <code>arguments</code> 对象，所以如果他的上层函数都是箭头函数的话，那么 <code>arguments</code> 对象将不可用。</p>
+</blockquote>
+<p><em>最后再巩固一下箭头函数的语法：</em></p>
+<ul>
+<li>当箭头函数入参只有一个时可以省略入参括号；</li>
+<li>当入参多余一个或没有入参时必须写括号；</li>
+<li>当函数体只有一个 return 语句时可以省略函数体的花括号与 return 关键字。</li>
+</ul>
+<h2 id="新增库函数"><a href="#新增库函数" class="headerlink" title="新增库函数"></a>新增库函数</h2><p>ES6 新增了许多（相当多）的库函数，这里只介绍一些比较常用的。</p>
+<blockquote>
+<p>多了解一下内建函数与方法有时候可以很方便高效地解决问题。有时候绞尽脑汁写好的一个算法，没准已经有内建函数实现了！而且内建函数经过四海八荒众神的考验，性能一定不错。</p>
+</blockquote>
+<h3 id="Number"><a href="#Number" class="headerlink" title="Number"></a>Number</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Number</span>.EPSILON</span><br><span class="line"><span class="built_in">Number</span>.isInteger(<span class="literal">Infinity</span>); <span class="comment">// =&gt; false</span></span><br><span class="line"><span class="built_in">Number</span>.isNaN(<span class="string">'NaN'</span>);        <span class="comment">// =&gt; false</span></span><br></pre></td></tr></table></figure>
+<p>首先是 ᶓ 这个常量属性，表示小数的极小值，主要用来判断浮点数计算是否精确，如果计算误差小于该阈值，则可以认为计算结果是正确的。</p>
+<p>然后是 <code>isInteger()</code> 这个方法用来判断一个数是否为整数，返回布尔值。</p>
+<p>最后是 <code>isNaN()</code> 用来判断入参是否为 <code>NaN</code>。是的，我们再也不用通过 <code>NaN</code> 不等于 <code>NaN</code> 才能确定一个 <code>NaN</code> 就是 <code>NaN</code> 这种反人类的逻辑来判断一个 <code>NaN</code> 值了！<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="literal">NaN</span> !== <span class="literal">NaN</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Yes! This is actually the NaN!"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>另外还有两个小改动：两个全局函数 <code>parseInt()</code> 与 <code>parseFloat()</code> 被移植到 <code>Number</code> 中，入参反参保持不变。这样所有数字处理相关的都在 <code>Number</code> 对象上嘞！规范多了。</p>
+<h3 id="String"><a href="#String" class="headerlink" title="String"></a>String</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="string">'abcde'</span>.includes(<span class="string">'cd'</span>); <span class="comment">// =&gt; true</span></span><br><span class="line"><span class="string">'abc'</span>.repeat(<span class="number">3</span>);        <span class="comment">// =&gt; 'abcabcabc'</span></span><br><span class="line"><span class="string">'abc'</span>.startsWith(<span class="string">'a'</span>);  <span class="comment">// =&gt; true</span></span><br><span class="line"><span class="string">'abc'</span>.endsWith(<span class="string">'c'</span>);    <span class="comment">// =&gt; true</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>inclueds()</code> 方法用来判断一个字符串中是否存在指定字符串</li>
+<li><code>repeat()</code> 方法用来重复一个字符串生成一个新的字符串</li>
+<li><code>startsWith()</code> 方法用来判断一个字符串是否以指定字符串开头，可以传入一个整数作为第二个参数，用来设置查找的起点，默认为 0，即从字符串第一位开始查找</li>
+<li><code>endsWith()</code> 与 <code>startsWith()</code> 方法相反</li>
+</ul>
+<h3 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Array</span>.from(<span class="built_in">document</span>.querySelectorAll(<span class="string">'*'</span>)); <span class="comment">// =&gt; returns a real array.</span></span><br><span class="line">[<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>].fill(<span class="number">7</span>, <span class="number">1</span>); <span class="comment">// =&gt; [0, 7, 7]</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].findIndex(<span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x === <span class="number">2</span>;</span><br><span class="line">&#125;); <span class="comment">// =&gt; 1</span></span><br><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>].entries(); <span class="comment">// =&gt; Iterator [0: 'a'], [1: 'b'], [2: 'c']</span></span><br><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>].keys();    <span class="comment">// =&gt; Iterator 0, 1, 2</span></span><br><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>].values();  <span class="comment">// =&gt; Iterator 'a', 'b', 'c'</span></span><br><span class="line"><span class="comment">// Before</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Array</span>();        <span class="comment">// =&gt; []</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">4</span>);       <span class="comment">// =&gt; [,,,]</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>); <span class="comment">// =&gt; [4, 5, 6]</span></span><br><span class="line"><span class="comment">// After</span></span><br><span class="line"><span class="built_in">Array</span>.of();         <span class="comment">// =&gt; []</span></span><br><span class="line"><span class="built_in">Array</span>.of(<span class="number">4</span>);        <span class="comment">// =&gt; [4]</span></span><br><span class="line"><span class="built_in">Array</span>.of(<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>);  <span class="comment">// =&gt; [4, 5, 6]</span></span><br></pre></td></tr></table></figure>
+<p>首先是 <code>from()</code> 方法，该方法可以将一个类数组对象转换成一个真正的数组。还记得我们之前常写的 <code>Array.prototype.slice.call(arguments)</code> 吗？现在可以跟他说拜拜了~</p>
+<p>之后的 <code>fill()</code> 方法，用来填充一个数组，第一个参数为将要被填充到数组中的值，可选第二个参数为填充起始索引（默认为 0），可选第三参数为填充终止索引（默认填充到数组末端）。</p>
+<p><code>findIndex()</code> 用来查找指定元素的索引值，入参为函数，函数形参跟 <code>map()</code> 方法一致，不多说。最终输出符合该条件的元素的索引值。</p>
+<p><code>entries()</code>、<code>keys()</code>、<code>values()</code> 三个方法各自返回对应键值对、键、值的遍历器，可供循环结构使用。</p>
+<p>最后一个新增的 <code>of()</code> 方法主要是为了弥补 <code>Array</code> 当做构造函数使用时产生的怪异结果。</p>
+<h3 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> target = &#123;</span><br><span class="line">    a: <span class="number">1</span>,</span><br><span class="line">    b: <span class="number">3</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> source = &#123;</span><br><span class="line">    b: <span class="number">2</span>,</span><br><span class="line">    c: <span class="number">3</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">Object</span>.assign(target, source); <span class="comment">// =&gt; &#123; a: 1, b: 2, c: 3&#125;</span></span><br></pre></td></tr></table></figure>
+<p><code>assign()</code> 方法用于合并两个对象，不过需要注意的是这种合并是浅拷贝。可能看到这个方法我们还比较陌生，不过了解过 <code>jQuery</code> 源码的应该知道 <code>$.extend()</code> 这个方法，例如在下面这个粗糙的 <code>$.ajax()</code> 模型中的应用：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$.ajax = <span class="function"><span class="keyword">function</span>(<span class="params">opts</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> defaultOpts = &#123;</span><br><span class="line">        method: <span class="string">'GET'</span>,</span><br><span class="line">        <span class="keyword">async</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;;</span><br><span class="line">    opts = $.extend(defaultOpts, opts);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从这我们可以看到 TC39 也是在慢慢吸收百家所长，努力让 JavaScript 变得更好，更方便开发者的使用。</p>
+<blockquote>
+<p>Object 新增的特性当然不止这一个 <code>assign()</code> 方法，一共增加了十多个新特性，特别是对属性或方法名字面量定义的增强方面，很值得一看，感兴趣的自行查找资料进行了解哈，印象会更深刻！</p>
+</blockquote>
+<h3 id="Math"><a href="#Math" class="headerlink" title="Math"></a>Math</h3><p>Math 对象上同样增加了许多新特性，大部分都是数学计算方法，这里只介绍两个常用的<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Math</span>.sign(<span class="number">5</span>);     <span class="comment">// =&gt; +1</span></span><br><span class="line"><span class="built_in">Math</span>.sign(<span class="number">0</span>);     <span class="comment">// =&gt; 0</span></span><br><span class="line"><span class="built_in">Math</span>.sign(<span class="number">-5</span>);    <span class="comment">// =&gt; -1</span></span><br><span class="line"><span class="built_in">Math</span>.trunc(<span class="number">4.1</span>);  <span class="comment">// =&gt; 4</span></span><br><span class="line"><span class="built_in">Math</span>.trunc(<span class="number">-4.1</span>); <span class="comment">// =&gt; -4</span></span><br></pre></td></tr></table></figure></p>
+<p><code>sign()</code> 方法用来判断一个函数的正负，使用与对应返回值如上。</p>
+<p><code>trunc()</code> 用来取数值的整数部分，我们之前可能经常使用 <code>floor()</code> 方法进行取整操作，不过这个方法有一个问题就是：它本身是向下取整，当被取整值为正数的时候计算结果完全 OK，但是当被取整值为负数的时候： <code>Math.floor(-4.1); // =&gt; -5</code>。</p>
+<blockquote>
+<p>插播一个小 Tip：使用位操作符也可以很方便的进行取整操作，例如：~~3.14 or 3.14 | 0，也许这更加方便。</p>
+</blockquote>
+<h2 id="Let-amp-Const"><a href="#Let-amp-Const" class="headerlink" title="Let &amp; Const"></a>Let &amp; Const</h2><h3 id="Let"><a href="#Let" class="headerlink" title="Let"></a>Let</h3><ul>
+<li>无变量提升<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Before</span></span><br><span class="line"><span class="built_in">console</span>.log(num); <span class="comment">// =&gt; undefined</span></span><br><span class="line"><span class="keyword">var</span> num = <span class="number">1</span>;</span><br><span class="line"><span class="comment">// After</span></span><br><span class="line"><span class="built_in">console</span>.log(num); <span class="comment">// =&gt; ReferenceError</span></span><br><span class="line"><span class="keyword">let</span> num = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>使用 <code>var</code> 声明的变量会自动提升到当前作用域的顶部，如果声明位置与作用域顶部之间有另一个同名变量，很容易引起难以预知的错误。使用 <code>let</code> 声明的变量则不会进行变成提升，规避了这个隐患。</p>
+<blockquote>
+<p>注意：<code>var</code> 声明的变量提升后虽然在声明语句之前输出为 <code>undefined</code>，但这并不代表 <code>num</code> 变量还没有被声明，此时 <code>num</code> 变量已经完成声明并分配了相应内存，只不过该变量目前的值为 <code>undefined</code>，并不是我们声明语句中赋的初始值 <code>1</code>。</p>
+</blockquote>
+<ul>
+<li>有块级作用域<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Before</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> num = <span class="number">1</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(num); <span class="comment">// =&gt; 1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(num);     <span class="comment">// =&gt; 1</span></span><br><span class="line"><span class="comment">// After</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> num = <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">console</span>.log(num); <span class="comment">// =&gt; 1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(num);     <span class="comment">// =&gt; ReferenceError</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>let</code> 声明的变量只能在当前块级作用域中使用，最常见的应用大概就是 <code>for(let i = 0, i &lt; 10; i++) {}</code>，相信许多小伙伴在面试题中见过，哈哈。</p>
+<ul>
+<li>禁止重复声明<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Before</span></span><br><span class="line"><span class="keyword">var</span> dev = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">var</span> dev = <span class="literal">false</span>;</span><br><span class="line"><span class="built_in">console</span>.log(dev); <span class="comment">// =&gt; false</span></span><br><span class="line"><span class="comment">// After</span></span><br><span class="line"><span class="keyword">let</span> dev = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">let</span> dev = <span class="literal">false</span>; <span class="comment">// =&gt; SyntaxError</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>var</code> 声明的变量可以重复声明，而且不会有任何警告或者提示，就这样悄悄的覆盖了一个值，隐患如变量提升一样让人担忧。</p>
+<p>而 <code>let</code> 声明的变量如果进行重复声明，则会直接抛出一个语法错误（是的，就是直接明确地告诉你：你犯了一个相当低级的语法错误）</p>
+<h3 id="Const"><a href="#Const" class="headerlink" title="Const"></a>Const</h3><ul>
+<li>无变量提升</li>
+<li>有块级作用域</li>
+<li><p>禁止重复声明<br>前 3 点跟 <code>let</code> 一个套路，就不多说了</p>
+</li>
+<li><p>禁止重复赋值</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> DEV = <span class="literal">true</span>;</span><br><span class="line">DEV = <span class="literal">false</span>; <span class="comment">// =&gt; TypeError</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>基于静态常量的定义我们可以很明显知道，<code>const</code> 声明的常量一经声明便不能再更改其值，无需多说。</p>
+<ul>
+<li>必须附初始值<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> DEV; <span class="comment">// =&gt; SyntaxError</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>也是基于定义，<code>const</code> 声明的常量既然一经声明便不能再更改其值，那声明的时候没有附初始值显然是不合理的，一个没有任何值的常量是没有意义的，浪费内存。</p>
+<h2 id="模板字符串"><a href="#模板字符串" class="headerlink" title="模板字符串"></a>模板字符串</h2><h3 id="特性-amp-语法"><a href="#特性-amp-语法" class="headerlink" title="特性 &amp; 语法"></a>特性 &amp; 语法</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Before</span></span><br><span class="line"><span class="comment">// Before.1</span></span><br><span class="line"><span class="keyword">var</span> type = <span class="string">'simple'</span>;</span><br><span class="line"><span class="string">'This is a '</span> + type + <span class="string">' string join.'</span></span><br><span class="line"><span class="comment">// Before.2</span></span><br><span class="line"><span class="keyword">var</span> type = <span class="string">'multiline'</span>;</span><br><span class="line"><span class="string">'This \nis \na \n'</span> + type + <span class="string">'\nstring.'</span></span><br><span class="line"><span class="comment">// Before.3</span></span><br><span class="line"><span class="keyword">var</span> type = <span class="string">'pretty singleline'</span>;</span><br><span class="line"><span class="string">'This \</span></span><br><span class="line"><span class="string">is \</span></span><br><span class="line"><span class="string">a \</span></span><br><span class="line"><span class="string">'</span> + type + <span class="string">'\</span></span><br><span class="line"><span class="string">string.'</span></span><br><span class="line"><span class="comment">// OR</span></span><br><span class="line"><span class="comment">// Before.4</span></span><br><span class="line"><span class="string">'This '</span> +</span><br><span class="line"><span class="string">'is'</span> +</span><br><span class="line"><span class="string">'a'</span> +</span><br><span class="line">type +</span><br><span class="line"><span class="string">'string.'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// After</span></span><br><span class="line"><span class="keyword">var</span> type = <span class="string">'singleline'</span>;</span><br><span class="line"><span class="string">`This is a <span class="subst">$&#123;type&#125;</span> string.`</span></span><br><span class="line"><span class="keyword">var</span> type = <span class="string">'multiline'</span>;</span><br><span class="line"><span class="string">`This</span></span><br><span class="line"><span class="string">is</span></span><br><span class="line"><span class="string">a</span></span><br><span class="line"><span class="string"><span class="subst">$&#123;type&#125;</span></span></span><br><span class="line"><span class="string">string.`</span></span><br><span class="line"><span class="keyword">var</span> type = <span class="string">'pretty singleline'</span>;</span><br><span class="line"><span class="string">`This \</span></span><br><span class="line"><span class="string">is \</span></span><br><span class="line"><span class="string">a \</span></span><br><span class="line"><span class="string"><span class="subst">$&#123;type&#125;</span> \</span></span><br><span class="line"><span class="string">string.`</span></span><br></pre></td></tr></table></figure>
+<p>我们之前在对字符串和变量进行拼接的时候，通常都是反复一段一段使用引号包裹的字符串，再反复使用加号进行拼接（Before.1）。多行字符串的时候我们还要写上蹩脚的 <code>\n</code> 来换行以得到一个多行的字符串（Before.2）。</p>
+<p>在字符串过长的时候可能会使用 <code>\</code> 在编辑器中书写多行字符串来表示单行字符串，用来方便较长的字符串在编辑器中的阅读（Before.3），或者简单粗暴的反复引号加号这样多行拼接（Before.4）。</p>
+<p>ES6 中我们可以使用反引号（`，位于 TAB 上方）来输入一段简单明了的多行字符串，还可以在字符串中通过 ${变量名} 的形式方便地插入一个变量，是不是方便多了！</p>
+<h2 id="函数默认值"><a href="#函数默认值" class="headerlink" title="函数默认值"></a>函数默认值</h2><h3 id="特性-amp-语法-1"><a href="#特性-amp-语法-1" class="headerlink" title="特性 &amp; 语法"></a>特性 &amp; 语法</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Before</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">decimal</span>(<span class="params">num, fix</span>) </span>&#123;</span><br><span class="line">    fix = fix === <span class="keyword">void</span>(<span class="number">0</span>) ? <span class="number">2</span> : fix;</span><br><span class="line">    <span class="keyword">return</span> +num.toFixed(fix);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// After</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">decimal</span>(<span class="params">num, fix = <span class="number">2</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> +num.toFixed(fix);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先，我们看一下之前我们是怎么写函数默认值的：我们通常会使用三元运算符来判断入参是否有值，然后决定是否使用默认值运行函数（如示例中 <code>fix = fix === void(0) ? 2 : fix</code>）</p>
+<p>而在 ES6 中，我们可以直接在函数的显示入参中指定函数默认值（<code>function decimal(num, fix = 2){}</code>），很明显，这种写法更自然易懂，也更加方便，不过有一点需要注意：</p>
+<blockquote>
+<p>设定了默认值的入参，应该放在没有设置默认值的参数之后，也就是我们不应该这样写：<code>function decimal(fix = 2, num){}</code>，虽然通过变通手段也可以正常运行，但不符合规范。</p>
+</blockquote>
+<p>ES6的八个特性这里就先总结完了，当然这里并不是ES6的全部特性，是大部分使用频率较高的语法，如果想要继续深入学习ES6，可以在mdn上找到更加详细的内容。</p>
+<p>若有问题，欢迎留言交流！~</p>
+<p>END! 💯</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-08-29-javascript30-archive.html" data-toggle="tooltip" data-placement="top"
+                           title="javascript30 challenge 归档">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-08-25-javascript-challenge-30.html" data-toggle="tooltip" data-placement="top"
+                           title="javascript30-day-30-Whack-a-mole! (打地鼠)">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TL-DR版本"><span class="toc-text">TL;DR版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES6模块系统"><span class="toc-text">ES6模块系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么要有模块系统"><span class="toc-text">为什么要有模块系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于export-import与module-exports，require的区别："><span class="toc-text">关于export,import与module.exports，require的区别：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类-amp-继承"><span class="toc-text">类 & 继承</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性"><span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类的定义"><span class="toc-text">类的定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类的继承"><span class="toc-text">类的继承</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解构赋值"><span class="toc-text">解构赋值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数组解构"><span class="toc-text">数组解构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象解构"><span class="toc-text">对象解构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象匹配解构"><span class="toc-text">对象匹配解构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数入参解构"><span class="toc-text">函数入参解构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数入参默认值解构"><span class="toc-text">函数入参默认值解构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#箭头函数"><span class="toc-text">箭头函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-1"><span class="toc-text">特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#语法"><span class="toc-text">语法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#最简表达式"><span class="toc-text">最简表达式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#完整语法"><span class="toc-text">完整语法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#函数上下文-this"><span class="toc-text">函数上下文 this</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#父级函数-arguments"><span class="toc-text">父级函数 arguments</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新增库函数"><span class="toc-text">新增库函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Number"><span class="toc-text">Number</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#String"><span class="toc-text">String</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Array"><span class="toc-text">Array</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Object"><span class="toc-text">Object</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Math"><span class="toc-text">Math</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Let-amp-Const"><span class="toc-text">Let & Const</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Let"><span class="toc-text">Let</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Const"><span class="toc-text">Const</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模板字符串"><span class="toc-text">模板字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-amp-语法"><span class="toc-text">特性 & 语法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数默认值"><span class="toc-text">函数默认值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特性-amp-语法-1"><span class="toc-text">特性 & 语法</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-08-28-summary-of-es6-syntax.html";
+    var disqus_url = "http://xujin.pro/2017-08-28-summary-of-es6-syntax.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

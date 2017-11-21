@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        读《前端架构设计》-前端架构概况｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-05-18-frontend-architecture-overview.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>读《前端架构设计》-前端架构概况</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-05-18
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#Frontend"
+                           title="Frontend">Frontend</a>
+                        
+                        <a class="tag" href="/tags/#读书笔记"
+                           title="读书笔记">读书笔记</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            读《前端架构设计》-前端架构概况
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p><img src="/images/0518-front-book.jpg" alt="Frontend architecture"></p>
+<p>这断时间在读《前端架构设计》这本书，虽未读完，但是已有不少收获。</p>
+<p>这本书的作者结合自己在Red Hat公司的项目实战经历，探讨了前端架构原则和前端架构的核心内容，包括工作流程、测试流程和文档记录，以及作为前端架构师所要承担的具体开发工作，包括HTML、JavaScript和CSS等。这本书并不是在将某个技术细节，而是从宏观的角度分析了当下最高效的前端开发的工作流，以及代码，测试，文档的规范。反之，这应该也是这本书的一个小缺点，内容会给人一种蜻蜓点水的感觉。</p>
+<p>但作为前端新人的我，很喜欢这本书，它能在前端领域为我指明正确的、高效的、规范的发展道路。如果任按照老旧的开发流程，尽管小的系统尚可应付，但是随着项目复杂性的增长，老旧的流程绝不是长久之计，但如果能够把前端开发当成<strong>一个值得做出战略规划和有投资价值的关键元素</strong>，那么我们一定会用另一种态度与谨慎来对待了吧。</p>
+<p><img src="/images/0518-frontend-overview.jpg" alt="Frontend architecture"></p>
+<h2 id="什么是前端架构？"><a href="#什么是前端架构？" class="headerlink" title="什么是前端架构？"></a>什么是前端架构？</h2><blockquote>
+<p>前端架构是一系列工具和流程的集合，旨在提高前端代码的质量，并实现高效、可持续的工作流。</p>
+</blockquote>
+<p>书中是这样给出前端架构的定义的。最近几年，前端才开始蓬勃的发展，这个职业开始逐渐的被人认可，再早几年，人们对web前端似乎没有什么要求，只要能用就行，对于性能，人性化的交互也没有要求，前端似乎成为了低端的代名词，更少有人在前端领域深入钻研，建立一套完善的体系。</p>
+<p>在当前蓬勃发展的前端领域，作为一个新晋的一线开发人员，在做项目中也确实会遇到一些问题，比如：该选用那一个前端框架，Vue、Angular亦或是React？如何更高效的和后端的开发人员整合，而不是等他们开发完了在整合，且整合中更会遇到很多问题？如何更方便的对页面进行调试，既能热更新，也能很便捷的调试移动端的界面？如果团队中没有人擅长于前端的架构，恐怕很可能又会沦为老旧的开发流程，生产出大片无用代码且效率极为低下。而在团队中承担此职责的人，被称为<strong>前端架构师</strong>。</p>
+<p>架构更像是一种管理，一种对于代码、流程和规范的管理，对于大型Web项目，前端架构师和软件架构师同样不可或缺。软件架构师的职责是要保证项目中每一步都在总体架构的指导下进行，而不会随机决定；对于前端架构师也是一样，他们是项目的决策者，相比于具体编写的代码，他们更关注于开发工具和优化流程。</p>
+<blockquote>
+<p>前端架构师职责：</p>
+<ul>
+<li>体系设计——清晰描绘产品和代码的最终形态</li>
+<li>工作规划——制定完整开发工作流</li>
+<li>监督跟进——保证项目高效率完成</li>
+</ul>
+</blockquote>
+<h2 id="前端架构的核心？"><a href="#前端架构的核心？" class="headerlink" title="前端架构的核心？"></a>前端架构的核心？</h2><blockquote>
+<p>前端架构师的成长之路不是一蹴而就的，而是需要保持不间断的学习状态。这种状态决定了我们的水平和价值。对于前端开发领域的广泛涉猎使我们能够很快上手新技术和方法论。</p>
+</blockquote>
+<p>不能再同意作者文中所说的这句话了，我认为不仅是前端架构师，作为一名学生，工程师，等任何职业都应时刻保持这种持续学习的状态，有一本书叫做《168 hours》，书中介绍了关于时间利用的问题，一周7天，168小时，除去工作和睡眠和必要的时间消耗，其实属于我们的可利用的时间还有很多，并不像我们想象的那么忙，若我们能冷静下来思考时间，并将这些时间利用起来扩充自己的知识面，提高自己各方面的技能，若能有这种自我驱动力，我觉得不久就能成为项目中的前端架构人才。跑远了，拉回来。。</p>
+<p>而前端架构的核心也是这本书通篇所讲述的内容到底是什么呢？作者将其概括为四个，代码、流程、测试、文档。</p>
+<p>代码解决的问题是如何实现系统架构中的HTML、CSS和JavaScript。关于代码，有一句话我记得特别清楚：”<strong>代码是给人看的，机器只是顺便执行了一下而已。</strong>“从我知道这句话以后，就时时的提醒自己，自己所写的代码对待下一个可能接手我代码的人有没有很友善。有没有写好代码的注释？有没有将代码的格式缩进统一，使代码美观？有没有将函数，类，变量的命名语义化？函数有没有遵守单一职责原则？有没有尽量降低组件之间的耦合？有没有提高代码的可复用性等。这些也是文中作者的观点，我想能时刻提醒自己写出高质量的代码，定是写出高质量代码的必要条件。</p>
+<p>流程解决的是在构建高效并且防止出错的工作流中所需要的工具和流程。我认为流程是提高项目开发效率的重要途径，流程包含在项目开发过程的各个环节，若能极大的优化项目开发的流程，必然会使项目有一个乐观的结果。当然，在优化前端开发流程的过程中，一定会遇到各种优秀的工具，比如git，gulp等。我觉得这些工具，如果没有使用过，有机会尝试一下还是极好的。</p>
+<blockquote>
+<p>流程核心的意义在于清晰地定义前端代码从开发人员的脑海到用户浏览器所需经历的各个步骤。</p>
+</blockquote>
+<p>测试也是项目中最重要的一步，能够为网站搭建稳固基础。测试也是自己目前最弱的一块，一方面由于在学校做项目，几乎所有的项目都是一两人的小组完成，且最终交付时的要求不高，另一方面也是自己还没有引起足够的重视。但是这万万是不对的，新代码给系统带来的问题涉及方方面面，若不能及时测试，及时反馈自己的代码，于客户、于自己都必然是百害无一利吧。</p>
+<p>书中在我们为应用程序规划测试时，提供了以下四条建议。</p>
+<blockquote>
+<ul>
+<li>测试用例应该在建站的同时，甚至在建站之前就需要开始编写。</li>
+<li>测试代码是真实的代码，应该一起或立即提交到系统代码库中。</li>
+<li>必须在所有的测试用例都通过后，才能把代码合并到主干中。</li>
+<li>在主干上运行测试工具，结果应该都为通过。</li>
+</ul>
+</blockquote>
+<p>文档能够规划好系统设计的蓝图。身边很多小伙伴都很厌倦写文档，我也不例外，每次接到导师布置写文档的任务都是一脸懵逼。但作者说的一句话我很为挺有用：”往往当团队中重要成员离开时，才会意识到文档的重要性，到那时大家不得不停下手头的工作，优先编写所有的文档。”想想这句话说的真对，平常我们会觉得好好的写文档干嘛，浪费时间，还不如撸一段代码来的痛快，但是当我们忘记一些东西的时候，一定会想起来去查需求文档，接口文档吧。要调整自己的状态，正确对待文档，因为它很重要。</p>
+<blockquote>
+<p>能够将头脑中这些看似常识的信息写到文档上并非易事，但我们因为没有文档而浪费的时间往往比写文档花费的时间更多。俗话说，”好记性不如烂笔头嘛”</p>
+</blockquote>
+<p>我认为这本书是不错的，它为我指明了方向，帮我认识到自己的不足，以及今后需要继续完善和努力的地方。额，不过这本书是讲前端架构的，并不是提建议哈。<br>不过，若真能掌握这四大核心，再加上知识的广度，未来说不定可以做架构呢，哈哈</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-05-26-angular-component-communication.html" data-toggle="tooltip" data-placement="top"
+                           title="【译】Angular组件间通信">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-04-23-reading-list-week1.html" data-toggle="tooltip" data-placement="top"
+                           title="【阅读清单】尝试着记录自己每周读完的和没读完的好的文章">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是前端架构？"><span class="toc-text">什么是前端架构？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前端架构的核心？"><span class="toc-text">前端架构的核心？</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#Frontend"
+                           title="Frontend">Frontend</a>
+                        
+                        <a class="tag" href="/tags/#读书笔记"
+                           title="读书笔记">读书笔记</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-05-18-frontend-architecture-overview.html";
+    var disqus_url = "http://xujin.pro/2017-05-18-frontend-architecture-overview.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

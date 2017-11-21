@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        javascript30-day-30-Whack-a-mole! (打地鼠)｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-08-25-javascript-challenge-30.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>javascript30-day-30-Whack-a-mole! (打地鼠)</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-08-25
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            javascript30-day-30-Whack-a-mole! (打地鼠)
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>在Github上看到了<a href="https://twitter.com/wesbos" target="_blank" rel="noopener">wesbos</a>的一个Javascript30天挑战的<a href="https://github.com/wesbos/JavaScript30" target="_blank" rel="noopener">repo</a>，旨在使用纯Js来进行练习，不允许使用任何其他的库和框架，该挑战共30天，我会在这里记录下自己练习的过程和遇到的问题。</p>
+</blockquote>
+<p>第30天，最后一天的任务是完成一个打地鼠游戏。</p>
+<blockquote>
+<p><a href="https://github.com/winar-jin/JavaScript30-Challenge/blob/master/30%20-%20Whack%20A%20Mole/index.html" target="_blank" rel="noopener">线上DEMO</a></p>
+</blockquote>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> holes = <span class="built_in">document</span>.querySelectorAll(<span class="string">'.hole'</span>);</span><br><span class="line"><span class="keyword">const</span> scoreBoard = <span class="built_in">document</span>.querySelector(<span class="string">'.score'</span>);</span><br><span class="line"><span class="keyword">const</span> moles = <span class="built_in">document</span>.querySelectorAll(<span class="string">'.mole'</span>);</span><br><span class="line"><span class="keyword">let</span> lastHole;</span><br><span class="line"><span class="keyword">let</span> timeUp = <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">let</span> score = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">randomTime</span>(<span class="params">min, max</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Math</span>.round(<span class="built_in">Math</span>.random() * (max - min) + min);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">randomHole</span>(<span class="params">holes</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> index = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * holes.length);</span><br><span class="line">  <span class="keyword">const</span> hole = holes[index];</span><br><span class="line">  <span class="keyword">if</span> (lastHole === hole) &#123;</span><br><span class="line">    <span class="keyword">return</span> randomHole(holes);</span><br><span class="line">  &#125;</span><br><span class="line">  lastHole = hole;</span><br><span class="line">  <span class="keyword">return</span> hole;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">peep</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> hole = randomHole(holes);</span><br><span class="line">  <span class="keyword">const</span> time = randomTime(<span class="number">200</span>, <span class="number">2000</span>);</span><br><span class="line">  hole.classList.add(<span class="string">'up'</span>);</span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    hole.classList.remove(<span class="string">'up'</span>);</span><br><span class="line">    <span class="keyword">if</span> (!timeUp) &#123;</span><br><span class="line">      peep();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, time);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">startGame</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  timeUp = <span class="literal">false</span>;</span><br><span class="line">  scoreBoard.textContent = <span class="number">0</span>;</span><br><span class="line">  score = <span class="number">0</span>;</span><br><span class="line">  peep();</span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    timeUp = <span class="literal">true</span>;</span><br><span class="line">  &#125;, <span class="number">10000</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bonk</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!e.isTrusted) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  score ++;</span><br><span class="line">  <span class="keyword">this</span>.parentNode.classList.remove(<span class="string">'up'</span>);</span><br><span class="line">  scoreBoard.textContent = score;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">moles.forEach(<span class="function"><span class="params">mole</span> =&gt;</span> &#123;</span><br><span class="line">  mole.addEventListener(<span class="string">'click'</span>, bonk, <span class="literal">false</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="思路提示"><a href="#思路提示" class="headerlink" title="思路提示"></a>思路提示</h2><p>要完成打地鼠的游戏，首先肯定需要一个随机的地鼠从洞中出现随机的一段时间，因此就是<code>randomTime</code>和<code>randomHole</code>两个函数。</p>
+<p>地鼠的出现是由CSS控制的，拥有一个属性<code>transition:all 0.4s;</code>，刚开始地鼠的<code>top</code>的值是<code>100%</code>，当随机到某一个地鼠出现的时候，将其<code>top</code>的值变为<code>0</code>，再加上<code>transition</code>属性的作用，就会有一个动画的效果，然后再随机的时间内取消这个类<code>up</code>，即可使地鼠消失。</p>
+<p>然后，就可以设置开始游戏了，在开始游戏<code>startGame</code>函数中，我们首先初始化各个参数，包括是否到时间<code>timeUp</code>，成绩版上的成绩设置为<code>0</code>，计分变量初始化为<code>0</code>。然后，就开始使地鼠出现，最后设置一个计时器，我们定义游戏十秒后结束，即在10秒后，将<code>timeUp</code>变量设置为<code>true</code>。</p>
+<p>最后，要对各个地鼠进行点击事件监听，当点击地鼠时，分数加一，并即时显示在页面顶部的计分板中，并且若我们点击了某一个地鼠，要立即使该地鼠消失，不必等到随机的时间到了再取消。</p>
+<h2 id="部分代码解析"><a href="#部分代码解析" class="headerlink" title="部分代码解析"></a>部分代码解析</h2><ul>
+<li><p><code>e.isTrusted</code>：返回一个布尔值,表明当前事件是否是由用户点击触发(比如说真实的鼠标点击触发一个click事件), 还是由一个脚本生成的，防止用户作弊。</p>
+</li>
+<li><p><code>Math.round(Math.random() * (max - min) + min);</code>：记得之前也用到过，想要生成某个范围里的随机数，用大值减小值，再加上小值即可。</p>
+</li>
+<li><p><code>if (lastHole === hole) { return randomHole(holes); }</code>：这段代码的意思是，防止两次随机产生的洞穴相同，我们在第一次产生洞穴时将其存储起来，第二次再次产出一个洞穴的时候，若和上次的洞穴相同，则再次执行随机产生洞穴函数，保证前后两次产生的洞穴不同。</p>
+</li>
+</ul>
+<p>END! 💯</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-08-28-summary-of-es6-syntax.html" data-toggle="tooltip" data-placement="top"
+                           title="ES6常用语法总结">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-08-24-javascript-challenge-29.html" data-toggle="tooltip" data-placement="top"
+                           title="javascript30-day-29-Countdown Timer">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#源码"><span class="toc-text">源码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#思路提示"><span class="toc-text">思路提示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#部分代码解析"><span class="toc-text">部分代码解析</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-08-25-javascript-challenge-30.html";
+    var disqus_url = "http://xujin.pro/2017-08-25-javascript-challenge-30.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

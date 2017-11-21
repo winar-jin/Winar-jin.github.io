@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Javascript30-day15 - LocalStorage｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-03-13-javascript-challenge-15.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Javascript30-day15 - LocalStorage</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-03-13
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Javascript30-day15 - LocalStorage
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>在Github上看到了<a href="https://twitter.com/wesbos" target="_blank" rel="noopener">wesbos</a>的一个Javascript30天挑战的<a href="https://github.com/wesbos/JavaScript30" target="_blank" rel="noopener">repo</a>，旨在使用纯Js来进行练习，不允许使用任何其他的库和框架，该挑战共30天，我会在这里记录下自己练习的过程和遇到的问题。</p>
+</blockquote>
+<h2 id="Day15-LocalStorage"><a href="#Day15-LocalStorage" class="headerlink" title="Day15 - LocalStorage"></a>Day15 - LocalStorage</h2><p>第十五天主要是练习LocalStorage（本地存储）以及时间委托的使用，使用场景是一个简单的todo list的应用，实现基本的添加item，切换完成状态，将所有todo项存储在localstorage中，保证刷新浏览器后数据不丢失。线上 <a href="http://htmlpreview.github.io/?https://github.com/winar-jin/JavaScript30-Challenge/blob/master/15%20-%20LocalStorage/index.html" target="_blank" rel="noopener">代码参考</a> ，且实现的样式如图所示。<br><img src="http://7xss68.com1.z0.glb.clouddn.com/blog/post/todolist.png" alt="todolist"></p>
+<h2 id="主要思路"><a href="#主要思路" class="headerlink" title="主要思路"></a>主要思路</h2><ul>
+<li><p>提前预定义好所有用到的变量；</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> addItems = <span class="built_in">document</span>.querySelector(<span class="string">'.add-items'</span>); <span class="comment">// 添加item的按钮</span></span><br><span class="line"><span class="keyword">const</span> itemsList = <span class="built_in">document</span>.querySelector(<span class="string">'.plates'</span>); <span class="comment">// todolist列表</span></span><br><span class="line"><span class="keyword">const</span> items = <span class="built_in">JSON</span>.parse(localStorage.getItem(<span class="string">'items'</span>)) || []; <span class="comment">// 本地缓存的所有todoitem</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>为addItems按钮添加事件函数，添加一个新的todo item并存储到本地缓存；</p>
+</li>
+<li>监听checkbox的点击事件，切换是否完成的状态，并更新本地存储，保证刷新本页面是数据不会丢失；</li>
+<li>分别设置两个监听器，监听addItems的submit事件，和itemsList的点击事件；</li>
+</ul>
+<h2 id="添加item事件"><a href="#添加item事件" class="headerlink" title="添加item事件"></a>添加item事件</h2><ul>
+<li>添加item的主要代码如下</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addItem</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  e.preventDefault(); <span class="comment">// 阻止默认事件的触发，防止在提交后页面自己刷新</span></span><br><span class="line">  <span class="keyword">const</span> text = <span class="keyword">this</span>.querySelector(<span class="string">'[name=item]'</span>).value;</span><br><span class="line">  <span class="keyword">const</span> item = &#123;</span><br><span class="line">    text, <span class="comment">// ES6的简写形式 =&gt; text = text;</span></span><br><span class="line">    done: <span class="literal">false</span></span><br><span class="line">  &#125;;</span><br><span class="line">  items.push(item);</span><br><span class="line">  localStorage.setItem(<span class="string">'items'</span>, <span class="built_in">JSON</span>.stringify(items));</span><br><span class="line">  populateList(items, itemsList);</span><br><span class="line">  <span class="keyword">this</span>.reset(); <span class="comment">// 添加完数据后，重置输入框      </span></span><br><span class="line">&#125;</span><br><span class="line">addItems.addEventListener(<span class="string">'submit'</span>, addItem);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>监听addItems的submit事件，当用户点击<code>enter</code>或者点击右侧的submit按钮的时候触发；</li>
+<li><code>text,</code>是ES6的缩写形式，即代表<code>text = text；</code></li>
+<li>localStorage的常用API：<ul>
+<li>localStorage.setItem(‘key’,value); -&gt; 设置本地缓存，以key-value的形式</li>
+<li>localStorage.getItem(‘key’); -&gt; 根据参数key取得本地缓存中对应的值</li>
+<li>localStorage.clear();  -&gt; 清空本地的缓存</li>
+<li>localStorage.removeItem(‘key’); -&gt; 删除key所对应的那一条本地缓存</li>
+</ul>
+</li>
+<li>‼ localStorage中只能存储字符串，所以我们经常会用到： <code>JSON.stringify(object)</code>将一个对象转换为字符串，再使用<code>JSON.parse(objSting)</code>将一个对象字符串转换为对象</li>
+<li><code>this.reset();</code>代表将表单重置，清空表单中的值，在我们进行了一次submit之后，如果不重置表单的话，表单中的值将不会消失，这将大大影响用户体验</li>
+</ul>
+<h2 id="切换完成状态事件"><a href="#切换完成状态事件" class="headerlink" title="切换完成状态事件"></a>切换完成状态事件</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">toggleDone</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// if(!e.target.nodeName.match('INPUT')) return;</span></span><br><span class="line">  <span class="keyword">if</span> (!e.target.matches(<span class="string">'input'</span>)) <span class="keyword">return</span>; <span class="comment">// 跳过所有的input，只处理label</span></span><br><span class="line">  <span class="keyword">const</span> node = e.target;</span><br><span class="line">  <span class="keyword">const</span> index = node.dataset.index;</span><br><span class="line">  items[index].done = !items[index].done;</span><br><span class="line">  localStorage.setItem(<span class="string">'items'</span>, <span class="built_in">JSON</span>.stringify(items));</span><br><span class="line">  populateList(items, itemsList);</span><br><span class="line">&#125;</span><br><span class="line">itemsList.addEventListener(<span class="string">'click'</span>, toggleDone);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>此处使用到了事件委托，所谓事件委托，我是这么理解的：<ul>
+<li>假设我们队一个input列表进行了时间监听，但我们如法保证，此列表在接下来的状态下是否进行了更新，刷新等改变原来节点的操作，如果有这样的操作出现，那么我们之前的事件监听器就无法再起到监听的作用；</li>
+<li>但我们可以对input列表的父元素进行事件监听，让它们的父元素处于监听状态，当我们所点击的元素是其子元素的话，就告诉它的子元素，执行相应的事件；</li>
+<li>相当于委托父元素帮我们监听所有子元素，这样无论子元素列表进行怎么样的更新，改变，只要父元素节点不发生改变就可以持续起到监听的 作用。</li>
+<li>通过<code>e.target.matches(&#39;input&#39;)</code>可以判断所点击的元素是不是input元素，<code>e.target</code>返回所点击的宿主元素。</li>
+</ul>
+</li>
+<li>通过获取到所点击的列表的序号，更改其<code>done</code>属性，更新后进行存储，就可以实现完成状态的事件。</li>
+</ul>
+<h2 id="列表显示函数"><a href="#列表显示函数" class="headerlink" title="列表显示函数"></a>列表显示函数</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">populateList</span>(<span class="params">populates = [], place</span>) </span>&#123; <span class="comment">// 设置默认值，防止传参数出错的时候crash</span></span><br><span class="line">  place.innerHTML = populates.map(<span class="function">(<span class="params">populate, index</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`</span></span><br><span class="line"><span class="string">      &lt;li&gt;</span></span><br><span class="line"><span class="string">        &lt;input type="checkbox" id=item<span class="subst">$&#123;index&#125;</span> data-index=<span class="subst">$&#123;index&#125;</span> <span class="subst">$&#123;populate.done ? <span class="string">'checked'</span> : <span class="string">''</span>&#125;</span>&gt;</span></span><br><span class="line"><span class="string">        &lt;label for="item<span class="subst">$&#123;index&#125;</span>"&gt;<span class="subst">$&#123;(populate.text)&#125;</span>&lt;/label&gt;</span></span><br><span class="line"><span class="string">      &lt;/li&gt;</span></span><br><span class="line"><span class="string">    `</span>; <span class="comment">//之所以用‘’空字符是因为如果用null的话，会出现在html中</span></span><br><span class="line">  &#125;).join(<span class="string">''</span>); <span class="comment">// join()之后一定要加''，表示空字符，否则会加入逗号，造成错误  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将所有的列表项转化为li传入页面的html中</li>
+<li>将此函数抽象出来，以方便以后实现同样类似的操作，将一个数组中的元素动态添加到页面的一个节点中</li>
+</ul>
+<h2 id="清除缓存"><a href="#清除缓存" class="headerlink" title="清除缓存"></a>清除缓存</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 在关闭浏览器之后清除缓存</span></span><br><span class="line">    <span class="built_in">window</span>.onbeforeunload = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">      localStorage.removeItem(<span class="string">'items'</span>);</span><br><span class="line">      <span class="comment">// let confirmationMessage = "\o/";</span></span><br><span class="line">      e.returnValue = confirmationMessage; <span class="comment">// Gecko, Trident, Chrome 34+</span></span><br><span class="line">      <span class="comment">// return confirmationMessage; // 如果有返回值的话，就会弹出确认框。</span></span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>有些时候，我们仅仅是为了练习localStorage的使用，并不想在浏览器中留下过多的缓存，那么这个方法就派上了用场。</li>
+<li>当页面重新刷新或者关闭之前，执行<code>localStorage.removeItem(&#39;items’);</code>清除页面的缓存。</li>
+<li>！慎用，尤其在生产环境中。</li>
+</ul>
+<h2 id="整体代码架构"><a href="#整体代码架构" class="headerlink" title="整体代码架构"></a>整体代码架构</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> addItems = <span class="built_in">document</span>.querySelector(<span class="string">'.add-items'</span>);</span><br><span class="line"><span class="keyword">const</span> itemsList = <span class="built_in">document</span>.querySelector(<span class="string">'.plates'</span>);</span><br><span class="line"><span class="keyword">const</span> items = <span class="built_in">JSON</span>.parse(localStorage.getItem(<span class="string">'items'</span>)) || [];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addItem</span>(<span class="params">e</span>) </span>&#123; ... &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">populateList</span>(<span class="params">populates = [], place</span>) </span>&#123; ... &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">toggleDone</span>(<span class="params">e</span>) </span>&#123; ... &#125;</span><br><span class="line"></span><br><span class="line">addItems.addEventListener(<span class="string">'submit'</span>, addItem);</span><br><span class="line">itemsList.addEventListener(<span class="string">'click'</span>, toggleDone);</span><br><span class="line"></span><br><span class="line">populateList(items, itemsList);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在页面加载的时候，先获取本地缓存的items，若存在就传给变量items，若第一次登录或者无item，初始化为空数组；</li>
+<li>在页面加载的时候先加载页面的所有todolist，执行一遍<code>populateList(items, itemsList);</code>函数即可。</li>
+</ul>
+<p>至此，这个练习就完成了！😀</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-03-16-interview-review.html" data-toggle="tooltip" data-placement="top"
+                           title="面试的一点总结">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-03-04-javascript-challenge-14.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day14 - JavaScript References VS Copying">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Day15-LocalStorage"><span class="toc-text">Day15 - LocalStorage</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主要思路"><span class="toc-text">主要思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加item事件"><span class="toc-text">添加item事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#切换完成状态事件"><span class="toc-text">切换完成状态事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表显示函数"><span class="toc-text">列表显示函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#清除缓存"><span class="toc-text">清除缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#整体代码架构"><span class="toc-text">整体代码架构</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-03-13-javascript-challenge-15.html";
+    var disqus_url = "http://xujin.pro/2017-03-13-javascript-challenge-15.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

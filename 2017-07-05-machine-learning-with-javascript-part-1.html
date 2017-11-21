@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        【译】机器学习与JavaScript（一）｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-07-05-machine-learning-with-javascript-part-1.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>【译】机器学习与JavaScript（一）</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-07-05
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#翻译"
+                           title="翻译">翻译</a>
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            【译】机器学习与JavaScript（一）
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>本文首发于<strong>前端之巅</strong>公众号：【<a href="https://mp.weixin.qq.com/s?__biz=MzIwNjQwMzUwMQ==&amp;mid=2247485287&amp;idx=1&amp;sn=2896e4b549ebc51da46e48e4f6e27786&amp;chksm=972365a5a054ecb383a7fc1e4f93b833b7ba4c1b1028384f9da6a2d6ea38acd108f6a3c4836e&amp;scene=38#wechat_redirect" target="_blank" rel="noopener">点此查看</a>】</p>
+</blockquote>
+<p>你应该觉得基于JavaScript的机器学习不简单吧。</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*Fhc-ZFRp1ZRZ2SkSdkYvJA.png" alt="采用plot.ly生成的现行回归图"></p>
+<p>JAVASCRIPT？！我难道不应该用Python么？我难道要用JavaScript去做如此复杂的运算？难道我不应该使用Python或者R语言么？scikit-learn算法库会不会不能在JavaScript中使用？简单来说：基于JavaScript的机器学习完全没有问题。</p>
+<p>详细来讲，基于JavaScript的机器学习是有可能的，并且我总是很吃惊为什么开发者们没有给予它应有的关注。就scikit-learn算法库而言，JavaScript开发者已经开发了一系列实现该算法的库，一会儿就会用到一个库。接下来会先讲一点机器学习的知识，然后就放松心情一起来看代码吧。</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*mwczhqPN-RbSEXPv-ChhWg.jpeg" alt="unsplash.com"></p>
+<p>据Arthur Samuel所讲，<strong>机器学习</strong>就是在不对其进行具体编程的情况下，使计算机拥有学习的能力。换句话说，它在我们不操作计算机的情况下，却能拥有自我学习的能力，并能执行正确的指令。并且谷歌公司已经将策略从移动优先转变为AI优先很长一段时间了。</p>
+<h2 id="为什么在机器学习领域没有提到JavaScript呢？"><a href="#为什么在机器学习领域没有提到JavaScript呢？" class="headerlink" title="为什么在机器学习领域没有提到JavaScript呢？"></a>为什么在机器学习领域没有提到JavaScript呢？</h2><ol>
+<li>JavaScript很慢。（完全错误的观念 !?! ）</li>
+<li>JavaScript很难进行矩阵操作。（但是有很多库的，比如<code>math.js</code> ）</li>
+<li>JavaScript仅仅被认为是用来做web开发的。（<strong><code>Node.js</code></strong>默默的笑了）</li>
+<li>机器学习中很多库都是基于Python开发的。（那是因为JavaScript开发者并没有在场）</li>
+</ol>
+<p>现在已经有很多的JavaScript库了，它们已经预定义了机器学习算法，比如：线性回归、支持向量机、朴素贝叶斯算法等，以下列出了几个库：</p>
+<ol>
+<li><a href="https://github.com/harthur-org/brain.js" target="_blank" rel="noopener">brain.js</a>（神经网络）</li>
+<li><a href="https://github.com/cazala/synaptic" target="_blank" rel="noopener">Synaptic</a>（神经网络）</li>
+<li><a href="https://github.com/NaturalNode/natural" target="_blank" rel="noopener">Natural</a>（自然语言处理）</li>
+<li><a href="http://cs.stanford.edu/people/karpathy/convnetjs/" target="_blank" rel="noopener">ConvNetJS</a>（卷积神经网络）</li>
+<li><a href="https://github.com/mljs" target="_blank" rel="noopener">mljs</a>（一种具有多个函数方法的子库）</li>
+</ol>
+<p>我将使用<code>mljs</code>的回归库来执行线性回归模型的分析。全部代码都在Github上：<a href="https://github.com/abhisheksoni27/machine-learning-with-js" target="_blank" rel="noopener">machine-learning-with-js</a>。</p>
+<p><strong>第一步.</strong> 安装依赖的库</p>
+<p><code>$ yarn add ml-regression csvtojson</code></p>
+<p>或者你更喜欢npm：</p>
+<p><code>$ npm install ml-regression csvtojson</code></p>
+<p><code>ml-regression</code>所做的事正如它的名字那样，机器学习线性回归库。</p>
+<p><code>csvtojson</code>是在<code>node.js</code>环境中的一个<code>cvs</code>数据解析器，它可以在你加载完<code>cvs数据</code>后将其快速的转换为<code>JSON</code>。</p>
+<p><strong>第二步.</strong> 初始化依赖库并加载数据</p>
+<p>首先从<a href="http://www-bcf.usc.edu/~gareth/ISL/Advertising.csv" target="_blank" rel="noopener">这里</a>下载数据文件，并将数据文件放在你的工程目录中。<br>假设你已经初始化了一个空的npm工程，打开<code>index.js</code>文件，并输入以下代码：（你可以直接复制/粘贴，但为了能够更好的理解它，建议你能亲自输入这段代码）<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> ml = <span class="built_in">require</span>(<span class="string">'ml-regression'</span>);</span><br><span class="line"><span class="keyword">const</span> csv = <span class="built_in">require</span>(<span class="string">'csvtojson'</span>);</span><br><span class="line"><span class="keyword">const</span> SLR = ml.SLR; <span class="comment">// 简单线性回归</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> csvFilePath = <span class="string">'advertising.csv'</span>; <span class="comment">// 数据文件</span></span><br><span class="line"><span class="keyword">let</span> csvData = [], <span class="comment">// 已解析的数据</span></span><br><span class="line">    X = [], <span class="comment">// 输入</span></span><br><span class="line">    y = []; <span class="comment">// 输出</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> regressionModel;</span><br></pre></td></tr></table></figure></p>
+<p>我把这个文件放在了项目的根目录下，因此如果你放在了别的目录下，请同时更改上述代码中的<code>csvFilePath</code>变量。</p>
+<p>这样的代码看起来相当整洁，不是么？</p>
+<p>接下来使用<code>csvtojson</code>库的<code>fromFile</code>方法加载数据文件。<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">csv()</span><br><span class="line">    .fromFile(csvFilePath)</span><br><span class="line">    .on(<span class="string">'json'</span>, (jsonObj) =&gt; &#123;</span><br><span class="line">        csvData.push(jsonObj);</span><br><span class="line">    &#125;)</span><br><span class="line">    .on(<span class="string">'done'</span>, () =&gt; &#123;</span><br><span class="line">        dressData(); <span class="comment">// 从JSON对象中获取数据点</span></span><br><span class="line">        performRegression();</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p>
+<p><strong>第三步.</strong> 将数据加以装饰，以准备开始执行</p>
+<p>保存在<code>csvData</code>变量中的JSON对象已经准备好了，同时还分别需要一个数组，用来存储输入点数据和输出点数据。然后将通过<code>dressData</code>函数来运行数据，且<code>dressData</code>函数将会计算出<code>X</code>和<code>Y</code>变量。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dressData</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 一个数据对象应该这样:</span></span><br><span class="line"><span class="comment">     * &#123;</span></span><br><span class="line"><span class="comment">     *   TV: "10",</span></span><br><span class="line"><span class="comment">     *   Radio: "100",</span></span><br><span class="line"><span class="comment">     *   Newspaper: "20",</span></span><br><span class="line"><span class="comment">     *   "Sales": "1000"</span></span><br><span class="line"><span class="comment">     * &#125;</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 因此，在添加数据点的同时，</span></span><br><span class="line"><span class="comment">     * 我们需要将String类型的值解析为Float类型。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    csvData.forEach(<span class="function">(<span class="params">row</span>) =&gt;</span> &#123;</span><br><span class="line">        X.push(f(row.Radio));</span><br><span class="line">        y.push(f(row.Sales));</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">s</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">parseFloat</span>(s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>第四步.</strong> 训练模型，并开始进行预测</p>
+<p>现在数据已经装饰好了，是时候来训练模型了。</p>
+<p>为了实现这一目标，我们需要一个<code>performRegression</code>函数：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">performRegression</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    regressionModel = <span class="keyword">new</span> SLR(X, y); <span class="comment">// 基于训练数据来训练模型</span></span><br><span class="line">    <span class="built_in">console</span>.log(regressionModel.toString(<span class="number">3</span>));</span><br><span class="line">    predictOutput();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>regressionModel</code>有一个<code>toString</code>方法，它所接收的参数代表输出值浮点数的精度。</p>
+<p><code>predictOutput</code>方法能够接收所输入的值，并且向终端输出所预测的值。</p>
+<p>以下就是这个函数的代码：（这里使用了<code>node.js</code>的<code>readline</code>模块）<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">predictOutput</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    rl.question(<span class="string">'Enter input X for prediction (Press CTRL+C to exit) : '</span>, (answer) =&gt; &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`At X = <span class="subst">$&#123;answer&#125;</span>, y =  <span class="subst">$&#123;regressionModel.predict(<span class="built_in">parseFloat</span>(answer))&#125;</span>`</span>);</span><br><span class="line">        predictOutput();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以下代码读取了用户的输入值：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> readline = <span class="built_in">require</span>(<span class="string">'readline'</span>); <span class="comment">// 同时预测用户的输入值</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> rl = readline.createInterface(&#123;</span><br><span class="line">    input: process.stdin,</span><br><span class="line">    output: process.stdout</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p><strong>第五步.</strong> 恭喜你！做到了。</p>
+<p>如果你跟着我一步一步的做，现在你的<code>index.js</code>文件应该是这样子的：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> ml = <span class="built_in">require</span>(<span class="string">'ml-regression'</span>);</span><br><span class="line"><span class="keyword">const</span> csv = <span class="built_in">require</span>(<span class="string">'csvtojson'</span>);</span><br><span class="line"><span class="keyword">const</span> SLR = ml.SLR; <span class="comment">// 简单线性回归</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> csvFilePath = <span class="string">'advertising.csv'</span>; <span class="comment">// 数据</span></span><br><span class="line"><span class="keyword">let</span> csvData = [], <span class="comment">// 已解析的数据</span></span><br><span class="line">    X = [], <span class="comment">// 输入</span></span><br><span class="line">    y = []; <span class="comment">// 输出</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> regressionModel;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> readline = <span class="built_in">require</span>(<span class="string">'readline'</span>); <span class="comment">// 同时预测用户的输入值</span></span><br><span class="line"><span class="keyword">const</span> rl = readline.createInterface(&#123;</span><br><span class="line">    input: process.stdin,</span><br><span class="line">    output: process.stdout</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">csv()</span><br><span class="line">    .fromFile(csvFilePath)</span><br><span class="line">    .on(<span class="string">'json'</span>, (jsonObj) =&gt; &#123;</span><br><span class="line">        csvData.push(jsonObj);</span><br><span class="line">    &#125;)</span><br><span class="line">    .on(<span class="string">'done'</span>, () =&gt; &#123;</span><br><span class="line">        dressData(); <span class="comment">// 从JSON对象中获取数据点</span></span><br><span class="line">        performRegression();</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">performRegression</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    regressionModel = <span class="keyword">new</span> SLR(X, y); <span class="comment">// 基于训练数据来训练模型</span></span><br><span class="line">    <span class="built_in">console</span>.log(regressionModel.toString(<span class="number">3</span>));</span><br><span class="line">    predictOutput();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dressData</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 一个数据对象应该这样：</span></span><br><span class="line"><span class="comment">     * &#123;</span></span><br><span class="line"><span class="comment">     *   TV: "10",</span></span><br><span class="line"><span class="comment">     *   Radio: "100",</span></span><br><span class="line"><span class="comment">     *   Newspaper: "20",</span></span><br><span class="line"><span class="comment">     *   "Sales": "1000"</span></span><br><span class="line"><span class="comment">     * &#125;</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 因此，在添加数据点的同时，</span></span><br><span class="line"><span class="comment">     * 我们需要将String类型的值解析为Float类型。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    csvData.forEach(<span class="function">(<span class="params">row</span>) =&gt;</span> &#123;</span><br><span class="line">        X.push(f(row.Radio));</span><br><span class="line">        y.push(f(row.Sales));</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">s</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">parseFloat</span>(s);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">predictOutput</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    rl.question(<span class="string">'Enter input X for prediction (Press CTRL+C to exit) : '</span>, (answer) =&gt; &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`At X = <span class="subst">$&#123;answer&#125;</span>, y =  <span class="subst">$&#123;regressionModel.predict(<span class="built_in">parseFloat</span>(answer))&#125;</span>`</span>);</span><br><span class="line">        predictOutput();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>打开终端，输入并运行<code>node index.js</code>，它将会输出如下所示内容：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$ node index.js</span><br><span class="line">f(x) = <span class="number">0.202</span> * x + <span class="number">9.31</span></span><br><span class="line">Enter input X <span class="keyword">for</span> prediction (Press CTRL+C to exit) : <span class="number">151.5</span></span><br><span class="line">At X = <span class="number">151.5</span>, y =  <span class="number">39.98974927911285</span></span><br><span class="line">Enter input X <span class="keyword">for</span> prediction (Press CTRL+C to exit) :</span><br></pre></td></tr></table></figure></p>
+<p>恭喜你！刚刚用JavaScript训练了你的第一个线性回归模型。（你有注意到它的速度么？）</p>
+<blockquote>
+<p>PS: 我将使用ml和其他的库（上面所列出的那些）在各种数据集上执行目前比较流行的机器学习算法。请时刻关注我的动态，获取最新的机器学习教程。</p>
+</blockquote>
+<p><strong>感谢你的阅读</strong>!如果你喜欢这篇文章的话，请为我点赞，以让别人知道JavaScript是多么的强大，以及为什么在机器学习领域中JavaScript不应该落后。</p>
+<p>查看英文原文：<a href="https://hackernoon.com/machine-learning-with-javascript-part-1-9b97f3ed4fe5" target="_blank" rel="noopener">Machine Learning with JavaScript : Part 1</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-07-06-machine-learning-with-javascript-part-2.html" data-toggle="tooltip" data-placement="top"
+                           title="【译】机器学习与JavaScript（二）">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-06-27-javascript-challenge-20.html" data-toggle="tooltip" data-placement="top"
+                           title="javascript30-day20 - Speech Detection">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么在机器学习领域没有提到JavaScript呢？"><span class="toc-text">为什么在机器学习领域没有提到JavaScript呢？</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#翻译"
+                           title="翻译">翻译</a>
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-07-05-machine-learning-with-javascript-part-1.html";
+    var disqus_url = "http://xujin.pro/2017-07-05-machine-learning-with-javascript-part-1.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

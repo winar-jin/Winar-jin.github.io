@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Javascript30-day05-Flex Panel Gallery｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-02-08-javascript-challenge-05.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Javascript30-day05-Flex Panel Gallery</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-02-08
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Javascript30-day05-Flex Panel Gallery
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>在Github上看到了<a href="https://twitter.com/wesbos" target="_blank" rel="noopener">wesbos</a>的一个Javascript30天挑战的<a href="https://github.com/wesbos/JavaScript30" target="_blank" rel="noopener">repo</a>，旨在使用纯Js来进行练习，不允许使用任何其他的库和框架，该挑战共30天，我会在这里记录下自己练习的过程和遇到的问题。</p>
+</blockquote>
+<h2 id="Day05-Flex-Panel-Gallery"><a href="#Day05-Flex-Panel-Gallery" class="headerlink" title="Day05 - Flex Panel Gallery"></a>Day05 - Flex Panel Gallery</h2><p>第五天的练习是能够使用弹性布局（flex布局）创建一个简单的页面，包含基本的动画效果。点击某一图片，可以放大该图片，并且上下有文字滑出，再次点击该图片，回到初始的状态。</p>
+<p><a href="http://htmlpreview.github.io/?https://github.com/winar-jin/JavaScript30-Challenge/blob/master/05%20-%20Flex%20Panels%20Image%20Gallery/index.html" target="_blank" rel="noopener">效果如下</a></p>
+<h2 id="HTML和CSS相关"><a href="#HTML和CSS相关" class="headerlink" title="HTML和CSS相关"></a>HTML和CSS相关</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panels"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel panel1"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Hey<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Let's<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Dance<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel panel2"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Give<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Take<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Receive<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel panel3"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Experience<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>It<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Today<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel panel4"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Give<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>All<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>You can<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"panel panel5"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Life<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>In<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Motion<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在HTML内容部分，只有一个类为<code>.panels</code>大的容器,分别包含了五个<code>div</code>，类名为<code>.panel</code>，并且分别为每一个<code>div</code>设置不同的背景图片，每一个<code>div</code>下都有三个<code>p</code>标签。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.panels</span> &#123;</span><br><span class="line">    <span class="attribute">min-height</span>:<span class="number">100vh</span>;</span><br><span class="line">    <span class="attribute">overflow</span>: hidden;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.panel</span> &#123;</span><br><span class="line">    <span class="attribute">background</span>:<span class="number">#6B0F9C</span>;</span><br><span class="line">    <span class="attribute">box-shadow</span>:inset <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="built_in">rgba</span>(255,255,255,0.1);</span><br><span class="line">    <span class="attribute">color</span>:white;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">    <span class="attribute">align-items</span>:center;</span><br><span class="line">    <span class="comment">/* Safari transitionend event.propertyName === flex */</span></span><br><span class="line">    <span class="comment">/* Chrome + FF transitionend event.propertyName === flex-grow */</span></span><br><span class="line">    <span class="attribute">transition</span>:</span><br><span class="line">    font-size <span class="number">0.7s</span> <span class="built_in">cubic-bezier</span>(0.61,-0.19, 0.7,-0.11),</span><br><span class="line">    flex <span class="number">0.7s</span> <span class="built_in">cubic-bezier</span>(0.61,-0.19, 0.7,-0.11),</span><br><span class="line">    background <span class="number">0.2s</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">background-size</span>:cover;</span><br><span class="line">    <span class="attribute">background-position</span>:center;</span><br><span class="line">    <span class="attribute">flex</span>: <span class="number">1</span>;</span><br><span class="line">    <span class="attribute">justify-content</span>: center;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">flex-direction</span>: column;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.panel</span> &gt; * &#123;</span><br><span class="line">    <span class="attribute">margin</span>:<span class="number">0</span>;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">transition</span>:transform <span class="number">0.5s</span>;</span><br><span class="line">    <span class="attribute">flex</span>: <span class="number">1</span> <span class="number">0</span> auto;</span><br><span class="line">    <span class="attribute">display</span>:flex;</span><br><span class="line">    <span class="attribute">justify-content</span>: center;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.panel</span> <span class="selector-tag">p</span><span class="selector-pseudo">:first-child</span>&#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateY</span>(-100%);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.panel</span><span class="selector-class">.open-active</span> <span class="selector-tag">p</span><span class="selector-pseudo">:first-child</span>&#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateY</span>(0);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.panel</span> <span class="selector-tag">p</span><span class="selector-pseudo">:last-child</span>&#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateY</span>(100%);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.panel</span><span class="selector-class">.open-active</span> <span class="selector-tag">p</span><span class="selector-pseudo">:last-child</span>&#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateY</span>(0);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.panel</span><span class="selector-class">.open</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>:<span class="number">40px</span>;</span><br><span class="line">    <span class="attribute">flex</span>: <span class="number">5</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Flex相关属性</p>
+<ul>
+<li><code>display: flex;</code> 设置该容器显示为flex容器；</li>
+<li><code>flex: 1 0 auto;</code> 三个值分别为<code>flex-grow</code>, <code>flex-shrink</code> 和 <code>flex-basis</code>的值；</li>
+<li><code>flex-direction: column;</code> 显示方向，可以设置为<code>column</code>和<code>row</code>，意为按列显示和按行显示；</li>
+<li><code>align-items: center;</code> 与显示方向垂直方向上flex元素的内容的排列方式；</li>
+<li><code>justify-content: center;</code> 显示方向上flex元素的内容的排列方式；<blockquote>
+<p>不过以上对flex的介绍是很不负责任的，此部分内容展开写可以写出一整篇长文，在此推荐一篇flexbox的非常棒的指南。<br>👉 <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank" rel="noopener">参考指南</a></p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p><code>transform: translateY(-100%);</code> 过渡效果，在Y轴方向上移动。</p>
+</li>
+</ul>
+<h2 id="JavaScript相关"><a href="#JavaScript相关" class="headerlink" title="JavaScript相关"></a>JavaScript相关</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> panels = <span class="built_in">document</span>.querySelectorAll(<span class="string">'.panel'</span>);</span><br><span class="line">panels.forEach(<span class="function"><span class="params">panel</span> =&gt;</span> panel.addEventListener(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.classList.toggle(<span class="string">'open'</span>);</span><br><span class="line">&#125;));</span><br><span class="line">panels.forEach(<span class="function"><span class="params">panel</span> =&gt;</span> panel.addEventListener(<span class="string">'transitionend'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//this.classList.toggle('open-active');</span></span><br><span class="line">    <span class="comment">//console.log(e.propertyName);</span></span><br><span class="line">    <span class="keyword">if</span>(e.propertyName.includes(<span class="string">'flex'</span>))&#123;</span><br><span class="line">        <span class="keyword">this</span>.classList.toggle(<span class="string">'open-active'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;));</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><code>this.classList.toggle(&#39;open&#39;);</code> 类名的切换，如果有<code>.open</code>类，就移除该类，反之亦然。</p>
+</li>
+<li><p><code>transitionend</code> 对每一个div监听<code>transitionend</code>事件，当<code>.open</code>类触发的动画结束后会同时触发该事件，通过<code>event.propertyName</code>可以得到以上动画的名称，但是在Safari浏览器中，<code>event.propertyName === flex</code>，在Chrome和Firefox浏览器中，<code>event.propertyName === flex-grow</code>，因此可以通过<code>.includes(&#39;flex&#39;)</code>方法，只要属性名中包含‘flex’字符串，就继续执行。</p>
+</li>
+</ul>
+<h2 id="一点思考"><a href="#一点思考" class="headerlink" title="一点思考"></a>一点思考</h2><p>在以上实现的效果中，点击一个div会放大图片，同时显示文字，再点击另一个div，也会放大该图片，同时显示该文字，此时会呈现两者甚至多者同时放大的状态；假设我们想要达到通过点击某div来聚焦于此的状态，以上方案实现不了，只需做一下改进即可。</p>
+<p>在每一次点击，放大图片之前，先清除每一个div的<code>.open</code>类，在进行<code>.open</code>的toggle，便可达到此效果。</p>
+<p>并提取出所有函数，改进后的代码如下所示：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> panels = <span class="built_in">document</span>.querySelectorAll(<span class="string">'.panel'</span>);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">clearOpenClass</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    panels.forEach(<span class="function"><span class="params">panel</span> =&gt;</span> panel.classList.remove(<span class="string">'open'</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">toggleOpen</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">this</span>.classList.contains(<span class="string">'open'</span>))&#123;</span><br><span class="line">    clearOpenClass();</span><br><span class="line">    <span class="keyword">this</span>.classList.remove(<span class="string">'open'</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    clearOpenClass();</span><br><span class="line">    <span class="keyword">this</span>.classList.add(<span class="string">'open'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// this.classList.toggle('open');</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">toggleActive</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line"><span class="comment">//   console.log(e.propertyName);</span></span><br><span class="line"><span class="keyword">if</span> (e.propertyName.includes(<span class="string">'flex'</span>)) &#123;</span><br><span class="line">    <span class="keyword">this</span>.classList.toggle(<span class="string">'open-active'</span>);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">panels.forEach(<span class="function"><span class="params">panel</span> =&gt;</span> panel.addEventListener(<span class="string">'click'</span>, toggleOpen));</span><br><span class="line">panels.forEach(<span class="function"><span class="params">panel</span> =&gt;</span> panel.addEventListener(<span class="string">'transitionend'</span>, toggleActive));</span><br></pre></td></tr></table></figure>
+<p>至此为止，day05就算是完成了。👍</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-02-10-javascript-challenge-06.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day06-Type Ahead">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-02-07-javascript-challenge-04.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day04-Array Cardio Day 1">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Day05-Flex-Panel-Gallery"><span class="toc-text">Day05 - Flex Panel Gallery</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML和CSS相关"><span class="toc-text">HTML和CSS相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript相关"><span class="toc-text">JavaScript相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一点思考"><span class="toc-text">一点思考</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-02-08-javascript-challenge-05.html";
+    var disqus_url = "http://xujin.pro/2017-02-08-javascript-challenge-05.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Javascript30-day01-JavaScript Drum Kit｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-01-10-javascript-challenge-01.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Javascript30-day01-JavaScript Drum Kit</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-01-10
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Javascript30-day01-JavaScript Drum Kit
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>在Github上看到了<a href="https://twitter.com/wesbos" target="_blank" rel="noopener">wesbos</a>的一个Javascript30天挑战的<a href="https://github.com/wesbos/JavaScript30" target="_blank" rel="noopener">repo</a>，旨在使用纯Js来进行练习，不允许使用任何其他的库和框架，该挑战共30天，我会在这里记录下自己练习的过程和遇到的问题。</p>
+</blockquote>
+<h2 id="Day01-JavaScript-Drum-Kit"><a href="#Day01-JavaScript-Drum-Kit" class="headerlink" title="Day01 - JavaScript Drum Kit"></a>Day01 - JavaScript Drum Kit</h2><p>第一天的练习是用Js制作一个爵士鼓的页面，通过敲击键盘上不同的字母，会发出不同的声音，并且页面上会伴随着敲击的动画。</p>
+<p><em><a href="http://htmlpreview.github.io/?https://github.com/winar-jin/JavaScript30-Challenge/blob/master/01%20-%20JavaScript%20Drum%20Kit/index.html" target="_blank" rel="noopener">效果如下</a></em></p>
+<p>想要实现以上效果，大致思路和解决方案如下：</p>
+<ul>
+<li>检测到键盘上什么键被按下–监听<code>keydown</code>事件</li>
+<li>在按键被按下的时候，播放音效–<code>audio.play()</code></li>
+<li>在按键被按下的同时，播放动画–<code>Element.classList.add(&#39;className&#39;)</code></li>
+<li>在动画结束后，移除动画，不然之后再点击不会有任何效果–<code>Element.classList.remove(&#39;className&#39;)</code></li>
+</ul>
+<h2 id="页面基础布局"><a href="#页面基础布局" class="headerlink" title="页面基础布局"></a>页面基础布局</h2><p>页面的Html布局大致如下：<br><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"keys"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">data-key</span>=<span class="string">"65"</span> <span class="attr">class</span>=<span class="string">"key"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">kbd</span>&gt;</span>A<span class="tag">&lt;/<span class="name">kbd</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"sound"</span>&gt;</span>clap<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">data-key</span>=<span class="string">"83"</span> <span class="attr">class</span>=<span class="string">"key"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">kbd</span>&gt;</span>S<span class="tag">&lt;/<span class="name">kbd</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"sound"</span>&gt;</span>hihat<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">data-key</span>=<span class="string">"68"</span> <span class="attr">class</span>=<span class="string">"key"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">kbd</span>&gt;</span>D<span class="tag">&lt;/<span class="name">kbd</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"sound"</span>&gt;</span>kick<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">data-key</span>=<span class="string">"70"</span> <span class="attr">class</span>=<span class="string">"key"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">kbd</span>&gt;</span>F<span class="tag">&lt;/<span class="name">kbd</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"sound"</span>&gt;</span>openhat<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">data-key</span>=<span class="string">"71"</span> <span class="attr">class</span>=<span class="string">"key"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">kbd</span>&gt;</span>G<span class="tag">&lt;/<span class="name">kbd</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"sound"</span>&gt;</span>boom<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">data-key</span>=<span class="string">"72"</span> <span class="attr">class</span>=<span class="string">"key"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">kbd</span>&gt;</span>H<span class="tag">&lt;/<span class="name">kbd</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"sound"</span>&gt;</span>ride<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">data-key</span>=<span class="string">"74"</span> <span class="attr">class</span>=<span class="string">"key"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">kbd</span>&gt;</span>J<span class="tag">&lt;/<span class="name">kbd</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"sound"</span>&gt;</span>snare<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">data-key</span>=<span class="string">"75"</span> <span class="attr">class</span>=<span class="string">"key"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">kbd</span>&gt;</span>K<span class="tag">&lt;/<span class="name">kbd</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"sound"</span>&gt;</span>tom<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">data-key</span>=<span class="string">"76"</span> <span class="attr">class</span>=<span class="string">"key"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">kbd</span>&gt;</span>L<span class="tag">&lt;/<span class="name">kbd</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"sound"</span>&gt;</span>tink<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">audio</span> <span class="attr">data-key</span>=<span class="string">"65"</span> <span class="attr">src</span>=<span class="string">"sounds/clap.wav"</span>&gt;</span><span class="tag">&lt;/<span class="name">audio</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">audio</span> <span class="attr">data-key</span>=<span class="string">"83"</span> <span class="attr">src</span>=<span class="string">"sounds/hihat.wav"</span>&gt;</span><span class="tag">&lt;/<span class="name">audio</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">audio</span> <span class="attr">data-key</span>=<span class="string">"68"</span> <span class="attr">src</span>=<span class="string">"sounds/kick.wav"</span>&gt;</span><span class="tag">&lt;/<span class="name">audio</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">audio</span> <span class="attr">data-key</span>=<span class="string">"70"</span> <span class="attr">src</span>=<span class="string">"sounds/openhat.wav"</span>&gt;</span><span class="tag">&lt;/<span class="name">audio</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">audio</span> <span class="attr">data-key</span>=<span class="string">"71"</span> <span class="attr">src</span>=<span class="string">"sounds/boom.wav"</span>&gt;</span><span class="tag">&lt;/<span class="name">audio</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">audio</span> <span class="attr">data-key</span>=<span class="string">"72"</span> <span class="attr">src</span>=<span class="string">"sounds/ride.wav"</span>&gt;</span><span class="tag">&lt;/<span class="name">audio</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">audio</span> <span class="attr">data-key</span>=<span class="string">"74"</span> <span class="attr">src</span>=<span class="string">"sounds/snare.wav"</span>&gt;</span><span class="tag">&lt;/<span class="name">audio</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">audio</span> <span class="attr">data-key</span>=<span class="string">"75"</span> <span class="attr">src</span>=<span class="string">"sounds/tom.wav"</span>&gt;</span><span class="tag">&lt;/<span class="name">audio</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">audio</span> <span class="attr">data-key</span>=<span class="string">"76"</span> <span class="attr">src</span>=<span class="string">"sounds/tink.wav"</span>&gt;</span><span class="tag">&lt;/<span class="name">audio</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>页面里通过<code>data-key</code>将页面展示的内容和audio关联起来。</p>
+<blockquote>
+<p><code>data-key</code>属性是无法在网上搜索到的，这是一个自定义属性，如果没有合适的属性可以定义该数据，就可以通过<code>data-*</code>的方式自定义页面的数据。<em><a href="https://developers.whatwg.org/content-models.html#embedding-custom-non-visible-data-with-the-data-*-attributes" target="_blank" rel="noopener">参考文档</a></em></p>
+</blockquote>
+<p>页面主要CSS设置</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.keys</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">flex</span>: <span class="number">1</span>;</span><br><span class="line">  <span class="attribute">min-height</span>: <span class="number">100vh</span>;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">  <span class="attribute">justify-content</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.key</span> &#123;</span><br><span class="line">  <span class="attribute">border</span>: .<span class="number">4rem</span> solid black;</span><br><span class="line">  <span class="attribute">border-radius</span>: .<span class="number">5rem</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">1rem</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">1.5rem</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">1rem</span> .<span class="number">5rem</span>;</span><br><span class="line">  <span class="attribute">transition</span>: all .<span class="number">07s</span> ease;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">10rem</span>;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">  <span class="attribute">color</span>: white;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(0,0,0,0.4);</span><br><span class="line">  <span class="attribute">text-shadow</span>: <span class="number">0</span> <span class="number">0</span> .<span class="number">5rem</span> black;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.playing</span> &#123;</span><br><span class="line">  <span class="attribute">transform</span>: <span class="built_in">scale</span>(1.1);</span><br><span class="line">  <span class="attribute">border-color</span>: <span class="number">#ffc600</span>;</span><br><span class="line">  <span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">1rem</span> <span class="number">#ffc600</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>主要属性有以下几个：</p>
+<ul>
+<li><code>transform: scale(1.1);</code>–该属性在键盘被点击时将该元素缩放至原来的1.1倍。</li>
+<li><code>.key{border: .4rem solid black;} .playing{border-color: #ffc600;}</code>–这两条属性在按键点击的时候改变边框颜色。</li>
+<li><code>.key{text-shadow: 0 0 .5rem black;} .playing{box-shadow: 0 0 1rem #ffc600;}</code>–这两条属性在按键点击的时候改变阴影的效果</li>
+<li><code>transition: all .07s ease;</code>–定义以上动画在0.07秒内完成。</li>
+</ul>
+<p>我们注意到我们定义了<code>.palying</code>类，在按键按下的时侯为该元素添加<code>playing</code>类，在结束后移除<code>playing</code>类。</p>
+<h2 id="按键监听-amp-音效播放-amp-添加动画"><a href="#按键监听-amp-音效播放-amp-添加动画" class="headerlink" title="按键监听&amp;音效播放&amp;添加动画"></a>按键监听&amp;音效播放&amp;添加动画</h2><p>关键js代码如下：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">playAudio</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> audio = <span class="built_in">document</span>.querySelector(<span class="string">`audio[data-key="<span class="subst">$&#123;e.keyCode&#125;</span>"]`</span>);</span><br><span class="line">    <span class="keyword">if</span>(!audio) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">const</span> key = <span class="built_in">document</span>.querySelector(<span class="string">`div[data-key="<span class="subst">$&#123;e.keyCode&#125;</span>"]`</span>);</span><br><span class="line">    <span class="keyword">if</span>(!key) <span class="keyword">return</span>;</span><br><span class="line">    audio.currentTime = <span class="number">0</span>;</span><br><span class="line">    audio.play();</span><br><span class="line">    key.classList.add(<span class="string">'playing'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'keydown'</span>,playAudio);</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>监听页面的<code>keydown</code>事件，触发<code>playAudio</code>函数。</p>
+</li>
+<li><p>那么怎样检测我们按了哪个按键呢？每一个按键都有自己的KeyCode，可以通过按键的keyCode来判断。如果不清楚每一个按键的keyCode是多少，<a href="http://keycode.info/" target="_blank" rel="noopener">这个网站</a>可以帮到你。</p>
+</li>
+<li><p>在这里我们用到了<em>ES6</em>的模板字符串，<code>${e.keyCode}</code>,可以动态的将按键的Keycode传过去，以使audio动态的获取每一个按键绑定的audio。需要注意的是模板字符串一定要使用”`”(Esc下面那个键)包裹，而不是双引号。</p>
+</li>
+<li><p>我们注意到<code>audio.play();</code>前面一行是<code>audio.currentTime = 0;</code>，这是因为，如果没有在播放音效前将该音乐重置，会发生以下情况，当我连续点击某一按键的时候，只有第一次点击会响，第二次第三次连续的点击可能没声音。所以在每一次点击之前重置音效是很有必要的。</p>
+</li>
+<li><p><code>key.classList.add(&#39;playing&#39;);</code>可以在按键点击的同时为该元素添加<code>playing</code>类，展示小动画。</p>
+</li>
+<li><p><code>if(!audio) return; if(!key) return;</code>因为并不是每一个按键都有音效，当用户点击了非绑定音效按键，及时退出函数是很好的习惯。</p>
+</li>
+</ul>
+<h2 id="动画结束后移除动画"><a href="#动画结束后移除动画" class="headerlink" title="动画结束后移除动画"></a>动画结束后移除动画</h2><p>关键js代码如下：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">stopTransition</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(e.propertyName !== <span class="string">'transform'</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span> === e.target); <span class="comment">//true</span></span><br><span class="line">    e.target.classList.remove(<span class="string">'playing'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"><span class="keyword">const</span> keys = <span class="built_in">Array</span>.from(<span class="built_in">document</span>.querySelectorAll(<span class="string">'.key'</span>));</span><br><span class="line">keys.forEach(<span class="function"><span class="params">key</span> =&gt;</span> key.addEventListener(<span class="string">'transitionend'</span>,stopTransition));</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>监听每一个按键元素的<code>transitionend</code>事件，当按键元素的动画结束后会触发<code>stopTransition</code>函数。</p>
+</li>
+<li><p>首先在<code>stopTransition</code>函数中可以输出事件<code>e</code>的内容，会输出该动画每一步具体的变化，发现其中会有<code>propertyName</code>属性，可以通过判断propertyName等于其中的一个值（例如<code>&#39;transform&#39;</code>），等于该值就移除<code>playing</code>类，也即移除动画。</p>
+</li>
+<li><p>在定位元素的时候，可以使用<code>this</code>也可以使用<code>e.target</code>,可以简单这么理解，this值的是谁出发了这次事件，也就是key，就等同于事件的目标（<code>e.target</code>）.</p>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>至此为止就可以实现该效果了，查看<a href="http://htmlpreview.github.io/?https://github.com/winar-jin/JavaScript30-Challenge/blob/master/01%20-%20JavaScript%20Drum%20Kit/index-START.html" target="_blank" rel="noopener">效果</a>。</p>
+<p>整体的代码如下：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">playAudio</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> audio = <span class="built_in">document</span>.querySelector(<span class="string">`audio[data-key="<span class="subst">$&#123;e.keyCode&#125;</span>"]`</span>);</span><br><span class="line">    <span class="keyword">if</span>(!audio) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">const</span> key = <span class="built_in">document</span>.querySelector(<span class="string">`div[data-key="<span class="subst">$&#123;e.keyCode&#125;</span>"]`</span>);</span><br><span class="line">    <span class="keyword">if</span>(!key) <span class="keyword">return</span>;</span><br><span class="line">    audio.currentTime = <span class="number">0</span>;</span><br><span class="line">    audio.play();</span><br><span class="line">    key.classList.add(<span class="string">'playing'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">stopTransition</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(e.propertyName !== <span class="string">'transform'</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span> === e.target); <span class="comment">//true</span></span><br><span class="line">    e.target.classList.remove(<span class="string">'playing'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'keydown'</span>,playAudio);</span><br><span class="line"><span class="keyword">const</span> keys = <span class="built_in">Array</span>.from(<span class="built_in">document</span>.querySelectorAll(<span class="string">'.key'</span>));</span><br><span class="line">keys.forEach(<span class="function"><span class="params">key</span> =&gt;</span> key.addEventListener(<span class="string">'transitionend'</span>,stopTransition));</span><br></pre></td></tr></table></figure></p>
+<p>当然要实现该效果绝对不止这一种方法，还比如这样：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">stopTransition</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (e.propertyName !== <span class="string">'transform'</span>) <span class="keyword">return</span>;</span><br><span class="line">    e.target.classList.remove(<span class="string">'playing'</span>);</span><br><span class="line">  &#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">playAudio</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> audio = <span class="built_in">document</span>.querySelector(<span class="string">`audio[data-key="<span class="subst">$&#123;e.keyCode&#125;</span>"]`</span>); <span class="comment">//注意：这里的querySelector里面是`号，不是单引号</span></span><br><span class="line">    <span class="keyword">const</span> key = <span class="built_in">document</span>.querySelector(<span class="string">`div[data-key="<span class="subst">$&#123;e.keyCode&#125;</span>"]`</span>);</span><br><span class="line">    <span class="keyword">if</span>(!key) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">if</span> (!audio) <span class="keyword">return</span>;</span><br><span class="line">    key.addEventListener(<span class="string">'transitionend'</span>, stopTransition);</span><br><span class="line">    key.classList.add(<span class="string">'playing'</span>);</span><br><span class="line">    audio.currentTime = <span class="number">0</span>;</span><br><span class="line">    audio.play();</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'keydown'</span>, playAudio);</span><br></pre></td></tr></table></figure></p>
+<p>如果您有新的方法，也欢迎您和我一起交流。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-01-12-a-case-study-on-progressive-enhancement.html" data-toggle="tooltip" data-placement="top"
+                           title="【译】关于渐进增强方法的实例研究：“Building Social”">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-01-05-2016-summary.html" data-toggle="tooltip" data-placement="top"
+                           title="2016年个人总结">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Day01-JavaScript-Drum-Kit"><span class="toc-text">Day01 - JavaScript Drum Kit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#页面基础布局"><span class="toc-text">页面基础布局</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#按键监听-amp-音效播放-amp-添加动画"><span class="toc-text">按键监听&音效播放&添加动画</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动画结束后移除动画"><span class="toc-text">动画结束后移除动画</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-01-10-javascript-challenge-01.html";
+    var disqus_url = "http://xujin.pro/2017-01-10-javascript-challenge-01.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

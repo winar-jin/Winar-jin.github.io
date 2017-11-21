@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Javascript30-day02-JavaScript + CSS Clock｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-01-13-javascript-challenge-02.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Javascript30-day02-JavaScript + CSS Clock</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-01-13
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Javascript30-day02-JavaScript + CSS Clock
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>在Github上看到了<a href="https://twitter.com/wesbos" target="_blank" rel="noopener">wesbos</a>的一个Javascript30天挑战的<a href="https://github.com/wesbos/JavaScript30" target="_blank" rel="noopener">repo</a>，旨在使用纯Js来进行练习，不允许使用任何其他的库和框架，该挑战共30天，我会在这里记录下自己练习的过程和遇到的问题。</p>
+</blockquote>
+<h2 id="Day02-JavaScript-CSS-Clock"><a href="#Day02-JavaScript-CSS-Clock" class="headerlink" title="Day02 - JavaScript + CSS Clock"></a>Day02 - JavaScript + CSS Clock</h2><p>第二天的练习是用Js+CSS模拟时钟效果。</p>
+<p><em><a href="http://htmlpreview.github.io/?https://github.com/winar-jin/JavaScript30-Challenge/blob/master/02%20-%20JS%20%2B%20CSS%20Clock/index.html" target="_blank" rel="noopener">效果如下</a></em></p>
+<p>实现以上模拟时钟的效果，大致思路和解决方案如下：</p>
+<ul>
+<li>分别获取到当前时间的时、分、秒。</li>
+<li>通过时分秒对一圈360度，进行映射，确定每一个指针所需旋转的角度。</li>
+<li>通过CSS的<code>transform：rotate(deg)</code>，来实时的调整指针在键盘中的位置。</li>
+</ul>
+<h2 id="页面布局-amp-amp-样式style"><a href="#页面布局-amp-amp-样式style" class="headerlink" title="页面布局&amp;&amp;样式style"></a>页面布局&amp;&amp;样式style</h2><p>主要的html布局代码如下：<br><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"clock"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"clock-face"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"hand hour-hand"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"hand min-hand"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"hand second-hand"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>主要的CSS样式设置如下：<br><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.clock</span> &#123;</span><br><span class="line">      <span class="attribute">width</span>: <span class="number">30rem</span>;</span><br><span class="line">      <span class="attribute">height</span>: <span class="number">30rem</span>;</span><br><span class="line">      <span class="attribute">border</span>:<span class="number">20px</span> solid white;</span><br><span class="line">      <span class="attribute">border-radius</span>:<span class="number">50%</span>; <span class="comment">/*设置50%将正方形变为圆形*/</span></span><br><span class="line">      <span class="attribute">margin</span>:<span class="number">50px</span> auto;</span><br><span class="line">      <span class="attribute">position</span>: relative;</span><br><span class="line">      <span class="attribute">padding</span>:<span class="number">2rem</span>;</span><br><span class="line">      <span class="attribute">box-shadow</span>:</span><br><span class="line">        <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">4px</span> <span class="built_in">rgba</span>(0,0,0,0.1),</span><br><span class="line">        inset <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">3px</span> <span class="number">#EFEFEF</span>,</span><br><span class="line">        inset <span class="number">0</span> <span class="number">0</span> <span class="number">10px</span> black,</span><br><span class="line">        <span class="number">0</span> <span class="number">0</span> <span class="number">10px</span> <span class="built_in">rgba</span>(0,0,0,0.2); <span class="comment">/*可以对元素设置多阴影，用，隔开即可，inset表示内阴影*/</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="selector-class">.clock-face</span> &#123;</span><br><span class="line">      <span class="attribute">position</span>: relative;</span><br><span class="line">      <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">      <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">      <span class="attribute">transform</span>: <span class="built_in">translateY</span>(-3px); <span class="comment">/* 由于指针占有6px，因此要想居中对齐，上移3px */</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/*添加中间的中心圆点*/</span></span><br><span class="line">    <span class="selector-class">.clock-face</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">1em</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">1em</span>;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#000</span>;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">border-radius</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">margin-left</span>: -.<span class="number">5em</span>;</span><br><span class="line">    <span class="attribute">margin-top</span>: -.<span class="number">5em</span>;  <span class="comment">/*这两行代码的作用和下面一行的作用相同*/</span></span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(-50%, -50%);<span class="comment">/*top：50%;left:50%;对齐的是左上角，应该在向左上移动自身尺寸的50%*/</span></span><br><span class="line">    <span class="attribute">box-shadow</span>:</span><br><span class="line">                <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">2px</span> <span class="built_in">rgba</span>(0,0,0,0.1),</span><br><span class="line">                <span class="number">0</span> <span class="number">0</span> <span class="number">10px</span> <span class="built_in">rgba</span>(0,0,0,0.2);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.hand</span> &#123;</span><br><span class="line">      <span class="attribute">width</span>:<span class="number">50%</span>;</span><br><span class="line">      <span class="attribute">height</span>:<span class="number">6px</span>;</span><br><span class="line">      <span class="attribute">background</span>:black;</span><br><span class="line">      <span class="attribute">position</span>: absolute;</span><br><span class="line">      <span class="attribute">top</span>:<span class="number">50%</span>;</span><br><span class="line">      <span class="attribute">transition</span>: all .<span class="number">5s</span>;  <span class="comment">/*设置动画时间为0.5秒*/</span></span><br><span class="line">      <span class="comment">/*transition-timing-function: ease-in-out;*/</span></span><br><span class="line">      transition-timing-function: cubic-bezier(0, 1.74, 0.26, 0.99); //cubic-bezier()函数可以自定义过度时间函数</span><br><span class="line">      <span class="selector-tag">transform</span>: <span class="selector-tag">rotate</span>(90<span class="selector-tag">deg</span>); <span class="comment">/*初始化使三个指针全部指向12时*/</span></span><br><span class="line">      <span class="selector-tag">transform-origin</span>: 100%; <span class="comment">/*默认旋转中心为center，通过此属性设置旋转中心为最右侧，也可设置为：right*/</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.min-hand</span>&#123;</span><br><span class="line">      <span class="attribute">width</span>: <span class="number">40%</span>; <span class="comment">/*分针稍微短些*/</span></span><br><span class="line">      <span class="attribute">margin-left</span>: <span class="number">10%</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-class">.hour-hand</span>&#123;</span><br><span class="line">      <span class="attribute">width</span>: <span class="number">30%</span>;<span class="comment">/*时针更短些*/</span></span><br><span class="line">      <span class="attribute">margin-left</span>: <span class="number">20%</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>重要的CSS属性如下：（已在代码中注释解释）</p>
+<ul>
+<li><code>border-radius： 50%;</code></li>
+<li><code>transition: all .5s;</code> </li>
+<li><code>transition-timing-function: cubic-bezier(0, 1.74, 0.26, 0.99);</code></li>
+<li><code>transform-origin: 100%;</code></li>
+</ul>
+<p>关于CSS属性等有问题的，希望我们都能养成随时<a href="http://www.ayqy.net/doc/css2-1/cover.html" target="_blank" rel="noopener">查看文档</a>的习惯。</p>
+<h2 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h2><p>主要的Javascript代码如下：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> hourHand = <span class="built_in">document</span>.querySelector(<span class="string">'.hour-hand'</span>); </span><br><span class="line"><span class="keyword">const</span> minHand = <span class="built_in">document</span>.querySelector(<span class="string">'.min-hand'</span>); </span><br><span class="line"><span class="keyword">const</span> secondHand = <span class="built_in">document</span>.querySelector(<span class="string">'.second-hand'</span>); <span class="comment">/*分别获取时、分、秒针*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setDate</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> now = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">    <span class="keyword">const</span> hours = now.getHours();</span><br><span class="line">    <span class="keyword">const</span> minutes= now.getMinutes();</span><br><span class="line">    <span class="keyword">const</span> seconds = now.getSeconds(); <span class="comment">/*分别获取到当前时间的时分秒*/</span></span><br><span class="line">    <span class="keyword">const</span> secondDegree = ( seconds / <span class="number">60</span>) * <span class="number">360</span> + <span class="number">90</span>;  <span class="comment">/*秒针需旋转的度数*/</span></span><br><span class="line">    <span class="keyword">const</span> minDegree = (( minutes/ <span class="number">60</span>) * <span class="number">360</span>) + ((seconds / <span class="number">60</span>) * <span class="number">6</span>) + <span class="number">90</span>; <span class="comment">/*分针需旋转的度数：当前分钟数 + 秒数在分钟的映射（如过了30秒，相当于半分钟）*/</span></span><br><span class="line">    <span class="keyword">const</span> hourDegree = (( hours/ <span class="number">12</span>) * <span class="number">360</span>) + ((minutes / <span class="number">60</span>) * <span class="number">30</span>) + <span class="number">90</span>; <span class="comment">/*时针需旋转的度数：当前时数 + 分钟在小时的映射（如过了30分钟，相当于半小时）*/</span></span><br><span class="line">    hourHand.style.transform = <span class="string">`rotate(<span class="subst">$&#123;hourDegree&#125;</span>deg)`</span>;</span><br><span class="line">    minHand.style.transform = <span class="string">`rotate(<span class="subst">$&#123;minDegree&#125;</span>deg)`</span>;</span><br><span class="line">    secondHand.style.transform = <span class="string">`rotate(<span class="subst">$&#123;secondDegree&#125;</span>deg)`</span>; <span class="comment">/*仍运用ES6的模板字符串，分别将当前的旋转度数传入，使各指针旋转*/</span></span><br><span class="line">&#125;</span><br><span class="line">setInterval(setDate, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure></p>
+<p>在Javascript部分的代码相对简单，主要分别获取当前时间的时分秒，在通过转换到旋转的度数，通过设置各个指针的CSS<code>transform</code>属性，控制其旋转值。</p>
+<p>但到目前为止，不知你是否发现，任然存在问题，就是当秒针指到12时，秒针的度数会经历一个骤变（450deg-&gt;90deg-&gt;6deg）;在这时指针会突然转一圈指到90度再回来，感觉很怪异，可以通过一下的方法来修改。</p>
+<p><strong>方法一：</strong></p>
+<p>由于在这一瞬间的动画是在0.5s内完成的，所以我们可以在这个瞬间设置动画时间为0秒，具体如下：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (secondDegree === <span class="number">90</span>) secondHand.style.transition = <span class="string">'all 0s'</span>;</span><br><span class="line"><span class="keyword">else</span> secondHand.style.transition = <span class="string">'all .5s'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (minDegree === <span class="number">90</span>) minHand.style.transition = <span class="string">'all 0s'</span>;</span><br><span class="line"><span class="keyword">else</span> minHand.style.transition = <span class="string">'all 0.1s'</span>;</span><br></pre></td></tr></table></figure></p>
+<p><strong>方法二：</strong></p>
+<p>这个方法是参考网上的解决方案。问题是由角度所引发的，那么就在角度这里想办法解决。</p>
+<p>此前的代码中，每秒都会重新 new 一个 Date 对象，用来计算角度值，但如果让这个角度值一直保持增长，也就不会出现逆时针回旋的问题了。</p>
+<p>因此，只在页面第一次加载时 new 一次 Date 对象，此后每秒直接更新角度值。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> secondDeg = <span class="number">0</span>,</span><br><span class="line">minDeg = <span class="number">0</span>,</span><br><span class="line">hourDeg = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initDate</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">    <span class="keyword">const</span> second = date.getSeconds();</span><br><span class="line">    secondDeg = <span class="number">90</span> + (second / <span class="number">60</span>) * <span class="number">360</span>;</span><br><span class="line">    <span class="keyword">const</span> min = date.getMinutes();</span><br><span class="line">    minDeg = <span class="number">90</span> + (min / <span class="number">60</span>) * <span class="number">360</span> + ((second / <span class="number">60</span>) / <span class="number">60</span>) * <span class="number">360</span>;</span><br><span class="line">    <span class="keyword">const</span> hour = date.getHours();</span><br><span class="line">    hourDeg = <span class="number">90</span> + (hour / <span class="number">12</span>) * <span class="number">360</span> + ((min / <span class="number">60</span>) / <span class="number">12</span>) * <span class="number">360</span> + (((second / <span class="number">60</span>) / <span class="number">60</span>) / <span class="number">12</span>) * <span class="number">360</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">updateDate</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    secondDeg += (<span class="number">1</span> / <span class="number">60</span>) * <span class="number">360</span>;</span><br><span class="line">    minDeg += ((<span class="number">1</span> / <span class="number">60</span>) / <span class="number">60</span>) * <span class="number">360</span>;</span><br><span class="line">    hourDeg += (((<span class="number">1</span> / <span class="number">60</span>) / <span class="number">60</span>) / <span class="number">12</span>);</span><br><span class="line"></span><br><span class="line">    secHand.style.transform = <span class="string">`rotate(<span class="subst">$&#123; secondDeg&#125;</span>deg)`</span>;</span><br><span class="line">    minHand.style.transform = <span class="string">`rotate(<span class="subst">$&#123; minDeg &#125;</span>deg)`</span>;</span><br><span class="line">    hourHand.style.transform = <span class="string">`rotate(<span class="subst">$&#123; hourDeg &#125;</span>deg)`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">initDate();</span><br><span class="line">setInterval(updateDate, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+<p>至此为止就大功告成了！</p>
+<p>顺便推荐一个用CSS Animation制作时钟的很棒的<a href="https://cssanimation.rocks/clocks/" target="_blank" rel="noopener">教程</a>。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-02-07-javascript-challenge-03.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day03-CSS Variables">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-01-12-a-case-study-on-progressive-enhancement.html" data-toggle="tooltip" data-placement="top"
+                           title="【译】关于渐进增强方法的实例研究：“Building Social”">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Day02-JavaScript-CSS-Clock"><span class="toc-text">Day02 - JavaScript + CSS Clock</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#页面布局-amp-amp-样式style"><span class="toc-text">页面布局&&样式style</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript"><span class="toc-text">JavaScript</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-01-13-javascript-challenge-02.html";
+    var disqus_url = "http://xujin.pro/2017-01-13-javascript-challenge-02.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

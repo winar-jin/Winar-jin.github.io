@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Javascript30-day04-Array Cardio Day 1｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-02-07-javascript-challenge-04.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Javascript30-day04-Array Cardio Day 1</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-02-07
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Javascript30-day04-Array Cardio Day 1
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>在Github上看到了<a href="https://twitter.com/wesbos" target="_blank" rel="noopener">wesbos</a>的一个Javascript30天挑战的<a href="https://github.com/wesbos/JavaScript30" target="_blank" rel="noopener">repo</a>，旨在使用纯Js来进行练习，不允许使用任何其他的库和框架，该挑战共30天，我会在这里记录下自己练习的过程和遇到的问题。</p>
+</blockquote>
+<h2 id="Day04-Array-Cardio-Day-1"><a href="#Day04-Array-Cardio-Day-1" class="headerlink" title="Day04 - Array Cardio Day 1"></a>Day04 - Array Cardio Day 1</h2><p>第四天的练习是能够熟练使用Array数组的常用方法，并没有页面显示效果，所以请打开浏览器的Console面板进行调试运行。</p>
+<p><a href="http://htmlpreview.github.io/?https://github.com/winar-jin/JavaScript30-Challenge/blob/master/04%20-%20Array%20Cardio%20Day/index.html" target="_blank" rel="noopener">效果如下(请打开Console面板查看)</a></p>
+<h2 id="TaskList"><a href="#TaskList" class="headerlink" title="TaskList"></a>TaskList</h2><p>网站给出了一个inventors数组，包含了名、姓、出生日期和死亡日期；以及people数组，包含一组人名，名和姓中间以逗号分隔。在此基础上完成以下练习。</p>
+<ol>
+<li><p>筛选出出生在16世纪（1500-1599年）的发明家。</p>
+</li>
+<li><p>列出发明家的名和姓的数组。</p>
+</li>
+<li><p>根据发明家的出生日期，按照从大到小的顺序进行排序。</p>
+</li>
+<li><p>所有的发明家一共活了多少岁。</p>
+</li>
+<li><p>按照发明家的年龄大小排序</p>
+</li>
+<li><p>列出巴黎所有名字中包含’de’的路名。在以下网站提供的信息来做。（<a href="https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris）" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris）</a></p>
+</li>
+<li><p>按照字母表的顺序，将人们的姓氏进行排序。</p>
+</li>
+<li><p>分别计算出包含每一个种类的个数。</p>
+</li>
+</ol>
+<h2 id="Answers"><a href="#Answers" class="headerlink" title="Answers"></a>Answers</h2><ol>
+<li><code>Array.prototype.filter()</code></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> bornInsixteen = inventors.filter(<span class="function"><span class="keyword">function</span>(<span class="params">inventor,index,array</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">return</span> (inventor.year &gt;= <span class="number">1500</span>)&amp;&amp;(inventor.year &lt;= <span class="number">1599</span>);</span><br><span class="line">    &#125;); </span><br><span class="line"><span class="built_in">console</span>.table(bornInsixteen);</span><br></pre></td></tr></table></figure>
+<p>筛选操作，filter(callback),filter中有一回调函数，若数组中某一项满足回调函数的条件，返回true，否则返回false；最后由返回true的项组成新的数组。<br>在这里可以使用ES6的箭头函数对结果进行简化，如下：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> bornInsixteen = inventors.filter(<span class="function"><span class="params">inventor</span> =&gt;</span> (inventor.year &gt;= <span class="number">1500</span> &amp;&amp; inventor.year &lt; <span class="number">1600</span>));</span><br><span class="line"><span class="built_in">console</span>.table(bornInsixteen);</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li><code>Array.prototype.map()</code></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> inventorName = inventors.map(<span class="function"><span class="params">inventor</span> =&gt;</span> <span class="string">`<span class="subst">$&#123;inventor.first&#125;</span> <span class="subst">$&#123;inventor.last&#125;</span>`</span>);</span><br><span class="line"><span class="built_in">console</span>.log(inventorName);</span><br></pre></td></tr></table></figure>
+<p>映射操作，将数组中的每一个元素都经过callback函数处理后，返回新的元素，由这些新的元素组成新的数组。<br><strong>这个方法适用于创建包含的项与另一个数组一一对应的数组。</strong><br>在这里直接使用ES6的箭头函数来书写，并用了模板字符串，这两个知识点在之前篇章有提过，不再赘述。</p>
+<ol>
+<li><code>Array.prototype.sort()</code></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">compare</span>(<span class="params">value1,value2</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(value1.year &gt; value2.year)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> sortByBirthdate = inventors.sort(compare);</span><br><span class="line"><span class="built_in">console</span>.table(sortByBirthdate);</span><br></pre></td></tr></table></figure>
+<p>比较操作，首先自定义比较函数，分别传入数组中前后两项，<strong>如果期望排序后第一个参数的值出现在第二个参数之前，则应返回负数。</strong><br>据此可以写出此自定义排序函数，再根据ES6的箭头函数，以及三目运算符对上述代码进行简化如下：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> sortByBirthdate = inventors.sort(<span class="function">(<span class="params">value1,value2</span>) =&gt;</span> (value1.year &gt; value2.year)?<span class="number">1</span>:<span class="number">-1</span>);</span><br><span class="line"><span class="built_in">console</span>.table(sortByBirthdate);</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li><code>Array.prototype.reduce()</code></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> totalYears = <span class="number">0</span>;</span><br><span class="line">totalYears = inventors.map(<span class="function"><span class="params">inventor</span> =&gt;</span> inventor.passed - inventor.year).reduce(<span class="function"><span class="keyword">function</span>(<span class="params">prev,cur</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> prev+cur;</span><br><span class="line">&#125;,<span class="number">0</span>);</span><br><span class="line"><span class="built_in">console</span>.log(totalYears);</span><br></pre></td></tr></table></figure>
+<p>这个思路是这样的：首先使用<code>.map()</code>方法映射一个新数组存储每一个发明家的岁数，再调用归并方法<code>.reduce()</code>，对所有发明家的年龄相加求总和。<br>但这个方法并不是最简洁的，首先需要先对<code>totalYears</code>进行初始化操作为0，并且需要两个数组方法进行操作，当遇到大数据量的时候显然效率会很低，因此对此方法进行改进。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> totalYears = inventors.reduce(<span class="function">(<span class="params">total,curr</span>) =&gt;</span> total += (curr.passed-curr.year),<span class="number">0</span>);</span><br><span class="line"><span class="built_in">console</span>.log(totalYears);</span><br></pre></td></tr></table></figure>
+<p>首先该方法只采用归并方法<code>.reduce()</code>，但其中回调函数的第一个参数的使用是很绝妙的，表示总年龄<code>total</code>，并将其初始化为0，（<em><code>.reduce()</code>方法的第二个参数为初始值</em>），回调函数的第二个参数为数组中当前元素，用<code>curr.passed-curr.year</code>即可算出当前的年龄，再与total相加即为最终总年龄。</p>
+<ol>
+<li><code>Array.prototype.sort()</code></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> sortByLived = inventors.sort(<span class="function">(<span class="params">value1,value2</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> value1Age = value1.passed - value1.year;</span><br><span class="line">    <span class="keyword">const</span> value2Age = value2.passed - value2.year;</span><br><span class="line">    <span class="keyword">return</span> value1Age &gt; value2Age ? <span class="number">-1</span> : <span class="number">1</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.table(sortByLived);</span><br></pre></td></tr></table></figure>
+<p>此题较为简单，只用自定义排序函数，分别算出每一个发明家的年龄，按照其大小进行排序即可。</p>
+<ol>
+<li><code>.forEach() &amp; .filter()</code></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> total = <span class="built_in">Array</span>.from(<span class="built_in">document</span>.querySelectorAll(<span class="string">'.mw-category .mw-category-group ul li a'</span>));</span><br><span class="line"><span class="keyword">var</span> allStreet = [];  <span class="comment">//存放所有的街道名称</span></span><br><span class="line">total.forEach(<span class="function"><span class="params">item</span> =&gt;</span> allStreet.push(item.innerText));</span><br><span class="line">allStreet.filter(<span class="function"><span class="params">item</span> =&gt;</span> item.includes(<span class="string">'de'</span>));</span><br><span class="line"><span class="comment">//console.log(allStreet);</span></span><br></pre></td></tr></table></figure>
+<p>这道题只要找到网页中节点中所对应的元素值，将其转化为数组，就方便很多了，就是在一个元素为字符串的数组中筛选出字符串中包含<code>de</code>的即可，采用字符串的<code>.includes()</code>方法即可实现，包含返回true，不包含返回false。<br>这里提醒一点，<code>allStreet.filter()</code>返回筛选后的数组后，<strong>会新建一个数组保存，此时如果我们<code>console.log(allStreet);</code>会仍然显示原数组，因为筛选出来的元素会被存在新数组中。</strong><br>需要提一点，由 querySelectorAll() 获取到的是一个 NodeList ，它并非是 Array 类型的数据，所以并不具有 map 和 filter 这样的方法，所以如果要进行筛选操作则需要把它转化成 Array 类型，使用示例之中的 Array.from() 来转化即可。<br>当然此题不只有一种方法，还有诸多方法，比如下述方法：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> category = <span class="built_in">document</span>.querySelector(<span class="string">'.mw-category'</span>);</span><br><span class="line"><span class="keyword">const</span> links = <span class="built_in">Array</span>.from(category.querySelectorAll(<span class="string">'a'</span>));</span><br><span class="line"><span class="keyword">const</span> de = links</span><br><span class="line">            .map(<span class="function"><span class="params">link</span> =&gt;</span> link.textContent)</span><br><span class="line">            .filter(<span class="function"><span class="params">streetName</span> =&gt;</span> streetName.includes(<span class="string">'de'</span>));</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li><code>Array.prototype.sort()</code></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> sortByAlpha = people.sort(<span class="function">(<span class="params">a,b</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> [aFirst,aLast] = a.split(<span class="string">', '</span>);</span><br><span class="line">    <span class="keyword">const</span> [bFirst,bLast] = b.split(<span class="string">', '</span>);</span><br><span class="line">    <span class="keyword">return</span> (aLast &gt; bLast) ? <span class="number">1</span> : <span class="number">-1</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(sortByAlpha);</span><br></pre></td></tr></table></figure>
+<p>这里通过<code>String.prototype.split()</code>方法，将每一个用<code>,</code>分开的姓名分开，分别保存，再通过自定义排序函数即可完成按照姓氏顺序排序的任务。</p>
+<ol>
+<li><code>Array.prototype.reduce()</code></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> sumTransport = data.reduce(<span class="function">(<span class="params">obj,item</span>) =&gt;</span> &#123;</span><br><span class="line"><span class="keyword">if</span>(!obj[item])&#123;</span><br><span class="line">    obj[item] = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">obj[item]++;</span><br><span class="line"><span class="keyword">return</span> obj;</span><br><span class="line">&#125;,&#123;&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(sumTransport);</span><br></pre></td></tr></table></figure>
+<p>这道题也是采用了<code>.reduce()</code>方法，回调函数的第一个参数也是精巧的地方，设置为一个对象，用来分别存储每一类的数量，第二个参数为当前的元素，如果<code>obj[item]</code>不存在，就将其值初始化为0，否则就将改值加1，最后返回该对象，即分别存储了各个类别的数量。</p>
+<p>有一点需要注意的是，不要忘记给<code>.reduce()</code>方法的第二个参数设置初始值，因为改方法最终新建了一个自定义对象，因此，其初始值也应为一个空的对象。</p>
+<h2 id="Tip"><a href="#Tip" class="headerlink" title="Tip"></a>Tip</h2><p>在Console面板下进行调试时，我们常用的是<code>consol.log()</code>，但<code>console</code>还有一个方法也十分好用，是<code>console.table()</code>，该方法会将待调试的内容以表格的形式打印出来，看上去十分明了。<br>但是，并不是什么时候都能用<code>console.table()</code>的，如果待显示内容不能够用表格的形式表示，就什么也不会输出，<strong>此时千万不要以为是没有输出结果，很有可能只是调试的方法错了，换一下<code>console.log()</code>兴许就会得到结果了。</strong></p>
+<p>到这里，这八道题都已经写完了，这几道题都非常的经典，有很多值得学习的点，比如：<code>.reduce()</code>的回调函数第一个参数的设置，我们可以自定义为我们所需要的，配合初始值，可以实现一遍循环的效果；</p>
+<p>因此，这些题都值得日后再看几遍，反复琢磨。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-02-08-javascript-challenge-05.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day05-Flex Panel Gallery">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-02-07-javascript-challenge-03.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day03-CSS Variables">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Day04-Array-Cardio-Day-1"><span class="toc-text">Day04 - Array Cardio Day 1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TaskList"><span class="toc-text">TaskList</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Answers"><span class="toc-text">Answers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tip"><span class="toc-text">Tip</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-02-07-javascript-challenge-04.html";
+    var disqus_url = "http://xujin.pro/2017-02-07-javascript-challenge-04.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

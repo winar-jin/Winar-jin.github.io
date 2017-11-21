@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        【译】用BEM写出更具有可维护性的CSS｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-01-04-use-BEM-to-write-maintainable-CSS.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>【译】用BEM写出更具有可维护性的CSS</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-01-04
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#翻译"
+                           title="翻译">翻译</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            【译】用BEM写出更具有可维护性的CSS
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p><a href="http://www.integralist.co.uk/posts/bem.html" target="_blank" rel="noopener">原文地址</a><br>已发表至<a href="http://www.zcfy.cc/article/maintainable-css-with-bem-2169.html" target="_blank" rel="noopener">众成翻译</a></p>
+</blockquote>
+<ul>
+<li><p><a href="http://www.integralist.co.uk/posts/bem.html#1" target="_blank" rel="noopener">介绍</a></p>
+</li>
+<li><p><a href="http://www.integralist.co.uk/posts/bem.html#2" target="_blank" rel="noopener">BEM: Block, Element, Modifier</a></p>
+</li>
+<li><p><a href="http://www.integralist.co.uk/posts/bem.html#3" target="_blank" rel="noopener">举例</a></p>
+</li>
+<li><p><a href="http://www.integralist.co.uk/posts/bem.html#4" target="_blank" rel="noopener">为什么最终BEM战胜了其他?</a></p>
+</li>
+<li><p><a href="http://www.integralist.co.uk/posts/bem.html#5" target="_blank" rel="noopener">总结</a></p>
+</li>
+</ul>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>这篇文章教你一种方法，能够写出更具有可维护性的CSS，它就是”<a href="http://bem.info/" target="_blank" rel="noopener">BEM</a>“。</p>
+<p>更新: <a href="http://twitter.com/necolas" target="_blank" rel="noopener">@necolas</a> 在推特上写了一个引人注意的评论，说我用的是修改版的 BEM 命名约定（BEM 是一个完整的框架，它不仅仅只是如何命名 class 以及如何写可维护的 CSS）。所以我在这里加以说明，以免引起任何混淆。</p>
+<h2 id="BEM-Block-Element-Modifier"><a href="#BEM-Block-Element-Modifier" class="headerlink" title="BEM: Block, Element, Modifier"></a>BEM: Block, Element, Modifier</h2><p>BEM 代表 “Block, Element, Modifier” ，它以一个虽简单却极其高效的方式将不同的组件和插件分类(就像下面所展示的那样)。</p>
+<p>在每一个被定义的<code>块</code>下都有不同的<code>元素</code>，他由对象而组成。对于每一个元素（依据他在块内出现的位置），你还可以去<code>修饰</code>该元素的状态。</p>
+<p>BEM和其他构建CSS的方法 (<a href="https://github.com/stubbornella/oocss/wiki" target="_blank" rel="noopener">OOCSS</a>/<a href="http://smacss.com/" target="_blank" rel="noopener">SMACSS</a>)相比，在原则上有些相似，但是它在不损失构建效果的前提下，大大简化了其规则。</p>
+<p>理解BEM最好的方法就是看使用它的例子（见下一章节）。但是如果你想了解它的历史以及一些更细节/可视化的原理剖析，请参考 <a href="http://bem.info/" target="_blank" rel="noopener">BEM</a> 官方网站。</p>
+<h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><p>下面展示的是一个<span style="font-size: 1rem;">计算</span>金钱的小插件。当你输入总金额(e.g. £2.12p)并点击’calculate’按钮后，它会返回给你组成指定金额所需要的硬币清单。</p>
+<p>HTML结构是很简单的…</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;section&gt;</span><br><span class="line">    &lt;h1&gt;Sterling Calculator&lt;/h1&gt;</span><br><span class="line">    &lt;form action=&quot;process.php&quot; method=&quot;post&quot;&gt;</span><br><span class="line">        &lt;p&gt;Please enter an amount: (e.g. 92p, £2.12)&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;</span><br><span class="line">            &lt;input name=&quot;amount&quot;&gt; </span><br><span class="line">            &lt;input type=&quot;submit&quot; value=&quot;Calculate&quot;&gt;</span><br><span class="line">        &lt;/p&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">&lt;/section&gt;</span><br></pre></td></tr></table></figure>
+<p>接下来我们加入类名，以便后期方便的为该插件写样式，最后我会分别解释添加了什么，以及为什么这样添加……</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;section class=&quot;widget&quot;&gt;</span><br><span class="line">    &lt;h1 class=&quot;widget__header&quot;&gt;Sterling Calculator&lt;/h1&gt;</span><br><span class="line">    &lt;form class=&quot;widget__form&quot; action=&quot;process.php&quot; method=&quot;post&quot;&gt;</span><br><span class="line">        &lt;p&gt;Please enter an amount: (e.g. 92p, £2.12)&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;</span><br><span class="line">            &lt;input name=&quot;amount&quot; class=&quot;widget__input widget__input--amount&quot;&gt; </span><br><span class="line">            &lt;input type=&quot;submit&quot; value=&quot;Calculate&quot; class=&quot;widget__input widget__input--submit&quot;&gt;</span><br><span class="line">        &lt;/p&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">&lt;/section&gt;</span><br></pre></td></tr></table></figure>
+<p>我们首先确定了最顶级的<code>&lt;section&gt;</code>元素作为我们的’block’。这是包裹元素的顶层。我们为其添加了<code>widget</code>类，这也将成为我们这个对象/插件的命名空间（不管你想为他起什么名称）。</p>
+<p>所有我们添加在这个’block’里元素的类的命名，都将在顶层<code>widget</code>的命名空间下。</p>
+<p>当我们要为<code>&lt;form&gt;</code>元素添加样式，那么我们就给该元素添加<code>widget__form</code>类。双下划线可以使我们更容易的辨认出来该类是<code>widget</code>块的一部分。我们也可以看到<code>&lt;input&gt;</code>元素命名为<code>widget__input</code>类。</p>
+<p>以下是元素样式的命名列表…</p>
+<ul>
+<li><p><code>widget</code></p>
+</li>
+<li><p><code>widget__header</code></p>
+</li>
+<li><p><code>widget__form</code></p>
+</li>
+<li><p><code>widget__input</code></p>
+</li>
+</ul>
+<p>注意到在<code>widget__input</code>类下有两个类：<code>widget__input--amount</code> 和 <code>widget__input--submit</code>。他们是修饰符。代表着我们当前元素的状态。</p>
+<p>让我们看一下我们在哪里用到了这些规则。我们在两个<code>&lt;input&gt;</code>元素上都使用了类<code>widget__input</code>（因为它们有同样的基本结构/样式）。但是他们也有些微的不同，因此我们可以用修饰符去应用额外的独特样式。</p>
+<p>修饰符用两个连字符（破折号）连接，像这样：<code>block__element--modifier</code>。</p>
+<p>最终，该插件的CSS代码如下所示…</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.widget &#123;</span><br><span class="line">    background-color: #FC3;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.widget__header &#123;</span><br><span class="line">    color: #930;</span><br><span class="line">    font-size: 3em;</span><br><span class="line">    margin-bottom: 0.3em;</span><br><span class="line">    text-shadow: #FFF 1px 1px 2px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.widget__input &#123;</span><br><span class="line">    -webkit-border-radius: 5px;</span><br><span class="line">       -moz-border-radius: 5px;</span><br><span class="line">         -o-border-radius: 5px;</span><br><span class="line">            border-radius: 5px;</span><br><span class="line"></span><br><span class="line">    font-size: 0.9em;</span><br><span class="line">    line-height: 1.3;</span><br><span class="line">    padding: 0.4em 0.7em;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.widget__input--amount &#123;</span><br><span class="line">    border: 1px solid #930;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.widget__input--submit &#123;</span><br><span class="line">    background-color: #EEE;</span><br><span class="line">    border: 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="为什么最终BEM胜出"><a href="#为什么最终BEM胜出" class="headerlink" title="为什么最终BEM胜出?"></a>为什么最终BEM胜出?</h2><p>我在这几年内尝试过不同的方法来写CSS。其经过是这样的…..</p>
+<ul>
+<li><p>没有结构，一个页面中的所有东西都会在每一个页面打开的时候加载一遍。</p>
+</li>
+<li><p>为了将文件特定的内容放在一起而将文件分隔开，但是仍然没有实质性的结构而言。</p>
+</li>
+<li><p>标准的 <a href="https://github.com/stubbornella/oocss/wiki" target="_blank" rel="noopener">OOCSS (Object-Oriented CSS)</a></p>
+</li>
+<li><p><a href="http://smacss.com/" target="_blank" rel="noopener">SMACSS (Scalable and Modular Architecture for CSS)</a></p>
+</li>
+</ul>
+<p>而现在采用的是BEM。</p>
+<p><strong>我之所以采用BEM而不是其他技术，是基于这样的原因：它不像其他的方法那样令人困惑（比如 SMACSS），却任然提供了我们所需要的好架构(比如 OOCSS)而且具有高度一个可辨识的命名逻辑。</strong></p>
+<p>对于我来说，OOCSS不够严谨。它让开发者随意命名他们的对象。但我见过在大型或超过一名开发者的项目中，对象命名变得很混乱，而由于缺乏严谨的命名约束，开发者们开始对每个类用来做什么感到困惑。</p>
+<p>再谈谈SMACSS：它几乎太严谨了，以至于我认为在某些方面它<em>结构化过头了</em>。当我一开始使用它的时候，我认为它正是我一直寻找的解决方案，但最终的结果是我的 CSS 散得到处都是，而我根本不知道该从哪里开始。我搞不定它。</p>
+<p>对某些人来说，可能这都不是问题，但对于我来说它们就像那个老的格言“<em>不要让我思考</em>”说的那样。如果我必须仔细地去想它是怎么工作的，或者我需要在哪里找代码，那么这种方法就不适合我。</p>
+<p>但BEM成功了，因为它提供了一个好的面向对象的结构，对我来说没有陌生的词，并且足够简单，不用改变你原来使用 CSS 的方式。</p>
+<p>但就像任何工具一样，它也可能被滥用。如何使用终归还是取决于开发者的整体技能和理解。</p>
+<h3 id="简洁"><a href="#简洁" class="headerlink" title="简洁"></a>简洁</h3><p>正如我之前说的那样，我之所以使用BEM的一个原因就是因为它足够简洁。</p>
+<p>甚至连用词都比其他方法简洁。比如，有人跟你谈论结构化 CSS 你可能会听到这些词：</p>
+<ul>
+<li><p>对象</p>
+</li>
+<li><p>模块</p>
+</li>
+<li><p>插件</p>
+</li>
+<li><p>组件</p>
+</li>
+</ul>
+<p>…注意这些叫法虽然不同，但是它们都指向相同的概念。毫无疑问，对于有些人来说，这么多不同叫法一定会让他们觉得困惑。</p>
+<p>BEM与前者不同，因为它的用词是围绕它工作的环境：HTML和CSS。当我们说到CSS的 ‘块（block）’ 的时候，我们都知道它指的是什么“块”，就是基础的构建块，决定着页面上元素的渲染方式<span style="font-size: 1rem;">（毫无歧义）</span>，但是’块’这个术语在其他语境中有不同的理解：</p>
+<blockquote>
+<p>有一天我看到这块代码，它真烂。</p>
+</blockquote>
+<p>…你明白当人们说上面这句话的时候，块是指一段或者一组代码。</p>
+<p>单词’Block’是个很简单而非常关键的术语，并且更重要的是，它是一个人们非常熟悉的术语。</p>
+<p>我们也知道，当我们在使用 CSS 的时候，最终我们针对的是“元素（elements）”。在这里没有别的词比这个词更适合描述，因为这正是我们所做的事情的最准确描述。</p>
+<p>最后，“修饰器（modifier）”也是个简单而开发者能够完全理解和熟悉的词……</p>
+<blockquote>
+<p>我想修饰下这个元素，我应该怎样做呢？</p>
+</blockquote>
+<h3 id="依然保持结构化"><a href="#依然保持结构化" class="headerlink" title="依然保持结构化"></a>依然保持结构化</h3><p>虽然用词和结构都很简单，它依然给了我们写可维护和易于理解的代码所需的全部工具。BEM 能够很方便地随着项目规模而扩展。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我知道我之前提到了关于SMACSS，（没错，就是它！），但是即使我在第一次使用SMACSS的时候，我仍然小有怨言，“嗯哼，虽然完全搞定它有点小复杂，但是它似乎还不错”。有了BEM之后，我就不再有这种担心了。一开始我唯一不满的是它的外观。我不喜欢用双下划线或者双破折号。但是现在我也很喜欢使用它们！</p>
+<p>如果你想看更多的关于BEM的用法，那么我向你推荐一个小的CSS抽象库，叫做<a href="https://github.com/csswizardry/inuit.css" target="_blank" rel="noopener">inuit.css</a>，它是由<a href="http://csswizardry.com/" target="_blank" rel="noopener">Harry Roberts</a> 编写，我也推荐你看<a href="https://github.com/Integralist/integralist.github.com" target="_blank" rel="noopener">我网站的源代码</a>。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-01-05-2016-summary.html" data-toggle="tooltip" data-placement="top"
+                           title="2016年个人总结">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2016-12-29-forgotten-print-style-sheet.html" data-toggle="tooltip" data-placement="top"
+                           title="【译】被人遗忘了的打印样式表">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BEM-Block-Element-Modifier"><span class="toc-text">BEM: Block, Element, Modifier</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#举例"><span class="toc-text">举例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么最终BEM胜出"><span class="toc-text">为什么最终BEM胜出?</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简洁"><span class="toc-text">简洁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#依然保持结构化"><span class="toc-text">依然保持结构化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#翻译"
+                           title="翻译">翻译</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-01-04-use-BEM-to-write-maintainable-CSS.html";
+    var disqus_url = "http://xujin.pro/2017-01-04-use-BEM-to-write-maintainable-CSS.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

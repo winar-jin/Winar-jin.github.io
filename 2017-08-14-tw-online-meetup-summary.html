@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        思沃特训营线上讨论总结｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-08-14-tw-online-meetup-summary.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>思沃特训营线上讨论总结</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-08-14
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#个人随笔"
+                           title="个人随笔">个人随笔</a>
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            思沃特训营线上讨论总结
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>昨天晚上和小组内的成员一起进行了一次线上的讨论，各自对在做任务的过程中的思路和代码进行展示和讲解，讨论了三个半小时还多，收获颇多，在此总结一下。</p>
+<h2 id="代码实践方面"><a href="#代码实践方面" class="headerlink" title="代码实践方面"></a>代码实践方面</h2><ol>
+<li><p>命名问题，不要贪图短，注意语义化</p>
+<ul>
+<li>我觉得命名问题的大原则就是<strong>语义化</strong>，不要图短，可以采用动词+名词的方法进行命名。</li>
+<li>其中对于变量和函数建议用<strong>驼峰命名法</strong>，且首字母要小写。但是对于类名，首字母一般约定为大写。如：<code>new Student()</code>和<code>let totalNumber;</code>或者<code>function getNumeById(){...}</code>这样。</li>
+<li>对于CSS中类的命名建议用<strong>BEM</strong>的方法命名，具体的可以网上查一查，简单来说就是将CSS类命名模块化，一个模块就是一个<strong>Block</strong>，里面有不同的元素（<strong>Element</strong>），对于元素可以加上不同的修饰，（<strong>Modifier</strong>）,之间可以用<code>__</code>（双下划线）连接。<blockquote>
+<p>分享一篇文章：<a href="https://my.oschina.net/lianyi/blog/48955" target="_blank" rel="noopener">常用html、CSS、javascript前端命名规范</a></p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>If/else 或者 for的代码块不要太多</p>
+</li>
+</ol>
+<p>代码中嵌套的if/else结构往往导致代码不美观，也不易于理解，可读性降低。因此建议在代码中应该尽量减少if/else的使用次数（不绝对）。<br>分享几个具体减少的方法：</p>
+<ul>
+<li><code>if(a === true){ a=a } else { a=b }</code> 就可以直接写为<code>a = a || b;</code></li>
+<li><code>if(a === b){ a=b } else { a=c }</code> 就可以直接写为<code>a = a===b ? b : c;</code></li>
+<li>在进行<code>if/else</code>的判断时，有时候可以使用判断<code>false</code>来提前返回，这样就可以将正常的逻辑不写在<code>if/else</code>代码块里面了。比如：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">if(a)&#123;</span><br><span class="line">  // do something…</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>就可以写为<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">if(!a) return; </span><br><span class="line">// do something…</span><br></pre></td></tr></table></figure></p>
+<p>这样看起来就会更加清晰一点。</p>
+<ul>
+<li>在写<code>if/else</code>的逻辑的时候，可以把发生的概率最大的情况写在最前面，这样可以减少程序判断的次数。比如：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">if (i &lt; 5) &#123;</span><br><span class="line">    // do something...</span><br><span class="line"> &#125; else if (i &gt; 5 &amp;&amp; i &lt; 10) &#123;</span><br><span class="line">    // do something...</span><br><span class="line"> &#125; else &#123;</span><br><span class="line">    // do something...</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在这个情况中，如果<code>i</code>的值出现大约10的次数或几率比较大，那么这么写<code>if/else</code>就不是最好的，因为会多出两次无故的判断，就可以先判断<code>if( i &gt; 10)</code>再进行后面的判断。</p>
+<ul>
+<li><code>switch/case</code>和<code>if/else</code>在性能发面和可读性方面并没有什么区别，所以不要企图通过<code>switch/case</code>替换<code>if/else</code>来优化代码。它们两个有各自不同的使用场景，<code>switch/case</code>更适合分支比较多的情况，而<code>if/else</code>更适合条件分支较少的情况。</li>
+<li>可以适当运用一些面向对象的方法，比如动物叫的问题。（不同的动物会发出不同的叫声）。比如：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function getBark(type) &#123;</span><br><span class="line">    if (type === &apos;dog&apos;) &#123;</span><br><span class="line">        return &apos;wang wang&apos;;</span><br><span class="line">    &#125; else if (type === &apos;cat&apos;) &#123;</span><br><span class="line">        return &apos;mow mow&apos;;</span><br><span class="line">    &#125; else if (type === &apos;flog&apos;)&#123;</span><br><span class="line">        return &apos;gua gua&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>就可以进行抽象和提取，将其中不同动物的叫声提取出来，在进行判断就好。如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const barkType = &#123;</span><br><span class="line">  &apos;dog&apos; : &apos;wang wang&apos;,</span><br><span class="line">  &apos;cat&apos; : &apos;mow mow&apos;,</span><br><span class="line">  &apos;flog&apos; : &apos;gua gua&apos;</span><br><span class="line">&#125;;</span><br><span class="line">function getBark(type)&#123;</span><br><span class="line">  return barkType[type];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样做有两个好处：</p>
+<ul>
+<li>假如我们需要加入新的动物及其叫声，只需要为<code>barkType</code>添加一行就可以了，便于拓展；</li>
+<li><code>getBark</code>函数是封装好的，在添加新的动物叫声的时候，该方法可以完全保持不动。</li>
+</ul>
+<ol>
+<li>参数不要太多，如果想要传的参数很多，可以使用对象来传参数<br>忘记是哪里看到的了，说是函数的参数不要太多，建议不要超过四个。否则可能会带来一些问题，比如：在传参的时候少传了，参数的顺序写错，会产生不可预料的错误。如果是我的话，在对函数要传递很多参数的时候，我会将参数封装为对象，比如：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// too many arguments...</span><br><span class="line">function getInfo(name, age, class, grade, salary)&#123;...&#125;</span><br><span class="line">// simple argument...</span><br><span class="line">let person = &#123;</span><br><span class="line">  name: &apos;...&apos;,</span><br><span class="line">  age: &apos;...&apos;,</span><br><span class="line">  class: &apos;...&apos;,</span><br><span class="line">  salary: &apos;...&apos;</span><br><span class="line">&#125;;</span><br><span class="line">function getInfo(person)&#123;...&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这样做就不要担心参数的顺序问题了，只要我们需要的值都在<code>person</code>对象中，我们写在第几个都是可以正常的调用到的。</p>
+<ol>
+<li>要将大函数切分为小而精的函数，提高代码的可重用性。比如：<ul>
+<li>loadItem不一定要全要，因为不一定我什么东西都买</li>
+<li>对于不同的优惠种类给予不同的输出函数</li>
+</ul>
+</li>
+</ol>
+<p>这样做既满足了对于函数的单一职责原则，又可以大大增大代码的可重用性，因此是由必要对代码的函数进行合理的切分的。引用我之前的一个分享。</p>
+<blockquote>
+<p>文章中提到作者所写的函数大部分函数都是小于10行的，有一些函数甚至只有一两行代码。<br>在函数短的时候，势必会造成函数调用数量的增加，这时可能会担心函数调用对内存等的占用问题。但作者提到，是不会的。因为现在的编译器和解释器对于小的函数能够更好的进行缓存，以此来提高程序运行效率，因此并不会有很多额外的开销。<br>相反，在写函数的时候，如何赋予函数一个语义化的名字才是事关重要的。比如：判断一个数组为空，我们可以直接判断if(arr.length === 0)，但这样看上去更像是说这个数组的长度是零么，不如直接声明一个函数function isEmptyArr(arr){return arr.length === 0;}，这样再去调用该函数的时候，就可以从函数名中得知我们是在判断一个数组是否为空。<br>最好的状态就是在读代码的时候，感觉像是在读故事一样。</p>
+</blockquote>
+<p>（这一点也是自己需要再加强的，捂脸。。）</p>
+<ol>
+<li><p>代码格式化（对齐问题）<br>这一点我认为也是比较重要的，如果一段代码的格式比较乱，我认为会极大的影响代码的可读性，很有可能会把大括号的层级给搞错，产生不必要的麻烦。<br>关于代码的格式规范，个人认为是没有必须的统一的要求，通常都是以一个公司或者企业内部会有一套代码规范，然后企业内部的员工就同意遵循这个规范就好。如果自己的话，其实挺好解决，几乎所有的编辑器都有代码格式化的功能，只要查到你所用的编辑器的代码格式化的快捷键，时不时的格式化一下就好。</p>
+</li>
+<li><p>适当添加注释<br>今天好像看到大家比较少的添加注释，包括我自己在内。记得之前看过文章说，如果你的代码中有太多注释，证明你的代码的自表达性不好，就是没有特别好的语义化的命名，让人一看就能明白是什么意思。因此建议是适当的注释，如果这块逻辑比较复杂，建议还是添加上注释比较好，其实很多时候注释都是写给自己看的，我觉得很多时候当我们回过头看自己的代码的时候，如果没有注释，自己也是会看不懂的。</p>
+</li>
+</ol>
+<h2 id="JS语法方面的问题"><a href="#JS语法方面的问题" class="headerlink" title="JS语法方面的问题"></a>JS语法方面的问题</h2><ol>
+<li>JSON相关<br>其实我觉得JSON就是对象（key-value对，键值对），有两个比较重要的方法，<code>JSON.parse()</code>方法将满足对象格式的字符串转化为JSON对象，以及<code>JSON.stringify()</code>方法将JSON对象转换为字符串。通过使用<code>JSON.parse(JSON.stringify(obj))</code>是可以完成一个对象的深拷贝的。<br>更集体的介绍可以看这里。→ <a href="http://www.w3school.com.cn/json/json_intro.asp" target="_blank" rel="noopener">JSON介绍</a></li>
+<li>关于对象的深拷贝和浅拷贝<br>简单来说就是一个是传值一个是传递引用（内存地址）。浅复制只会将对象的各个属性进行依次复制，并不会进行递归复制，而 JavaScript 存储对象都是存地址的，所以浅复制会导致拷贝前后两个变量指向同一块内存地址；深复制则不同，它不仅将原对象的各个属性逐个复制出去，而且将原对象各个属性所包含的对象也依次采用深复制的方法递归复制到新对象上，这样拷贝前后的两个变量就指向不同的地址，就不会发生改变拷贝之后的变量，拷贝之前的变量的值也变了的情况了。<br>更详细的可以看一下这里知乎的讨论。 → <a href="https://www.zhihu.com/question/23031215" target="_blank" rel="noopener">javascript中的深拷贝和浅拷贝?</a></li>
+<li>ES6<br>ES6发布已经出来有些年头了，并且在内部又封装了很多很实用的方法，其实是可以大胆的使用的，具体的ES6的内容一两句也说不完，就不具体说了，想学习的话是可以看阮一峰老师的ES6教程，写的很不错。→ <a href="http://es6.ruanyifeng.com/" target="_blank" rel="noopener">ECMAScript 6教程</a>。对了，还有我之前做了关于ES6的语法总结，也可以看下，嘿嘿~ <a href="http://xujin.pro/2017-08-07-summary-of-es6-syntax.html">ES6常用语法总结</a></li>
+</ol>
+<p>END 💯</p>
+<p>一起加油吧！👍</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-08-23-javascript-challenge-28.html" data-toggle="tooltip" data-placement="top"
+                           title="javascript30-day-28-Video Speed Scrubber">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-08-12-javascript-challenge-27.html" data-toggle="tooltip" data-placement="top"
+                           title="javascript30-day-27-Click and Drag">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#代码实践方面"><span class="toc-text">代码实践方面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JS语法方面的问题"><span class="toc-text">JS语法方面的问题</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#个人随笔"
+                           title="个人随笔">个人随笔</a>
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-08-14-tw-online-meetup-summary.html";
+    var disqus_url = "http://xujin.pro/2017-08-14-tw-online-meetup-summary.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

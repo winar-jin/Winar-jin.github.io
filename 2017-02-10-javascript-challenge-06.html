@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Javascript30-day06-Type Ahead｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-02-10-javascript-challenge-06.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Javascript30-day06-Type Ahead</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-02-10
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Javascript30-day06-Type Ahead
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>在Github上看到了<a href="https://twitter.com/wesbos" target="_blank" rel="noopener">wesbos</a>的一个Javascript30天挑战的<a href="https://github.com/wesbos/JavaScript30" target="_blank" rel="noopener">repo</a>，旨在使用纯Js来进行练习，不允许使用任何其他的库和框架，该挑战共30天，我会在这里记录下自己练习的过程和遇到的问题。</p>
+</blockquote>
+<h2 id="Day06-Type-Ahead"><a href="#Day06-Type-Ahead" class="headerlink" title="Day06 - Type Ahead"></a>Day06 - Type Ahead</h2><p>第六天的练习是通过在输入框中输入一个词，能够迅速匹配出含有这个词的城市名称或者州名，城市的来源是通过加载页面时从网络中异步获得的JSON数据。</p>
+<p><a href="http://htmlpreview.github.io/?https://github.com/winar-jin/JavaScript30-Challenge/blob/master/06%20-%20Type%20Ahead/index.html" target="_blank" rel="noopener">效果如下</a></p>
+<h2 id="数据请求"><a href="#数据请求" class="headerlink" title="数据请求"></a>数据请求</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> endpoint = <span class="string">'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json'</span>;</span><br><span class="line"><span class="keyword">const</span> cities = [];</span><br><span class="line">fetch(endpoint)</span><br><span class="line">    .then(<span class="function"><span class="params">blob</span> =&gt;</span> blob.json())</span><br><span class="line">    .then(<span class="function"><span class="params">data</span> =&gt;</span> cities.push(...data));</span><br></pre></td></tr></table></figure>
+<ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API" target="_blank" rel="noopener">Fetch API</a></li>
+</ul>
+<p>之前，在做数据请求的时候，XMLHttpRequest一直倍受Web开发者的青睐，无论是直接或者是间接，我们通常使用的Ajax技术就是基于XMLHttpRequest的，而Fetch API是一种新的致力于替代XMLHttpRequest的技术。</p>
+<p>Fetch API 提供了获取资源（包括通过网络获取资源）的接口。Fetch API提供了一个fetch()方法，它被定义在BOM的window对象中，你可以用它来发起对远程资源的请求。</p>
+<p>fetch() 必须接受一个参数——资源的路径。无论请求成功与否，它都返回一个 promise 对象，resolve 对应请求的 Response。你也可以传一个可选的第二个参数—— init（参考<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Request" target="_blank" rel="noopener">Request</a>）</p>
+<p>Fetch API 的基本语法如下：<br><code>fetch(input, init).then(function(response) { ... });</code></p>
+<p>更详细的Fetch API的相关内容，请参考<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API" target="_blank" rel="noopener">MDN</a>。</p>
+<p>通过请求获取到数据后，将其存在<code>cities[]</code>数组中，以便后续使用。由于我们在<code>.then(dta)</code>中获取到的<code>data</code>已经是一个数组，我们想要把他存储在<code>cities[]</code>数组中,使用了ES6 中的数组扩展语法。</p>
+<ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Spread_operator" target="_blank" rel="noopener">数组扩展语法</a><br>扩展语法允许在需要多个参数（用于函数调用）或多个元素（用于数组文本）或多个变量（用于解构分配）的位置扩展表达式。<br>基本语法如下：<code>myfunc(...iterableObj)</code>,也可用于数组字面量，用法如下：<code>[...iterableObj,4,5,6]</code>。<br>更详细的关于扩展语句的相关内容，建议参考<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Spread_operator" target="_blank" rel="noopener">MDN</a>。</li>
+</ul>
+<h2 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">findCity</span>(<span class="params">searchString,cities</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">const</span> regx = <span class="keyword">new</span> <span class="built_in">RegExp</span>(searchString,<span class="string">'gi'</span>);</span><br><span class="line">  <span class="comment">//return cities.filter(item =&gt; item.city.includes(searchString) || item.state.includes(searchString));</span></span><br><span class="line">  <span class="keyword">return</span> cities.filter(<span class="function"><span class="params">item</span> =&gt;</span> (item.city.search(regx) !== <span class="number">-1</span>) || (item.state.search(regx) !== <span class="number">-1</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们获取到了保存所有城市信息的数组<code>cities[]</code>之后，就可以根据输入的字符串，挑选出包含该字符串的城市名或州名。</p>
+<p>此处使用了正则表达式进行匹配，<code>.search(RegExp)</code>，若查找不到则返回<code>-1</code>,否则返回字符串中第一次出现满足正则表达式的位置下标。</p>
+<p>对于<code>cities[]</code>数组来说，则使用<code>.filter()</code>方法，返回满足条件的项。</p>
+<h2 id="数据展示"><a href="#数据展示" class="headerlink" title="数据展示"></a>数据展示</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">numberWithCommas</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x.toString().replace(<span class="regexp">/\B(?=(\d&#123;3&#125;)+(?!\d))/g</span>, <span class="string">','</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">displayCity</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">const</span> searchRusult = findCity(<span class="keyword">this</span>.value,cities);</span><br><span class="line">  <span class="keyword">const</span> regx = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="keyword">this</span>.value,<span class="string">'gi'</span>);</span><br><span class="line">  <span class="keyword">const</span> dom = searchRusult.map(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> city = item.city.replace(regx,<span class="string">`&lt;span class="hl"&gt;<span class="subst">$&#123;<span class="keyword">this</span>.value&#125;</span>&lt;/span&gt;`</span>);</span><br><span class="line">    <span class="keyword">const</span> state = item.state.replace(regx,<span class="string">`&lt;span class="hl"&gt;<span class="subst">$&#123;<span class="keyword">this</span>.value&#125;</span>&lt;/span&gt;`</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`</span></span><br><span class="line"><span class="string">      &lt;li&gt;</span></span><br><span class="line"><span class="string">        &lt;span class="name"&gt;<span class="subst">$&#123;city&#125;</span>,<span class="subst">$&#123;state&#125;</span>&lt;/span&gt;</span></span><br><span class="line"><span class="string">        &lt;span class="population"&gt;<span class="subst">$&#123;numberWithCommas(item.population)&#125;</span>&lt;/span&gt;</span></span><br><span class="line"><span class="string">      &lt;/li&gt;</span></span><br><span class="line"><span class="string">      `</span>;</span><br><span class="line">      &#125;).join(<span class="string">''</span>);</span><br><span class="line">  suggestions.innerHTML = dom;</span><br><span class="line">  <span class="keyword">if</span>(<span class="keyword">this</span>.value == <span class="string">''</span>)&#123;</span><br><span class="line">    suggestions.innerHTML = <span class="string">`</span></span><br><span class="line"><span class="string">    &lt;li&gt;Filter for a city&lt;/li&gt;</span></span><br><span class="line"><span class="string">      &lt;li&gt;or a state&lt;/li&gt;`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过<code>findCity(searchString,cities)</code>方法返回满足条件的城市字符串数组，并对查找字符串进行格式化，添加<code>.hl</code>类，此处使用正则表达式进行替换，<code>.replace(RegExp,newString)</code>,可以将满足正则表达式的字符串替换为新的字符串，此处也使用了ES6的模版字符串。</p>
+<p><code>findCity(searchString,cities)</code>返回的是一个数组，我们将数组中的每一项映射为可以插入文档中的HTML代码，也即<code>&lt;li&gt;
+        &lt;span class=&quot;name&quot;&gt;${city},${state}&lt;/span&gt;
+        &lt;span class=&quot;population&quot;&gt;${numberWithCommas(item.population)}&lt;/span&gt;
+      &lt;/li&gt;</code>，再使用数组的<code>.join(&#39;&#39;)</code>方法可以将数组的每一项连接为一个字符串，<em><code>.join(&#39;&#39;)</code>需要一个连接符，默认是’,’(逗号),如果想要平滑连接的话，其参数不能省略不填，应填’’,否则按默认处理。</em></p>
+<p>还有对右侧人口数字的格式化处理，三位数字用一个’,’(逗号)隔开，仍采用正则表达式的<code>.replace(RegExp,newString)</code>方法实现，具体见<code>numberWithCommas(x)</code>函数。</p>
+<p>最后将其插入到DOM文档中即可。</p>
+<h2 id="事件监听"><a href="#事件监听" class="headerlink" title="事件监听"></a>事件监听</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const searchContent = document.querySelector(&apos;.search&apos;);</span><br><span class="line">const suggestions = document.querySelector(&apos;.suggestions&apos;);</span><br><span class="line">searchContent.addEventListener(&apos;change&apos;,displayCity);</span><br><span class="line">searchContent.addEventListener(&apos;keyup&apos;,displayCity);</span><br></pre></td></tr></table></figure>
+<p>最后就是要对DOM节点进行监听，同时监听<code>input</code>框的<code>change</code>事件和<code>keyup</code>事件，就可以实时的输出最新的结果。</p>
+<h2 id="Tip"><a href="#Tip" class="headerlink" title="Tip"></a>Tip</h2><p>在Console面板下进行调试时，我们常用的是<code>consol.log()</code>，但是假如我们需要不断的调试，就需要多次使用<code>console.log</code>，每次都输入难免有些繁琐。于是，我们可以使用一种简洁的方法来输入<code>console.log</code>，就是<strong><code>window.log = window.console.log;</code></strong>，这样我们在调试的时候，只用输入<code>log(*)</code>就可以进行调试了，方便了不少。</p>
+<p>OK，至此为止，day06就算是完成了。👍</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-02-11-javascript-challenge-07.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day07-Array Cardio Day 2">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-02-08-javascript-challenge-05.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day05-Flex Panel Gallery">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Day06-Type-Ahead"><span class="toc-text">Day06 - Type Ahead</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据请求"><span class="toc-text">数据请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据处理"><span class="toc-text">数据处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据展示"><span class="toc-text">数据展示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件监听"><span class="toc-text">事件监听</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tip"><span class="toc-text">Tip</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-02-10-javascript-challenge-06.html";
+    var disqus_url = "http://xujin.pro/2017-02-10-javascript-challenge-06.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

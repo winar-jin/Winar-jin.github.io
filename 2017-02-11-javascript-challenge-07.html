@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Javascript30-day07-Array Cardio Day 2｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-02-11-javascript-challenge-07.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Javascript30-day07-Array Cardio Day 2</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-02-11
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Javascript30-day07-Array Cardio Day 2
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>在Github上看到了<a href="https://twitter.com/wesbos" target="_blank" rel="noopener">wesbos</a>的一个Javascript30天挑战的<a href="https://github.com/wesbos/JavaScript30" target="_blank" rel="noopener">repo</a>，旨在使用纯Js来进行练习，不允许使用任何其他的库和框架，该挑战共30天，我会在这里记录下自己练习的过程和遇到的问题。</p>
+</blockquote>
+<h2 id="Day07-Array-Cardio-Day-2"><a href="#Day07-Array-Cardio-Day-2" class="headerlink" title="Day07 - Array Cardio Day 2"></a>Day07 - Array Cardio Day 2</h2><p>第七天的练习是接着之前day04的练习，继续熟练数组的方法，依旧没有页面显示效果，所以请打开浏览器的Console面板进行调试运行。</p>
+<p><a href="http://htmlpreview.github.io/?https://github.com/winar-jin/JavaScript30-Challenge/blob/master/07%20-%20Array%20Cardio%20Day%202/index.html" target="_blank" rel="noopener">效果如下(请打开Console面板查看)</a></p>
+<h2 id="TaskList"><a href="#TaskList" class="headerlink" title="TaskList"></a>TaskList</h2><p>网站给了两个数组，分别为people数组和comments数组，如下：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> people = [</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">'Wes'</span>, <span class="attr">year</span>: <span class="number">1988</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">'Kait'</span>, <span class="attr">year</span>: <span class="number">1986</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">'Irv'</span>, <span class="attr">year</span>: <span class="number">1970</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">name</span>: <span class="string">'Lux'</span>, <span class="attr">year</span>: <span class="number">2015</span> &#125;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> comments = [</span><br><span class="line">    &#123; <span class="attr">text</span>: <span class="string">'Love this!'</span>, <span class="attr">id</span>: <span class="number">523423</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">text</span>: <span class="string">'Super good'</span>, <span class="attr">id</span>: <span class="number">823423</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">text</span>: <span class="string">'You are the best'</span>, <span class="attr">id</span>: <span class="number">2039842</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">text</span>: <span class="string">'Ramen is my fav food ever'</span>, <span class="attr">id</span>: <span class="number">123523</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">text</span>: <span class="string">'Nice Nice Nice!'</span>, <span class="attr">id</span>: <span class="number">542328</span> &#125;</span><br><span class="line">];</span><br></pre></td></tr></table></figure></p>
+<p>在此两数组的基础上实现一下几个操作：</p>
+<ol>
+<li>是否至少有一人年满19周岁？</li>
+<li>是否每一个人都年满19周岁？</li>
+<li>是否存在id=823423的评论？</li>
+<li>找到id=823423的评论的序列号(下标)。</li>
+<li>删除id=823423的评论。</li>
+</ol>
+<h2 id="Answers"><a href="#Answers" class="headerlink" title="Answers"></a>Answers</h2><ol>
+<li><code>Array.prototype.some()</code></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> isAdult = people.some(<span class="function"><span class="keyword">function</span>(<span class="params">person</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">const</span> currentYear = <span class="keyword">new</span> <span class="built_in">Date</span>().getFullYear();</span><br><span class="line">  <span class="keyword">if</span>(currentYear - person.year &gt;= <span class="number">19</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(&#123;isAdult&#125;);</span><br></pre></td></tr></table></figure>
+<p><code>.some(callback)</code>函数测试数组中的每一项是否满足传入函数，只要有一项满足就返回true，否则返回false。<br>回调函数有三个参数，分别为<code>currentValue</code>，<code>index</code>，<code>array</code>,分别代表待传入的值，当前元素在数组中的下标，传入的数组。<br>在这里可以使用ES6的箭头函数对结果进行简化，如下：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> isAdult = people.some(<span class="function"><span class="params">person</span> =&gt;</span> (<span class="keyword">new</span> <span class="built_in">Date</span>().getFullYear() - person.year) &gt;= <span class="number">19</span> );</span><br><span class="line"><span class="built_in">console</span>.log(&#123;isAdult&#125;);</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some" target="_blank" rel="noopener">参考文档</a></p>
+</blockquote>
+<ol>
+<li><code>Array.prototype.every()</code></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> everyAdult = people.every(<span class="function"><span class="params">person</span> =&gt;</span> (<span class="keyword">new</span> <span class="built_in">Date</span>().getFullYear() - person.year) &gt;= <span class="number">19</span>);</span><br><span class="line"><span class="built_in">console</span>.log(&#123;everyAdult&#125;);</span><br></pre></td></tr></table></figure>
+<p><code>.every(callback)</code>函数测试数组中的每一项是否满足传入函数，只有所有的项都满足才返回true，否则返回false。<br>回调函数有三个参数，分别为<code>currentValue</code>，<code>index</code>，<code>array</code>,分别代表待传入的值，当前元素在数组中的下标，传入的数组。</p>
+<blockquote>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every" target="_blank" rel="noopener">参考文档</a></p>
+</blockquote>
+<ol>
+<li><code>Array.prototype.find(callback)</code></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> findComment = comments.find(<span class="function"><span class="params">comment</span> =&gt;</span> comment.id === <span class="number">823423</span>);</span><br><span class="line"><span class="built_in">console</span>.log(findComment);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>.find(callback)</code>函数测试数组中的每一项是否满足传入函数，如果找到满足传入函数的值，就传回该值，否则返回undefined。<br>回调函数有三个参数，分别为<code>currentValue</code>，<code>index</code>，<code>array</code>,分别代表待传入的值，当前元素在数组中的下标，传入的数组。</p>
+<blockquote>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find" target="_blank" rel="noopener">参考文档</a></p>
+</blockquote>
+<ol>
+<li><code>Array.prototype.findIndex()</code></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> findCommentIndex = comments.findIndex(<span class="function"><span class="params">comment</span> =&gt;</span> comment.id === <span class="number">823423</span>);</span><br><span class="line"><span class="built_in">console</span>.log(findCommentIndex);</span><br></pre></td></tr></table></figure>
+<p><code>.findIndex(callback)</code>函数测试数组中的每一项是否满足传入函数，如果找到满足传入函数的值，就传回该值所在的下标，否则返回-1。<br>回调函数有三个参数，分别为<code>currentValue</code>，<code>index</code>，<code>array</code>,分别代表待传入的值，当前元素在数组中的下标，传入的数组。</p>
+<blockquote>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex" target="_blank" rel="noopener">参考文档</a></p>
+</blockquote>
+<ol>
+<li><code>Array.prototype.splice()</code></li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">comments.splice(findCommentIndex,<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p><code>.splice()</code>方法，是一个十分强大的方法，既可以删除一个数组中的若干项，也可以向数组中某个位置添加若干项，语法如下<code>array.splice(start, [deleteCount], [item1, item2, ...])</code>,start代表从什么位置开始改变这个数组，从0开始索引；deleteCount代表要删除的个数，可选的；[item1, item2, …]代表向数组中添加的元素；若deleteCount=0,又有[item1, item2, …]存在，就可以实现在指定位置添加元素的效果；如果deleteCount=(some number)，且无[item1, item2, …]，就可以从数组中删除若干个元素。但是此方法是对原数组进行改变，经过<code>.splice()</code>方法处理后，原数组回丢失，因此再采用以下方法实现删除操作，而不损坏原数组。<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> newComments = [</span><br><span class="line">    ...comments.slice(<span class="number">0</span>,findCommentIndex),</span><br><span class="line">    ...comments.slice(findCommentIndex+<span class="number">1</span>)</span><br><span class="line">];</span><br></pre></td></tr></table></figure></p>
+<p>新建一个数组，从<code>comments</code>中剪切走需删除元素的前和后面的所有元素即可。在此新建的数组汇总加入两个数组，再用ES6的<code>...</code>扩展语法打开。</p>
+<blockquote>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice" target="_blank" rel="noopener">.splice()参考文档</a><br><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice" target="_blank" rel="noopener">.slice()参考文档</a></p>
+</blockquote>
+<p>至此就完成了。关于数组的操作，建议多看看数组相关的<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" target="_blank" rel="noopener">参考文档</a>，多多使用，就没有问题的。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-02-13-javascript-challenge-08.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day08-Fun with HTML5 Canvas">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-02-10-javascript-challenge-06.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day06-Type Ahead">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Day07-Array-Cardio-Day-2"><span class="toc-text">Day07 - Array Cardio Day 2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TaskList"><span class="toc-text">TaskList</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Answers"><span class="toc-text">Answers</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-02-11-javascript-challenge-07.html";
+    var disqus_url = "http://xujin.pro/2017-02-11-javascript-challenge-07.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

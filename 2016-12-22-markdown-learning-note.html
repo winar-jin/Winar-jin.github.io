@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Markdown学习笔记｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2016-12-22-markdown-learning-note.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Markdown学习笔记</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2016-12-22
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#markdown"
+                           title="markdown">markdown</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Markdown学习笔记
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>Markdown是一款轻量级的并且语法简单的标记语言，适用于各种文章的样式写作。</p>
+<h2 id="什么是Markdown？"><a href="#什么是Markdown？" class="headerlink" title="什么是Markdown？"></a>什么是Markdown？</h2><p>Markdown是一种在web上编写文章样式的方法，是一种语法简单的标记语言。可以控制文档的展示方式；将文本格式化显示为加粗或者斜体，添加图片，也可以创建一个列表。这些也仅仅是Markdown的一部分。大多数情况下，Markdown是一种用非字母标记（eg：‘#’，‘*’）的语言规则。</p>
+<h2 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h2><h3 id="文本"><a href="#文本" class="headerlink" title="文本"></a>文本</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">It&apos;s very easy to make some words **bold** and other words *italic* with Markdown. You can even [link to Google!](http://google.com)</span><br></pre></td></tr></table></figure>
+<p>It’s very easy to make some words <strong>bold</strong> and other words <em>italic</em> with Markdown. You can even <a href="http://google.com" target="_blank" rel="noopener">link to Google!</a></p>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1. One</span><br><span class="line">2. Two</span><br><span class="line">3. Three</span><br></pre></td></tr></table></figure>
+<ol>
+<li>One</li>
+<li>Two</li>
+<li>Three</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">* Start a line with a star</span><br><span class="line">* Profit!</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Start a line with a star</li>
+<li>Profit!</li>
+</ul>
+<blockquote>
+<p>列表也可以嵌套！<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">- Dashes work just as well</span><br><span class="line">- And if you have sub points, put two spaces before the dash or star:</span><br><span class="line">  - Like this</span><br><span class="line">  - And this</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<ul>
+<li>Dashes work just as well</li>
+<li>And if you have sub points, put two spaces before the dash or star:<ul>
+<li>Like this</li>
+<li>And this</li>
+</ul>
+</li>
+</ul>
+<h3 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)</span><br></pre></td></tr></table></figure>
+<p><img src="https://octodex.github.com/images/yaktocat.png" alt="Image of Yaktocat"></p>
+<h3 id="标题和引用"><a href="#标题和引用" class="headerlink" title="标题和引用"></a>标题和引用</h3><blockquote>
+<p>在组织文章结构的时候，拥有不同级别的标题是非常有用的。</p>
+<p>在一行的前面加上<code>#</code>就可以标记为标题，从<code>#</code>至<code>######</code>分别代表一级到六级标题，<code>#</code>越多，标题文字越小，但最多只能有六级标题。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 一级标题</span><br><span class="line">## 二级标题</span><br><span class="line">### 三级标题</span><br><span class="line">#### 四级标题</span><br><span class="line">##### 五级标题</span><br><span class="line">###### 六级标题</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><blockquote>
+<p>有时候我们会在文章中引用一些内容，这时候用<code>&gt;</code>开始一行就可以将这一行作为引用。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt; 我是引用</span><br></pre></td></tr></table></figure></p>
+<p>我是引用</p>
+</blockquote>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><blockquote>
+<p>比如我们在写技术博客的时候，以及其他的一些场景，会用到文章中显示代码，Markdown有两种类型的代码方式，行内代码和块级代码。</p>
+<ul>
+<li><strong>行内代码块</strong>：用单引号`（<em>键盘左上角Esc下那个键</em>）将代码块包裹。</li>
+<li><strong>块级代码</strong>：1.代码块上下分别用三个单引号<figure class="highlight plain"><figcaption><span>2.将代码块的每一行分别缩进四个字符。</span></figcaption><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+</blockquote>
+<pre><code>if (isAwesome){
+  return true
+}
+</code></pre><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    if (isAwesome)&#123;</span><br><span class="line">      return true</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&lt;pre&gt;</span><br></pre></td></tr></table></figure>
+<p>if (isAwesome){<br> return true<br>}<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;/pre&gt;</span><br></pre></td></tr></table></figure></p>
+<p>if (isAwesome){<br>  return true<br>}<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">&gt; 加上编程语言后，后使用语法高亮。</span><br><span class="line">&lt;pre&gt;</span><br><span class="line">```javascript</span><br><span class="line">if (isAwesome)&#123;</span><br><span class="line">  return true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (isAwesome)&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li>任务清单<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">- [x] This is a complete item</span><br><span class="line">- [ ] This is an incomplete item</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="http://7xss68.com1.z0.glb.clouddn.com/blog/post/2016/12/Markdown_taskList.png" alt="tasklist"></p>
+<h2 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h2><h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># This is an &lt;h1&gt; tag</span><br><span class="line">## This is an &lt;h2&gt; tag</span><br><span class="line">###### This is an &lt;h6&gt; tag</span><br></pre></td></tr></table></figure>
+<h3 id="字体加粗和斜体"><a href="#字体加粗和斜体" class="headerlink" title="字体加粗和斜体"></a>字体加粗和斜体</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">*会显示斜体字*</span><br><span class="line">_会显示斜体字_</span><br><span class="line">**字体加粗**</span><br><span class="line">__字体加粗__</span><br><span class="line">_你可以 **结合** 他们_</span><br></pre></td></tr></table></figure>
+<p><em>会显示斜体字</em></p>
+<p><em>会显示斜体字</em></p>
+<p><strong>字体加粗</strong></p>
+<p><strong>字体加粗</strong></p>
+<p><em>你可以 <strong>结合</strong> 他们</em></p>
+<h3 id="列表-1"><a href="#列表-1" class="headerlink" title="列表"></a>列表</h3><ul>
+<li><p>无序列表</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">* Item 1</span><br><span class="line">* Item 2</span><br><span class="line">  * Item 2a</span><br><span class="line">  * Item 2b</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Item 1</p>
+</li>
+<li><p>Item 2</p>
+<ul>
+<li>Item 2a</li>
+<li>Item 2b</li>
+</ul>
+</li>
+<li><p>有序列表</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1. Item 1</span><br><span class="line">2. Item 2</span><br><span class="line">3. Item 3</span><br><span class="line">   * Item 3a</span><br><span class="line">   * Item 3b</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol>
+<li>Item 1</li>
+<li>Item 2</li>
+<li>Item 3<ul>
+<li>Item 3a</li>
+<li>Item 3b</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>图像</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">![图像标题](图像链接)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>链接</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[GitHub](http://github.com)</span><br></pre></td></tr></table></figure>
+<p><a href="http://github.com" target="_blank" rel="noopener">GitHub</a></p>
+<ul>
+<li>引用<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt; 我是一个引用</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>我是一个引用</p>
+</blockquote>
+<ul>
+<li>行内代码<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">`&lt;addr&gt;` element here instead.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>&lt;addr&gt;</code> element here instead.</p>
+<ul>
+<li>块级语法高亮<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">```javascript</span><br><span class="line">function fancyAlert(arg) &#123;</span><br><span class="line">  if(arg) &#123;</span><br><span class="line">    $.facebox(&#123;div:&apos;#foo&apos;&#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fancyAlert</span>(<span class="params">arg</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(arg) &#123;</span><br><span class="line">    $.facebox(&#123;<span class="attr">div</span>:<span class="string">'#foo'</span>&#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>表格<blockquote>
+<p>创建表格只需要将所有的标题和内容，按照表格的格式写在一起。然后将第一行的标题和下面的内容用连字符<code>-</code>分隔，把每一列用竖线<code>|</code>分隔即可。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">标题一|标题二 |标题三</span><br><span class="line">-----|------|----</span><br><span class="line">内容一| 内容二| 内容三</span><br><span class="line">内容一| 内容二| 内容三</span><br><span class="line">内容一| 内容二| 内容三</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>标题一</th>
+<th>标题二</th>
+<th>标题三</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>内容一</td>
+<td>内容二</td>
+<td>内容三</td>
+</tr>
+<tr>
+<td>内容一</td>
+<td>内容二</td>
+<td>内容三</td>
+</tr>
+<tr>
+<td>内容一</td>
+<td>内容二</td>
+<td>内容三</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>删除线<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">~~我被删除了~~</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><del>我被删除了</del></p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ul>
+<li>标签的输入状态，几乎所有标签都需要在英文状态下输入</li>
+<li>在标签后面都需要空一格再输入内容，否则会被当做文本处理</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://daringfireball.net/projects/markdown/syntax" target="_blank" rel="noopener">DaringFireball</a></li>
+<li><a href="http://wowubuntu.com/markdown/" target="_blank" rel="noopener">Markdown 语法说明</a></li>
+</ul>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016-12-29-forgotten-print-style-sheet.html" data-toggle="tooltip" data-placement="top"
+                           title="【译】被人遗忘了的打印样式表">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是Markdown？"><span class="toc-text">什么是Markdown？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Examples"><span class="toc-text">Examples</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文本"><span class="toc-text">文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表"><span class="toc-text">列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图像"><span class="toc-text">图像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标题和引用"><span class="toc-text">标题和引用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#一级标题"><span class="toc-text">一级标题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#二级标题"><span class="toc-text">二级标题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#三级标题"><span class="toc-text">三级标题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#四级标题"><span class="toc-text">四级标题</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#五级标题"><span class="toc-text">五级标题</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#六级标题"><span class="toc-text">六级标题</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码"><span class="toc-text">代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#语法规则"><span class="toc-text">语法规则</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#标题"><span class="toc-text">标题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字体加粗和斜体"><span class="toc-text">字体加粗和斜体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表-1"><span class="toc-text">列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意"><span class="toc-text">注意</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#markdown"
+                           title="markdown">markdown</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2016-12-22-markdown-learning-note.html";
+    var disqus_url = "http://xujin.pro/2016-12-22-markdown-learning-note.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

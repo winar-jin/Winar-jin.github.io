@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        JavaScript中变量的作用域小结｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-09-26-difference-of-let-var.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>JavaScript中变量的作用域小结</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-09-26
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            JavaScript中变量的作用域小结
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>有这么一个问题：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> arr = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt;= <span class="number">3</span>; i++) &#123;</span><br><span class="line">        arr.push(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> i * i;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> results = count();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> j <span class="keyword">of</span> results) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(j());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果是3个16。但是我们若将代码改为这样子：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bb_test</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> arr = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">        arr.push(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> i * i;</span><br><span class="line"></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr = bb_test();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">of</span> arr) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(i());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果是0、1、4、9，是我们所期望的结果。<br>我尝试着就这个问题解释一下为什么用<code>var</code>和<code>let</code>得到不同的结果。</p>
+<ol>
+<li>用<code>var</code>，<code>var</code>声明的变量的作用域是整个封闭函数，没有块级作用域。<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function count() &#123;</span><br><span class="line">    var arr = [];</span><br><span class="line">    for (var i = 1; i &lt;= 3; i++) &#123;</span><br><span class="line">        arr.push(function () &#123;</span><br><span class="line">            return i * i;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    return arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这个函数<code>count</code>只有一个作用域，就是<code>count</code>函数本身，因此在这个函数作用域内，<code>i</code>都不会被销毁，<code>i</code>的值均存在。如你所说你试了在外界是不能调用<code>i</code>的，那是因为在外界这个函数执行完毕后，该函数作用域就会结束，<code>i</code>的值就会被销毁，所以无法调用<code>i</code>的值。<br>为什么返回结果是3个16？因为，在这个函数作用域内，我们每一次<code>push</code>进去的是一个函数，在<code>count</code>函数中的<code>for</code>循环结束后，此时<code>arr</code>是这样的：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">arr = [</span><br><span class="line">  function () &#123;return i * i;&#125;,</span><br><span class="line">  function () &#123;return i * i;&#125;,</span><br><span class="line">  function () &#123;return i * i;&#125;</span><br><span class="line">];</span><br></pre></td></tr></table></figure></p>
+<p>此时由于函数还未执行结束，作用域还在，<code>i</code>的作用域还在，并不会立即算出结果，在<code>for</code>的下一次循环，先<code>i++</code>得到<code>i=4</code>，判定<code>i&lt;=3</code>为<code>false</code>，所以结束此这个循环（这时在这个函数作用域内<code>i</code>的值为<code>4</code>），接下来<code>return arr;</code>，在<code>return</code>之后，<code>count</code>函数就执行完毕了，<code>count</code>函数的函数作用域也会消失，即<code>i</code>也会立即消失，但我们将<code>arr</code>返回了，所以<code>count</code>函数执行后的<code>arr</code>相当于：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">arr = [</span><br><span class="line">  function () &#123;return 4 * 4;&#125;,</span><br><span class="line">  function () &#123;return 4 * 4;&#125;,</span><br><span class="line">  function () &#123;return 4 * 4;&#125;</span><br><span class="line">];</span><br></pre></td></tr></table></figure></p>
+<p>所以我们在<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var results = count();</span><br><span class="line">for (let j of results) &#123;</span><br><span class="line">    console.log(j());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>时会直接返回<code>16 16 16</code>。</p>
+<ol>
+<li>用<code>let</code>，<code>let</code>声明的变量只在其声明的块或子块中可用，块级作用域可以理解为<code>{}</code>，一对大括号中是一个作用域。<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function let_test() &#123;</span><br><span class="line">    let arr = [];</span><br><span class="line">    for (let i = 0; i &lt; 4; i++) &#123;</span><br><span class="line">        arr.push(function () &#123;</span><br><span class="line">            return i * i;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    return arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>观察函数<code>let_test</code>，会发现这里有二个块级作用域，且<code>i</code>只存在于<em>块级作用域2</em>下。如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function let_test() &#123;</span><br><span class="line">    // 块级作用域1</span><br><span class="line">    for (let i = 0; i &lt; 4; i++) &#123;</span><br><span class="line">        // 块级作用域2</span><br><span class="line">        arr.push(function () &#123;</span><br><span class="line">            return i * i;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    return arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>而<code>let</code>声明的i的作用域为自己所在的块和其子块中可用，且每一次结束其块级作用域均会清除该值，因此在执行函数内部的循环时，会先进入<em>块级作用域2</em>，然后<code>push</code>到数组。注意，就下来就会离开<em>块级作用域2</em>进入下一次循环了，因此在离开<em>块级作用域2</em>的时候，<code>i</code>的值会被立即结算并释放。此时<code>arr</code>的值就相当于：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">arr = [</span><br><span class="line">  function () &#123;return 0 * 0;&#125;,</span><br><span class="line">  function () &#123;return 1 * 1;&#125;,</span><br><span class="line">  function () &#123;return 2 * 2;&#125;,</span><br><span class="line">  function () &#123;return 3 * 3;&#125;</span><br><span class="line">];</span><br></pre></td></tr></table></figure></p>
+<p>然后就会将该数组返回。<br>所以在执行：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let arr = let_test();</span><br><span class="line">for (let i of arr) &#123;</span><br><span class="line">    console.log(i());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>的时候，就是输出<code>0 1 4 9</code>。<br>💯</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-10-17-would-it-be-a-shame-if-a-cto-asks-an-intern-to-teach-him-her-technical-skills.html" data-toggle="tooltip" data-placement="top"
+                           title="【译】CTO 向实习生请教技术问题会特别尴尬么？">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-09-07-summary-of-tw-online-camp.html" data-toggle="tooltip" data-placement="top"
+                           title="在思沃线上特训营的这一个多月">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-09-26-difference-of-let-var.html";
+    var disqus_url = "http://xujin.pro/2017-09-26-difference-of-let-var.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

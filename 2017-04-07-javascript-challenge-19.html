@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Javascript30-day19 - Webcam Fun｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-04-07-javascript-challenge-19.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Javascript30-day19 - Webcam Fun</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-04-07
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Javascript30-day19 - Webcam Fun
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>在Github上看到了<a href="https://twitter.com/wesbos" target="_blank" rel="noopener">wesbos</a>的一个Javascript30天挑战的<a href="https://github.com/wesbos/JavaScript30" target="_blank" rel="noopener">repo</a>，旨在使用纯Js来进行练习，不允许使用任何其他的库和框架，该挑战共30天，我会在这里记录下自己练习的过程和遇到的问题。</p>
+</blockquote>
+<h2 id="Day19-Webcam-Fun"><a href="#Day19-Webcam-Fun" class="headerlink" title="Day19 - Webcam Fun"></a>Day19 - Webcam Fun</h2><p>第十九天的练习是使用浏览器的摄像头，实时记录影像，并输出到canvas中，并用canvas对图像进行滤镜的处理。<br><a href="http://htmlpreview.github.io/?https://github.com/winar-jin/JavaScript30-Challenge/blob/master/19%20-%20Webcam%20Fun/index.html" target="_blank" rel="noopener">线上例子</a>。</p>
+<blockquote>
+<p>当你看浏览器查看这个在线例子的时候，你会发现并不能看到页面上出现你的视频画面，打开console面板，你会发现如下提示：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">getUserMedia() no longer works on insecure origins. To use this feature, you should consider switching your application to a secure origin, such as HTTPS. See https://goo.gl/rStTGz for more details.</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>意思就是只有在安全的连接模式下，才可以使用getUserMedia()的api获取到摄像头的视频信息，那么什么是安全连接呢，主要有HTTPS，localhost，wss,file,chrome-extension等。<br>更多有关安全连接的信息，请查阅<a href="https://www.chromium.org/Home/chromium-security/prefer-secure-origins-for-powerful-new-features" target="_blank" rel="noopener">参考文档</a>.</p>
+<p>对于我们的这份例子，我们通过搭建本地localhost服务器，达到安全连接的方式比较方便，因此我们首先收件本地服务器，打开我们项目中的<code>package.json</code>文件，会发现里面包含了唯一一个依赖<code>browser-sync</code>，可以创建一个本地的localhost服务器，并实时的检测页面文件的变化。（关于browser-sync，更多的可以查阅<a href="https://browsersync.io/docs" target="_blank" rel="noopener">参考文档</a>）,使用<code>npm install</code>安装browser-sync依赖，安装成功后运行<code>npm start</code>即可运行本地localhost服务器，并实时的检测文件的变化，实时刷新。</p>
+<h2 id="主要思路"><a href="#主要思路" class="headerlink" title="主要思路"></a>主要思路</h2><ul>
+<li>获取到浏览器的摄像头的影像</li>
+<li>将影像的记录导出到canvas中</li>
+<li>通过获取canvas中的图片信息，对图片添加滤镜</li>
+</ul>
+<h2 id="获取影像"><a href="#获取影像" class="headerlink" title="获取影像"></a>获取影像</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getVideo</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    navigator.mediaDevices.getUserMedia(&#123;<span class="attr">video</span>:<span class="literal">true</span>,<span class="attr">audio</span>:<span class="literal">false</span>&#125;)</span><br><span class="line">        .then(<span class="function"><span class="params">videostream</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(videostream);</span><br><span class="line">            video.src = URL.createObjectURL(videostream); <span class="comment">// 创建url（creates  a URL for the specified object）</span></span><br><span class="line">            video.play();</span><br><span class="line">        &#125;)</span><br><span class="line">        .catch(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.error(<span class="string">'OH,Don\'t have permission to use your local cam!'</span>,err);</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><code>navigator.mediaDevices.getUserMedia()</code>方法提示用户允许使用视频或者音频设备，如果用户点击允许，则返回一个Promise对象，MediaStream对象作为此Promise对象的Resolved［成功］状态的回调函数参数；但如果用户点击拒绝或者媒体可以用的时候，同样返回一个Promise对象，且PermissionDeniedError或者NotFoundError作为此Promise的Rejected［失败］状态的回调函数参数。但是，用户也可以直接取消选择，不同意也不拒绝，所以返回的Promise对象可能既不会触发resolve 也不会触发 reject。参数为一个对象，包含要请求的视频和音频情况，布尔类型，请求权限的话为true，vice via。<br>更详细的内容还请进一步查阅<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/getUserMedia" target="_blank" rel="noopener">参考文档</a>。</p>
+</li>
+<li><p><code>URL.createObjectURL()</code>方法是为了创建一个 DOMString 包含一个表示参数中给定的对象的URL。这个 URL 的生命周期和创建它的窗口中的 document 绑定。这个新的URL 对象表示着指定的 File 对象或者 Blob 对象。<br>（DOMString 是一个UTF-16字符串。由于JavaScript已经使用了这样的字符串，所以DOMString直接映射到一个String。）<br>更详细的内容请进一步查看<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/URL/createObjectURL" target="_blank" rel="noopener">参考文档</a>。</p>
+</li>
+</ul>
+<h2 id="canvas绘图"><a href="#canvas绘图" class="headerlink" title="canvas绘图"></a>canvas绘图</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">printToCanvas</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> width = video.videoWidth;</span><br><span class="line">    <span class="keyword">let</span> height = video.videoHeight;</span><br><span class="line">    canvas.height = height;</span><br><span class="line">    canvas.width = width; <span class="comment">// 勿忘：设置canvas的宽和高</span></span><br><span class="line">    <span class="built_in">console</span>.log(width,height);</span><br><span class="line">    <span class="keyword">return</span> setInterval(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        ctx.drawImage(video,<span class="number">0</span>,<span class="number">0</span>,width,height);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// get the image data</span></span><br><span class="line">        <span class="keyword">let</span> imagedata = ctx.getImageData(<span class="number">0</span>,<span class="number">0</span>,width,height);</span><br><span class="line">        <span class="comment">// console.log(imagedata.data);</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// mess the image data</span></span><br><span class="line">        <span class="comment">// imagedata = redEffect(imagedata);</span></span><br><span class="line">        <span class="comment">// imagedata = rgbsplit(imagedata);</span></span><br><span class="line">        <span class="comment">// ctx.globalAlpha = 0.2;</span></span><br><span class="line">        imagedata = greenScreen(imagedata);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// put the image data back</span></span><br><span class="line">        ctx.putImageData(imagedata,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">    &#125;,<span class="number">16</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>ctx.drawImage()</code>更够将当前的视频流（video）中的一帧画在canvas中。</li>
+<li><code>ctx.getImageData()</code>返回一个ImageData对象，用来描述canvas区域隐含的像素数据，这个区域通过矩形表示，起始点为(sx, sy)、宽为sw、高为sh。<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/getImageData" target="_blank" rel="noopener">参考文档</a></li>
+<li><code>ctx.putImageData()</code>:该方法是 Canvas 2D API 将数据从已有的 ImageData 对象绘制到位图的方法。 如果提供了脏矩形，只能绘制矩形的像素。 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D/putImageData" target="_blank" rel="noopener">参考文档</a></li>
+<li>imagedata中有大量的数据，其中分别代表了图片的颜色信息，分别为red，green，blue，alpha的值，因此我们可以同添加自定义滤镜，通过改变颜色的rgba的值，控制页面的效果。</li>
+</ul>
+<h2 id="摄像记录导出到canvas中"><a href="#摄像记录导出到canvas中" class="headerlink" title="摄像记录导出到canvas中"></a>摄像记录导出到canvas中</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">takePhoto</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 播放音效</span></span><br><span class="line">    snap.currentTime = <span class="number">0</span>;</span><br><span class="line">    snap.play();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 获取图像数据</span></span><br><span class="line">    <span class="keyword">let</span> data = canvas.toDataURL(<span class="string">'image/jpeg'</span>);</span><br><span class="line">    <span class="comment">// console.log(data);</span></span><br><span class="line">    <span class="keyword">let</span> link = <span class="built_in">document</span>.createElement(<span class="string">'a'</span>);</span><br><span class="line">    link.href = data;</span><br><span class="line">    link.setAttribute(<span class="string">'downlond'</span>,<span class="string">'handsome'</span>);</span><br><span class="line">    link.innerHTML = <span class="string">`&lt;img src=<span class="subst">$&#123;data&#125;</span> alt=handsome&gt;`</span></span><br><span class="line">    strip.insertBefore(link,strip.firstChild);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在没次点击照相的时候，都要求播一遍音效，并且为了模拟现实情况，我们在用户点击时，设置当前的播放时间为0，再播放音效。</li>
+<li><code>canvas.toDataURL(&#39;image/jpeg&#39;);</code>方法返回一个包含图片展示的 data URI 。可以使用 type 参数其类型，默认为 PNG 格式。图片的分辨率为96dpi。 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLCanvasElement/toDataURL" target="_blank" rel="noopener">参考文档</a></li>
+<li>接下来新建一个a元素，设置其href的值为data。在插入在文档中。实现截图成功的效果。</li>
+</ul>
+<h2 id="自定义滤镜"><a href="#自定义滤镜" class="headerlink" title="自定义滤镜"></a>自定义滤镜</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 红色特效滤镜</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">redEffect</span>(<span class="params">imagedata</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i&lt;imagedata.data.length;i+=<span class="number">4</span>)&#123;</span><br><span class="line">        imagedata.data[i + <span class="number">0</span>] += <span class="number">200</span>; <span class="comment">// red</span></span><br><span class="line">        imagedata.data[i + <span class="number">1</span>] -= <span class="number">50</span>; <span class="comment">// green</span></span><br><span class="line">        imagedata.data[i + <span class="number">2</span>] *= <span class="number">0.5</span>; <span class="comment">// blue</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> imagedata;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// RGB分离</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">rgbsplit</span>(<span class="params">imagedata</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i&lt;imagedata.data.length;i+=<span class="number">4</span>)&#123;</span><br><span class="line">        imagedata.data[i - <span class="number">100</span>] = imagedata.data[i + <span class="number">0</span>]; <span class="comment">// red</span></span><br><span class="line">        imagedata.data[i + <span class="number">150</span>] = imagedata.data[i + <span class="number">1</span>]; <span class="comment">// green</span></span><br><span class="line">        imagedata.data[i - <span class="number">150</span>] = imagedata.data[i + <span class="number">2</span>]; <span class="comment">// blue</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> imagedata;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 绿屏（部分消失）</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">greenScreen</span>(<span class="params">pixels</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> levels = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">document</span>.querySelectorAll(<span class="string">'.rgb input'</span>).forEach(<span class="function">(<span class="params">input</span>) =&gt;</span> &#123;</span><br><span class="line">    levels[input.name] = input.value;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; pixels.data.length; i = i + <span class="number">4</span>) &#123;</span><br><span class="line">    red = pixels.data[i + <span class="number">0</span>];</span><br><span class="line">    green = pixels.data[i + <span class="number">1</span>];</span><br><span class="line">    blue = pixels.data[i + <span class="number">2</span>];</span><br><span class="line">    alpha = pixels.data[i + <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (red &gt;= levels.rmin</span><br><span class="line">      &amp;&amp; green &gt;= levels.gmin</span><br><span class="line">      &amp;&amp; blue &gt;= levels.bmin</span><br><span class="line">      &amp;&amp; red &lt;= levels.rmax</span><br><span class="line">      &amp;&amp; green &lt;= levels.gmax</span><br><span class="line">      &amp;&amp; blue &lt;= levels.bmax) &#123;</span><br><span class="line">      <span class="comment">// take it out!</span></span><br><span class="line">      pixels.data[i + <span class="number">3</span>] = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> pixels;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这部分主要定义了三个滤镜，由于我们通过<code>ctx.getImageData</code>可以获取到页面颜色的rgba的值，，因此我们添加滤镜的原理也是这样，通过循环改变一张图片中的所有rgba的值。就不在具体的聊各个滤镜是怎么实现的了。</p>
+<h2 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h2><ul>
+<li><code>debugger</code>在源程序中添加debugger，可以使程序在运行时，在此处停止，进入调试模式。</li>
+</ul>
+<p>OK，这样就可以啦！😀</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-04-23-reading-list-week1.html" data-toggle="tooltip" data-placement="top"
+                           title="【阅读清单】尝试着记录自己每周读完的和没读完的好的文章">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-03-24-javascript-challenge-18.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day18 - Adding Up Times with Reduce">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Day19-Webcam-Fun"><span class="toc-text">Day19 - Webcam Fun</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主要思路"><span class="toc-text">主要思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取影像"><span class="toc-text">获取影像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#canvas绘图"><span class="toc-text">canvas绘图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#摄像记录导出到canvas中"><span class="toc-text">摄像记录导出到canvas中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义滤镜"><span class="toc-text">自定义滤镜</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tips"><span class="toc-text">tips</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-04-07-javascript-challenge-19.html";
+    var disqus_url = "http://xujin.pro/2017-04-07-javascript-challenge-19.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

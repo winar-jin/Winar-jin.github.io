@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Javascript30-day08-Fun with HTML5 Canvas｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-02-13-javascript-challenge-08.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Javascript30-day08-Fun with HTML5 Canvas</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-02-13
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Javascript30-day08-Fun with HTML5 Canvas
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>在Github上看到了<a href="https://twitter.com/wesbos" target="_blank" rel="noopener">wesbos</a>的一个Javascript30天挑战的<a href="https://github.com/wesbos/JavaScript30" target="_blank" rel="noopener">repo</a>，旨在使用纯Js来进行练习，不允许使用任何其他的库和框架，该挑战共30天，我会在这里记录下自己练习的过程和遇到的问题。</p>
+</blockquote>
+<h2 id="Day08-Fun-with-HTML5-Canvas"><a href="#Day08-Fun-with-HTML5-Canvas" class="headerlink" title="Day08 - Fun with HTML5 Canvas"></a>Day08 - Fun with HTML5 Canvas</h2><p>第八天的练习是制作一个Canvas画板，可以用鼠标随意书写作画，颜色呈彩虹色渐变，画笔的大小呈大小渐变循环。这部分内容不涉及HTML和CSS相关内容，由纯JS实现。</p>
+<p><a href="http://htmlpreview.github.io/?https://github.com/winar-jin/JavaScript30-Challenge/blob/master/08%20-%20Fun%20with%20HTML5%20Canvas/index.html" target="_blank" rel="noopener">效果如下</a></p>
+<h2 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> canvas = <span class="built_in">document</span>.querySelector(<span class="string">'#draw'</span>);</span><br><span class="line"><span class="keyword">const</span> ctx = canvas.getContext(<span class="string">'2d'</span>);</span><br><span class="line">canvas.width = <span class="built_in">window</span>.innerWidth;</span><br><span class="line">canvas.height = <span class="built_in">window</span>.innerHeight;</span><br><span class="line">ctx.strokeStyle = <span class="string">'#BADA55'</span>;</span><br><span class="line">ctx.lineJoin = <span class="string">'round'</span>;</span><br><span class="line">ctx.lineCap = <span class="string">'round'</span>;</span><br><span class="line">ctx.lineWidth = <span class="number">50</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> isDrawing = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">let</span> lastX = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> lastY = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> hue = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> direction = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">draw</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!isDrawing) <span class="keyword">return</span>;</span><br><span class="line">  <span class="keyword">let</span> lineX = e.offsetX;</span><br><span class="line">  <span class="keyword">let</span> lineY = e.offsetY;</span><br><span class="line">  ctx.strokeStyle = <span class="string">`hsl(<span class="subst">$&#123;hue&#125;</span>,100%,50%)`</span>;</span><br><span class="line">  ctx.beginPath();</span><br><span class="line">  ctx.moveTo(lastX,lastY);</span><br><span class="line">  ctx.lineTo(lineX,lineY);</span><br><span class="line">  ctx.stroke();</span><br><span class="line">  [lastX,lastY] = [e.offsetX,e.offsetY];</span><br><span class="line">  <span class="keyword">if</span>(direction)&#123;</span><br><span class="line">    ctx.lineWidth--;</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    ctx.lineWidth++;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// if(ctx.lineWidth&lt;=1)&#123;</span></span><br><span class="line">  <span class="comment">//   direction = false;</span></span><br><span class="line">  <span class="comment">// &#125;else if(ctx.lineWidth &gt; 50)&#123;</span></span><br><span class="line">  <span class="comment">//   direction = true;</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line">  <span class="keyword">if</span> (ctx.lineWidth &gt;= <span class="number">50</span> || ctx.lineWidth &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">    direction = !direction;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  hue++;</span><br><span class="line">  hue %= <span class="number">361</span>;</span><br><span class="line">  <span class="comment">// if(hue &gt; 360)&#123;</span></span><br><span class="line">  <span class="comment">//   hue = 0;</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">canvas.addEventListener(<span class="string">'mousemove'</span>,draw,<span class="literal">false</span>);</span><br><span class="line">canvas.addEventListener(<span class="string">'mousedown'</span>,(e) =&gt; &#123; </span><br><span class="line">  [lastX,lastY] = [e.offsetX,e.offsetY];</span><br><span class="line">  isDrawing = <span class="literal">true</span>;</span><br><span class="line">&#125;,<span class="literal">false</span>);</span><br><span class="line">canvas.addEventListener(<span class="string">'mouseup'</span>,() =&gt; &#123; isDrawing = <span class="literal">false</span>;&#125;,<span class="literal">false</span>);</span><br><span class="line">canvas.addEventListener(<span class="string">'mouseover'</span>,() =&gt; &#123; isDrawing = <span class="literal">false</span>;&#125;,<span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="Canvas"><a href="#Canvas" class="headerlink" title="Canvas"></a>Canvas</h2><p><code>&lt;canvas&gt;</code>是 HTML5 新增的元素，可使用JavaScript脚本来绘制图形。例如：画图，合成照片，创建动画甚至实时视频处理与渲染。在本例中，应先获取页面Canvas元素，并进行初始化设置如下：<br><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> canvas = <span class="built_in">document</span>.querySelector(<span class="string">'#draw'</span>);</span><br><span class="line"><span class="keyword">const</span> ctx = canvas.getContext(<span class="string">'2d'</span>);</span><br><span class="line">canvas.width = <span class="built_in">window</span>.innerWidth;</span><br><span class="line">canvas.height = <span class="built_in">window</span>.innerHeight;</span><br><span class="line">ctx.strokeStyle = <span class="string">'#BADA55'</span>;</span><br><span class="line">ctx.lineJoin = <span class="string">'round'</span>;</span><br><span class="line">ctx.lineCap = <span class="string">'round'</span>;</span><br><span class="line">ctx.lineWidth = <span class="number">50</span>;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p><code>canvas.getContext(contextType, contextAttributes);</code>返回canvas的上下文，若没有定义上下文的话返回<code>null</code>，该方法有两个参数：</p>
+<ul>
+<li><code>contextType</code>代表<strong>上下文类型</strong>,可能取值为：<ul>
+<li><code>&quot;2d&quot;</code>，代表一个二维渲染上下文；</li>
+<li><code>&quot;webgl&quot;</code>代表三维渲染上下文对象，只能在浏览器实现WebGL 版本1；</li>
+<li><code>&quot;webg2&quot;</code>代表三维渲染上下文对象，只能在浏览器实现WebGL 版本2；</li>
+<li><code>&quot;bitmaprenderer&quot;</code>会创建一个<code>ImageBitmapRenderingContext</code>，只提供功能去替换指定canvas的<code>ImageBitmap</code>内容。</li>
+</ul>
+</li>
+<li><code>contextAttributes</code>代表<strong>上下文属性</strong>。<br><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLCanvasElement/getContext" target="_blank" rel="noopener">MDN参考文档</a></li>
+</ul>
+</li>
+<li><p><code>ctx.strokeStyle</code>是Canvas 2D API 描述画笔（绘制图形）颜色或者样式的属性。默认值是 #000 (black)。</p>
+</li>
+<li><code>ctx.lineJoin</code>是 Canvas 2D API 用来设置2个长度不为0的相连部分（线段，圆弧，曲线）如何连接在一起的属性（长度为0的变形部分，其指定的末端和控制点在同一位置，会被忽略）。<strong>如果两个线段的相连部分在同一方向，那么linejoin不会产生任何效果。</strong>可以取以下三个值：<ul>
+<li><code>&#39;round&#39;</code>：通过填充一个额外的，圆心在相连部分末端的扇形，绘制拐角的形状。 圆角的半径是线段的宽度；</li>
+<li><code>&#39;bevel&#39;</code>：在相连部分的末端填充一个额外的以三角形为底的区域， 每个部分都有各自独立的矩形拐角；</li>
+<li><code>&#39;miter&#39;</code>(默认值)：通过延伸相连部分的外边缘，使其相交于一点，形成一个额外的菱形区域。这个设置可以通过 miterLimit 属性看到效果。</li>
+</ul>
+</li>
+<li><code>ctx.lineCap</code> 是 Canvas 2D API 指定如何绘制每一条线段末端的属性。可以取以下三个值：<ul>
+<li><code>&#39;round&#39;</code>：线段末端以圆形结束；</li>
+<li><code>&#39;butt&#39;</code>(默认值)：线段末端以方形结束；</li>
+<li><code>&#39;square&#39;</code>：线段末端以方形结束，但是增加了一个宽度和线段相同，高度是线段厚度一半的矩形区域。</li>
+</ul>
+</li>
+<li><code>ctx.lineWidth</code>是 Canvas 2D API 设置线段厚度的属性（即线段的宽度）。当获取属性值时，它可以返回当前的值（默认值是1.0 ）。 当给属性赋值时， 0、 负数、 Infinity 和 NaN 都会被忽略；除此之外，都会被赋予一个新值。</li>
+</ul>
+<h2 id="画线"><a href="#画线" class="headerlink" title="画线"></a>画线</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> isDrawing = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">let</span> lastX = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> lastY = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> hue = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> direction = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">draw</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!isDrawing) <span class="keyword">return</span>;</span><br><span class="line">  <span class="keyword">let</span> lineX = e.offsetX;</span><br><span class="line">  <span class="keyword">let</span> lineY = e.offsetY;</span><br><span class="line">  ctx.strokeStyle = <span class="string">`hsl(<span class="subst">$&#123;hue&#125;</span>,100%,50%)`</span>;</span><br><span class="line">  ctx.beginPath();</span><br><span class="line">  ctx.moveTo(lastX,lastY);</span><br><span class="line">  ctx.lineTo(lineX,lineY);</span><br><span class="line">  ctx.stroke();</span><br><span class="line">  [lastX,lastY] = [e.offsetX,e.offsetY];</span><br><span class="line">  hue++;</span><br><span class="line">  <span class="keyword">if</span>(direction)&#123;</span><br><span class="line">    ctx.lineWidth--;</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    ctx.lineWidth++;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// if(ctx.lineWidth&lt;=1)&#123;</span></span><br><span class="line">  <span class="comment">//   direction = false;</span></span><br><span class="line">  <span class="comment">// &#125;else if(ctx.lineWidth &gt; 50)&#123;</span></span><br><span class="line">  <span class="comment">//   direction = true;</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line">  <span class="keyword">if</span> (ctx.lineWidth &gt;= <span class="number">50</span> || ctx.lineWidth &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">    direction = !direction;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  hue %= <span class="number">361</span>;</span><br><span class="line">  <span class="comment">// if(hue &gt; 360)&#123;</span></span><br><span class="line">  <span class="comment">//   hue = 0;</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>想要划线的话就要清楚以下几件事：线段的起点是哪里、线段的终点是哪里、怎样是画线的状态（按下鼠标移动画线，松开鼠标画线结束），因此需要初始化一下变量：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> isDrawing = <span class="literal">true</span>; <span class="comment">//代表是否正在画线的flag</span></span><br><span class="line"><span class="keyword">let</span> lastX = <span class="number">0</span>; <span class="comment">//线段的起点X坐标</span></span><br><span class="line"><span class="keyword">let</span> lastY = <span class="number">0</span>; <span class="comment">//线段的起点Y坐标</span></span><br><span class="line"><span class="keyword">let</span> hue = <span class="number">0</span>; <span class="comment">//标识线段颜色（hsl颜色表示法）</span></span><br><span class="line"><span class="keyword">let</span> direction = <span class="literal">true</span>; <span class="comment">//线段的粗细变化flag</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用canvas进行画线，使用 beginPath()开始绘制新的路径，使用 moveTo()移动画笔至路径的起始点，使用lineTo标识路径的终点，使用 stroke() 方法真正地画线。</p>
+<ul>
+<li><code>ctx.beginPath();</code>是 Canvas 2D API 通过清空子路径列表开始一个新路径的方法。 当你想创建一个新的路径时，调用此方法。</li>
+<li><code>ctx.moveTo(x, y);</code>是 Canvas 2D API 将一个新的子路径的起始点移动到(x，y)坐标的方法。</li>
+<li><code>ctx.lineTo(x, y);</code>是 Canvas 2D API 使用直线连接子路径的终点到x，y坐标的方法（并不会真正地绘制）。</li>
+<li><code>ctx.stroke();</code>是 Canvas 2D API 使用非零环绕规则，根据当前的画线样式，绘制当前或已经存在的路径的方法。</li>
+<li><code>ctx.closePath();</code>是 Canvas 2D API 将笔点返回到当前子路径起始点的方法。它尝试从当前点到起始点绘制一条直线。 如果图形已经是封闭的或者只有一个点，那么此方法不会做任何操作。(此例中未用到)</li>
+</ul>
+</li>
+</ul>
+<h2 id="颜色变化"><a href="#颜色变化" class="headerlink" title="颜色变化"></a>颜色变化</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">ctx.strokeStyle = <span class="string">`hsl(<span class="subst">$&#123;hue&#125;</span>,100%,50%)`</span>;</span><br><span class="line">hue++;</span><br><span class="line">hue %= <span class="number">361</span>;</span><br><span class="line"><span class="comment">// if(hue &gt; 360)&#123;</span></span><br><span class="line"><span class="comment">//   hue = 0;</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br></pre></td></tr></table></figure>
+<p>在画线的过程中动态的改变线条的颜色，采用hsl颜色表示，hue的值可以从0-360；将hue的值每次每次加一，<code>hue %= 361;</code>可以0-360一直循环，当然也可使用<code>if(hue &gt; 360)    hue = 0;</code>来做到。</p>
+<h2 id="线条粗细的变化"><a href="#线条粗细的变化" class="headerlink" title="线条粗细的变化"></a>线条粗细的变化</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(direction)&#123;</span><br><span class="line">    ctx.lineWidth--;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    ctx.lineWidth++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// if(ctx.lineWidth&lt;=1)&#123;</span></span><br><span class="line"><span class="comment">//   direction = false;</span></span><br><span class="line"><span class="comment">// &#125;else if(ctx.lineWidth &gt; 50)&#123;</span></span><br><span class="line"><span class="comment">//   direction = true;</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="keyword">if</span> (ctx.lineWidth &gt;= <span class="number">50</span> || ctx.lineWidth &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">    direction = !direction;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设置一个flag，当flag为true时，线段宽度就减小；当flag为false时，线段宽度就增加。使用<code>if (ctx.lineWidth &gt;= 50 || ctx.lineWidth &lt;= 1) {
+    direction = !direction;
+}</code>可以当线段的宽度在50和1处，使flag的值变化，已达到线段粗细循环渐变的效果，等同于以下代码：<code>if(ctx.lineWidth&lt;=1){   direction = false;}else if(ctx.lineWidth &gt; 50){   direction = true; }</code>。</p>
+<p>在draw函数的开始<code>if(!isDrawing) return;</code>代表当状态flag为假时就不画线，为真时才画线。</p>
+<h2 id="事件监听"><a href="#事件监听" class="headerlink" title="事件监听"></a>事件监听</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">canvas.addEventListener(<span class="string">'mousemove'</span>,draw,<span class="literal">false</span>);</span><br><span class="line">canvas.addEventListener(<span class="string">'mousedown'</span>,(e) =&gt; &#123; </span><br><span class="line">  [lastX,lastY] = [e.offsetX,e.offsetY];</span><br><span class="line">  isDrawing = <span class="literal">true</span>;</span><br><span class="line">&#125;,<span class="literal">false</span>);</span><br><span class="line">canvas.addEventListener(<span class="string">'mouseup'</span>,() =&gt; &#123; isDrawing = <span class="literal">false</span>;&#125;,<span class="literal">false</span>);</span><br><span class="line">canvas.addEventListener(<span class="string">'mouseover'</span>,() =&gt; &#123; isDrawing = <span class="literal">false</span>;&#125;,<span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<p>分别监听其<code>mousemove</code>,<code>mousedown</code>,<code>mouseup</code>,<code>mouseover</code>事件，当鼠标点下时设置线段起点为鼠标的当前坐标，<code>[lastX,lastY] = [e.offsetX,e.offsetY]</code>;并且只设置<code>mousedown</code>事件的<code>isDrawing</code>状态flag为true，代表当鼠标按下时画线，鼠标弹起状态和鼠标移开canvas对象下状态不画线。</p>
+<blockquote>
+<p> <code>[lastX,lastY] = [e.offsetX,e.offsetY];</code>等同于<code>lastX = e.offsetX;lastY = e.offsetY;</code></p>
+</blockquote>
+<p>至此就实现了一个canvas下彩虹画笔的画板效果，以上一些属性的介绍参考了<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D" target="_blank" rel="noopener">MDN</a>，同样我也认为在学习前端的过程中，应该多多浏览MDN等文档，以熟练自己的知识。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-02-14-javascript-challenge-09.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day09-Dev Tools Domination">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-02-11-javascript-challenge-07.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day07-Array Cardio Day 2">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Day08-Fun-with-HTML5-Canvas"><span class="toc-text">Day08 - Fun with HTML5 Canvas</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#完整代码"><span class="toc-text">完整代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Canvas"><span class="toc-text">Canvas</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#画线"><span class="toc-text">画线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#颜色变化"><span class="toc-text">颜色变化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线条粗细的变化"><span class="toc-text">线条粗细的变化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件监听"><span class="toc-text">事件监听</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-02-13-javascript-challenge-08.html";
+    var disqus_url = "http://xujin.pro/2017-02-13-javascript-challenge-08.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>

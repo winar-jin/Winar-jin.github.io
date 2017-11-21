@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="徐进在Github上的个人博客">
+    <meta name="keyword" content="frontend">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+    <link rel="alternate" type="application/atom+xml" title="Winar" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Javascript30-day03-CSS Variables｜Winar&#39;s personal blog
+        
+    </title>
+
+    <link rel="canonical" href="http://xujin.pro/2017-02-07-javascript-challenge-03.html">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Winar
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('//7xss68.com1.z0.glb.clouddn.com/blog/common/logo2.jpg')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Javascript30-day03-CSS Variables</h1>
+                    
+                    <span class="meta">
+                         作者 徐 进
+                        <span>
+                          日期 2017-02-07
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Javascript30-day03-CSS Variables
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <blockquote>
+<p>在Github上看到了<a href="https://twitter.com/wesbos" target="_blank" rel="noopener">wesbos</a>的一个Javascript30天挑战的<a href="https://github.com/wesbos/JavaScript30" target="_blank" rel="noopener">repo</a>，旨在使用纯Js来进行练习，不允许使用任何其他的库和框架，该挑战共30天，我会在这里记录下自己练习的过程和遇到的问题。</p>
+</blockquote>
+<h2 id="Day03-CSS-Variables"><a href="#Day03-CSS-Variables" class="headerlink" title="Day03 - CSS Variables"></a>Day03 - CSS Variables</h2><p>第三天的练习是用 JavaScript 和 CSS3 实现当改变CSS属性的值时，能够实时调整图片的内边距、模糊度、背景颜色，同时标题中 JS 两字的颜色也随图片背景颜色而变化的效果。</p>
+<p><em><a href="http://htmlpreview.github.io/?https://github.com/winar-jin/JavaScript30-Challenge/blob/master/03%20-%20CSS%20Variables/index.html" target="_blank" rel="noopener">效果如下</a></em></p>
+<p>实现以上模拟时钟的效果，大致思路和解决方案如下：</p>
+<ul>
+<li>首先先在CSS中定义变量，并在页面样式中对页面变量进行关联。</li>
+<li>使用JavaScript实时获取变量的值，并更新CSS属性的值，实时改变页面的效果。</li>
+</ul>
+<h2 id="CSS3"><a href="#CSS3" class="headerlink" title="CSS3"></a>CSS3</h2><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-pseudo">:root</span>&#123;   </span><br><span class="line">        <span class="attribute">--base</span>: <span class="number">#ffc600</span>;</span><br><span class="line">        <span class="attribute">--blur</span>: <span class="number">10px</span>;</span><br><span class="line">        <span class="attribute">--spacing</span>: <span class="number">10px</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="selector-tag">span</span><span class="selector-class">.hl</span>&#123;</span><br><span class="line">        <span class="attribute">color</span>: <span class="built_in">var</span>(--base);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="selector-tag">img</span>&#123;</span><br><span class="line">        <span class="attribute">padding</span>: <span class="built_in">var</span>(--spacing);</span><br><span class="line">        <span class="attribute">filter</span>: <span class="built_in">blur</span>(var(--blur));</span><br><span class="line">        <span class="attribute">background</span>: <span class="built_in">var</span>(--base);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><code>:root</code>表示文档树的根元素,应用到HTML，:root 即表示为<html>元素，除了优先级更高外，相当于html标签选择器。<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:root" target="_blank" rel="noopener">参考文档</a></html></p>
+</li>
+<li><p><code>:root</code>在声明全局CSS变量的时候很有用，使用<code>--***</code>就可以自定义CSS全局变量。在使用CSS全局变量时，只需要将属性的值设置为<code>var(--***)</code>即可。<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Using_CSS_variables" target="_blank" rel="noopener">参考文档</a></p>
+</li>
+<li><p><code>filter: blur();</code>是指滤镜，是一个功能强大的工具，可以通过使用滤镜达到不同的视觉效果，比较像PS中的滤镜。滤镜通常用于调整图像，背景或边框的绘制。可以一次设置一个滤镜也可以同时设置多个滤镜，常见的滤镜有模糊滤镜<code>blur()</code>,透明度滤镜<code>opacity()</code>,灰度滤镜<code>grayscale()</code>等。<a href="https://developer.mozilla.org/en/docs/Web/CSS/filter" target="_blank" rel="noopener">参考文档</a></p>
+</li>
+</ul>
+<h2 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> inputs = <span class="built_in">document</span>.querySelectorAll(<span class="string">'.controls input'</span>);</span><br><span class="line">inputs.forEach(<span class="function"><span class="params">input</span> =&gt;</span>  input.addEventListener(<span class="string">'mousemove'</span>,updateData));</span><br><span class="line">inputs.forEach(<span class="function"><span class="params">input</span> =&gt;</span>  input.addEventListener(<span class="string">'change'</span>,updateData));</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">updateData</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> suffix = <span class="keyword">this</span>.dataset.sizing || <span class="string">' '</span>;</span><br><span class="line">    <span class="built_in">document</span>.documentElement.style.setProperty(<span class="string">`--<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span>`</span>,<span class="keyword">this</span>.value + suffix);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><code>inputs</code>返回一个nodelist，是<code>.controls input</code>下三个控制属性变化的节点。</p>
+</li>
+<li><p>为每一个节点监听<code>mousemove</code>事件，可以在该滑块的值变化时实时的改变CSS全局变量。</p>
+</li>
+<li><p><code>this.dataset.sizing</code>返回<code>data-sizing</code>属性的值，<code>dataset</code>可以返回该元素所有自定义的<code>data-*</code>属性，该例中<code>data-sizing</code>保存的是单位，因此<code>this.dataset.sizing</code>可返回该属性的单位。</p>
+</li>
+<li><p>通过<code>this.value</code>获取的值不能直接设置为CSS属性，因为没有单位，但是<code>--blue</code>和<code>--sapcing</code>变量有属性，而<code>--base</code>属性没有，因此设置一变量保存他们的后缀作为单位，若无单位，则设置为空。即<code>const suffix = this.dataset.sizing || &#39; &#39;;</code>，再通过<code>this.value + suffix</code>就可以正确的设置CSS属性的值。</p>
+</li>
+<li><p><code>document.documentElement</code>表示文档的根元素，对于HTML文档来说就是<code>&lt;html&gt;</code>。<a href="https://developer.mozilla.org/en/docs/Web/API/Document/documentElement" target="_blank" rel="noopener">参考文档</a></p>
+</li>
+<li><p>之所以又监听元素<code>change</code>事件，是因为<code>color</code>，当改变了颜色的值时，只监听<code>mousemove</code>事件，无法实时的改变颜色，直到鼠标从color颜色块上滑过，添加<code>change</code>事件就可以当改变过后实时的改变。</p>
+</li>
+</ul>
+<p>通过以上就可以实现该任务所示的效果。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017-02-07-javascript-challenge-04.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day04-Array Cardio Day 1">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017-01-13-javascript-challenge-02.html" data-toggle="tooltip" data-placement="top"
+                           title="Javascript30-day02-JavaScript + CSS Clock">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Day03-CSS-Variables"><span class="toc-text">Day03 - CSS Variables</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS3"><span class="toc-text">CSS3</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript"><span class="toc-text">JavaScript</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#JavaScript"
+                           title="JavaScript">JavaScript</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "winar";
+    var disqus_identifier = "http://xujin.pro/2017-02-07-javascript-challenge-03.html";
+    var disqus_url = "http://xujin.pro/2017-02-07-javascript-challenge-03.html";
+
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/WinarJin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/xu-jin-61-91">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/winarjin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/winar.jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/winar-jin">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Winar 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://xujin.pro/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-102177893-1';
+    var _gaDomain = 'xujin.pro';
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','null','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="//7xss68.com1.z0.glb.clouddn.com/blog/common/logo.png">
+</body>
+
+</html>
